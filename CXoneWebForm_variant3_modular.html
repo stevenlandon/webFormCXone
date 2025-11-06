@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>CXone Form — Modular Grid</title>
+<style>
+  :root{--brand:#0b6efd;--muted:#6b7280}
+  body{font-family:Segoe UI, Roboto, Arial;background:#fafbfc;margin:0}
+  .wrap{max-width:1100px;margin:18px auto;padding:10px;display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+  .card{background:#fff;padding:12px;border-radius:10px;box-shadow:0 6px 14px rgba(0,0,0,0.05)}
+  .icon{ width:16px; height:16px; display:inline-block; vertical-align:middle; margin-right:6px }
+  .auth-icon{ width:18px; height:18px; margin-right:6px }
+  .icon.check{ color:#10b981 }
+  .icon.cross{ color:#ef4444 }
+  .icon.warn{ color:#f59e0b }
+  h3{margin:0 0 8px 0}
+  label{font-size:13px;color:var(--muted);display:block;margin-top:6px}
+  input,textarea,select{width:100%;padding:8px;border-radius:6px;border:1px solid #e6edf3}
+  .wide{grid-column:span 3}
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="card">
+      <h3>Contact</h3>
+      <label>Phone<input id="phone_m"/></label>
+      <label>Email<input id="email_m"/></label>
+    </div>
+
+    <div class="card">
+      <h3>Auth</h3>
+      <label>Customer ID<input id="cust_m"/></label>
+      <div style="margin-top:8px"><button id="check_m">Check Auth</button></div>
+      <div id="auth_m" class="muted" style="margin-top:8px">Status: Unknown</div>
+    </div>
+
+    <div class="card">
+      <h3>Communication</h3>
+        <label><input type="checkbox" id="rEmail"/> <span id="iconEmail"></span> Email</label>
+        <label><input type="checkbox" id="rPhone"/> <span id="iconPhone"></span> Phone</label>
+        <label><input type="checkbox" id="rSMS"/> <span id="iconSMS"></span> SMS</label>
+    </div>
+
+    <div class="card wide">
+      <h3>Intent & Booking</h3>
+      <label>Intent<select id="intent_m"><option></option><option value="booking">Booking</option><option value="billing">Billing</option></select></label>
+      <div id="booking_m" style="display:none"><label>Booking ID<input id="bookingId_m"/></label></div>
+      <label>Notes<textarea id="notes_m"></textarea></label>
+    </div>
+
+    <div class="card wide">
+      <h3>IVR JSON</h3>
+      <textarea id="ivr_m" style="min-height:120px" placeholder='{"intent":"billing","phone":"+1"}'></textarea>
+      <div style="margin-top:8px;display:flex;gap:8px;justify-content:flex-end"><button id="apply_m">Populate</button><button id="sample_m">Sample</button><button id="save_m">Save</button></div>
+    </div>
+  </div>
+<script>
+  const phone=document.getElementById('phone_m'), email=document.getElementById('email_m'), cust=document.getElementById('cust_m'), authLabel=document.getElementById('auth_m'), ivr=document.getElementById('ivr_m'), intent=document.getElementById('intent_m'), bookingSection=document.getElementById('booking_m'), bookingId=document.getElementById('bookingId_m');
+  function j(s){try{return JSON.parse(s)}catch(e){return null}}
+  function svgCheck(){ return '<svg class="auth-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M20 6L9 17l-5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>'; }
+  function svgCross(){ return '<svg class="auth-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>'; }
+  function svgWarn(){ return '<svg class="auth-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z" stroke="currentColor" stroke-width="0" fill="currentColor"/><path d="M12 9v4" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M12 17h.01" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>'; }
+  function svgPhone(){ return '<svg class="icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.8 19.8 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.09 4.18 2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.12 1.05.38 2.07.77 3.03a2 2 0 0 1-.45 2.11L8.91 10.91a16 16 0 0 0 6 6l1.05-1.05a2 2 0 0 1 2.11-.45c.96.39 1.98.65 3.03.77A2 2 0 0 1 22 16.92z" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/></svg>'; }
+  function svgEmail(){ return '<svg class="icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M4 4h16v16H4z" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/><path d="M22 6L12 13 2 6" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/></svg>'; }
+  function svgSMS(){ return '<svg class="icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/></svg>'; }
+  function setAuth(){ if(cust.value) authLabel.textContent = 'Status: Authenticated'; else if(phone.value||email.value) authLabel.textContent = 'Status: Partial'; else authLabel.textContent = 'Status: None' }
+  // add route icons next to labels
+  document.getElementById('iconEmail').innerHTML = svgEmail();
+  document.getElementById('iconPhone').innerHTML = svgPhone();
+  document.getElementById('iconSMS').innerHTML = svgSMS();
+  function check(){ setAuth(); }
+  document.getElementById('check_m').addEventListener('click', check);
+  intent.addEventListener('change', ()=>bookingSection.style.display = intent.value==='booking'?'block':'none');
+  document.getElementById('sample_m').addEventListener('click', ()=>{const s={phone:'+1555',email:'a@b.com',customerId:'C3',intent:'billing',notes:'sample'}; ivr.value = JSON.stringify(s,null,2); document.getElementById('apply_m').click();});
+  document.getElementById('apply_m').addEventListener('click', ()=>{const p=j(ivr.value); if(!p){alert('invalid');return} if(p.phone) phone.value=p.phone; if(p.email) email.value=p.email; if(p.customerId) cust.value=p.customerId; if(p.intent) intent.value=p.intent; if(p.booking){bookingId.value=p.booking.id||''; bookingSection.style.display='block'} check();});
+  document.getElementById('save_m').addEventListener('click', ()=>{localStorage.setItem('variant3', JSON.stringify({phone:phone.value,email:email.value,cust:cust.value,intent:intent.value})); alert('Saved')});
+  (function(){const d=localStorage.getItem('variant3'); if(d){const o=JSON.parse(d); if(o.phone) phone.value=o.phone; if(o.email) email.value=o.email; if(o.cust) cust.value=o.cust; if(o.intent) intent.value=o.intent} check()})();
+</script>
+</body>
+</html>

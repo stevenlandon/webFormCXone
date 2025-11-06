@@ -186,8 +186,9 @@
 							<div class="panel">
 								<h3>IVR Payload (JSON)</h3>
 								<p class="muted">Paste the IVR JSON payload here or use sample to auto-populate the form.</p>
-								<textarea id="ivrPayload" placeholder='{"intent":"billing","phone":"+15551234567","email":"a@b.com","customerId":"C123","booking":{}}'></textarea>
-								<div style="margin-top:8px; display:flex; gap:8px;">
+												<textarea id="ivrPayload" placeholder='{"intent":"billing","phone":"+15551234567","email":"a@b.com","customerId":"C123","booking":{}}'></textarea>
+												<div id="fetchStatus" class="muted" style="margin-top:6px"> </div>
+												<div style="margin-top:8px; display:flex; gap:8px;">
 									<button id="btnPopulate" class="btn-save">Populate from IVR</button>
 									<button id="btnClear" class="btn-ghost">Clear</button>
 								</div>
@@ -231,6 +232,65 @@
 						} else {
 							document.getElementById('authChip').innerHTML = '<span class="icon cross" style="color:#9ca3af;">'+svgCross()+'</span><span>Unauthenticated</span>';
 						}
+
+								// Read query params into an object
+								function getQueryParams(){
+									const qs = location.search.replace(/^\?/, '');
+									if(!qs) return {};
+									return qs.split('&').reduce((acc, pair) => {
+										const [k, v] = pair.split('=');
+										if(!k) return acc;
+										try{ acc[decodeURIComponent(k)] = decodeURIComponent(v || ''); }catch(e){ acc[k] = v || ''; }
+										return acc;
+									}, {});
+								}
+
+								// Build API URL by appending known params if base is provided
+								function buildApiUrl(base, params){
+									if(!base) return null;
+									try{
+										const url = new URL(base, location.href);
+										Object.keys(params).forEach(k => {
+											if(params[k]) url.searchParams.set(k, params[k]);
+										});
+										return url.toString();
+									}catch(e){
+										// base might be a raw string - try simple concatenation
+										const qs = Object.keys(params).filter(k=>params[k]).map(k=> encodeURIComponent(k)+'='+encodeURIComponent(params[k])).join('&');
+										return base + (base.includes('?') ? '&' : '?') + qs;
+									}
+								}
+
+								// Fetch from REST API (apiUrl may be passed) and populate form
+								async function fetchFromApi(apiUrl, params){
+									const statusEl = document.getElementById('fetchStatus');
+									if(!apiUrl){ statusEl.textContent = 'No API URL configured (use ?api=...)'; return null; }
+									statusEl.textContent = 'Loading...';
+									try{
+										const url = buildApiUrl(apiUrl, params);
+										const resp = await fetch(url, { method:'GET', credentials:'omit' });
+										if(!resp.ok) throw new Error('HTTP '+resp.status);
+										const data = await resp.json();
+										statusEl.textContent = 'Data loaded';
+										// attempt to map common fields
+										const mapped = {
+											service: data.service || params.service || serviceSelector.value,
+											phone: data.phone || data.contact?.phone || data.mobile || data.msisdn || '',
+											email: data.email || data.contact?.email || '',
+											customerId: data.customerId || data.customer_id || data.ccn || params.customerId || '',
+											intent: data.intent || data.callerIntent || '',
+											booking: { id: data.booking?.id || data.bookingNumber || params.bookingNumber || '', date: data.booking?.date || data.bookingDate || '' },
+											notes: data.notes || data.transferNotes || data.callerTranscript || ''
+										};
+										populateFromIVR(mapped);
+										// Show the raw payload in IVR textarea for debugging
+										ivrPayload.value = JSON.stringify(data, null, 2);
+										return data;
+									}catch(err){
+										statusEl.textContent = 'Error: ' + (err.message || err);
+										return null;
+									}
+								}
 					}
 
 			// Elements
@@ -412,7 +472,7 @@
 			});
 
 			// Init on load
-			(function init(){
+					(function init(){
 				document.getElementById('copyrightYear').textContent = new Date().getFullYear();
 				applyService(serviceSelector.value);
 				// load saved draft if any
@@ -423,8 +483,35 @@
 					summary.textContent = 'Loaded saved draft — click Populate to apply';
 					ivrPayload.value = JSON.stringify(obj, null, 2);
 				}
-				checkAuth();
-				updateSummary();
+						// check URL params and optionally call API
+						const params = getQueryParams();
+						// Recognize common keys: bookingNumber, customerId, api, service
+						const bookingNumberParam = params.bookingNumber || params.booking || params.booking_id || params.bookingNumber;
+						const customerIdParam = params.customerId || params.customer_id || params.customer || params.ccn || '';
+						const apiUrlParam = params.api || params.apiUrl || params.endpoint || '';
+						const serviceParam = params.service || '';
+
+						// prefill booking/customer fields from URL
+						if(bookingNumberParam) bookingId.value = bookingNumberParam; 
+						if(customerIdParam) customerId.value = customerIdParam;
+						if(serviceParam) serviceSelector.value = serviceParam;
+
+						// if an API is supplied, call it with booking/customer
+						if(apiUrlParam){
+							fetchFromApi(apiUrlParam, { bookingNumber: bookingNumberParam, customerId: customerIdParam, service: serviceParam }).then(()=>{
+								checkAuth(); updateSummary();
+							});
+						} else {
+							// no API: just update UI from query params
+							if(bookingNumberParam || customerIdParam || serviceParam){
+								updateSummary();
+								checkAuth();
+								document.getElementById('fetchStatus').textContent = 'Populated from URL params';
+							} else {
+								checkAuth();
+								updateSummary();
+							}
+						}
 			})();
 		</script>
 	</body>

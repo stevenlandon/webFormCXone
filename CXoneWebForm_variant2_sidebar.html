@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>CXone Form — Sidebar</title>
+  <style>
+    :root{--brand:#0b6efd;--muted:#6b7280}
+    .icon{ width:16px; height:16px; display:inline-block; vertical-align:middle; margin-right:6px }
+    .auth-icon{ width:18px; height:18px; margin-right:6px }
+    .icon.check{ color:#10b981 }
+    .icon.cross{ color:#ef4444 }
+    .icon.warn{ color:#f59e0b }
+    body{margin:0;font-family:Segoe UI, Roboto, Arial;background:#eef2f5}
+    .wrap{display:flex;max-width:1100px;margin:20px auto}
+    .main{flex:1;padding:18px}
+    .sidebar{width:320px;padding:18px}
+    .card{background:#fff;padding:12px;border-radius:10px;box-shadow:0 6px 18px rgba(2,6,23,0.06)}
+    label{display:block;color:var(--muted);margin-top:8px}
+    input,textarea,select{width:100%;padding:8px;border-radius:6px;border:1px solid #e7eef7}
+    .meta{display:flex;justify-content:space-between;align-items:center}
+    .btn{background:var(--brand);color:#fff;padding:8px 12px;border-radius:8px;border:0;cursor:pointer}
+    .muted{color:var(--muted)}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="main">
+    <div class="card">
+      <div class="meta"><div style="font-weight:700">Sidebar Layout</div><div class="muted" id="auth_s">Auth: <span id="authChipS">Unknown</span></div></div>
+        <label>Customer ID<input id="cust_s"/></label>
+        <label>Phone<input id="phone_s"/></label>
+        <label>Email<input id="email_s"/></label>
+        <label>Intent<select id="intent_s"><option></option><option value="support">Support</option><option value="booking">Booking</option></select></label>
+        <div id="booking_s" style="display:none"><label>Booking ID<input id="bookingId_s"/></label></div>
+        <label>Notes<textarea id="notes_s"></textarea></label>
+      </div>
+    </div>
+    <aside class="sidebar">
+      <div class="card">
+        <h4>IVR / Controls</h4>
+        <label>IVR JSON<textarea id="ivr_s" placeholder='{"intent":"booking","customerId":"C1"}'></textarea></label>
+        <div style="display:flex;gap:8px;margin-top:8px"><button id="apply_s" class="btn">Populate</button><button id="sample_s">Sample</button></div>
+        <hr/>
+        <div class="muted">Save/Actions</div>
+        <div style="display:flex;gap:8px;margin-top:8px"><button id="save_s">Save</button><button id="next_s">Next</button></div>
+      </div>
+    </aside>
+  </div>
+<script>
+  const cust=document.getElementById('cust_s'), phone=document.getElementById('phone_s'), email=document.getElementById('email_s'), intent=document.getElementById('intent_s'), bookingSection=document.getElementById('booking_s'), bookingId=document.getElementById('bookingId_s'), notes=document.getElementById('notes_s'), ivr=document.getElementById('ivr_s'), auth=document.getElementById('auth_s');
+  function j(s){try{return JSON.parse(s)}catch(e){return null}}
+  function svgCheck(){ return '<svg class="auth-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M20 6L9 17l-5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>'; }
+  function svgCross(){ return '<svg class="auth-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>'; }
+  function svgWarn(){ return '<svg class="auth-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z" stroke="currentColor" stroke-width="0" fill="currentColor"/><path d="M12 9v4" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M12 17h.01" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>'; }
+  function setAuthS(status){ const el = document.getElementById('authChipS'); if(!el) return; if(status==='authenticated') el.innerHTML = svgCheck() + '<strong>Authenticated</strong>'; else if(status==='partial') el.innerHTML = svgWarn() + 'Partially Authenticated'; else el.innerHTML = svgCross() + 'Unauthenticated'; }
+  function check(){ if(cust.value) setAuthS('authenticated'); else if(phone.value||email.value) setAuthS('partial'); else setAuthS('unauthenticated'); }
+  intent.addEventListener('change', ()=>bookingSection.style.display = intent.value==='booking'?'block':'none');
+  document.getElementById('apply_s').addEventListener('click', ()=>{const p=j(ivr.value); if(!p){alert('Invalid JSON');return} if(p.customerId) cust.value=p.customerId; if(p.phone) phone.value=p.phone; if(p.email) email.value=p.email; if(p.intent) intent.value=p.intent; if(p.intent==='booking' && p.booking){ bookingId.value=p.booking.id||''; bookingSection.style.display='block'} check();});
+  document.getElementById('sample_s').addEventListener('click', ()=>{const s={customerId:'C-77',phone:'+1000',intent:'booking',booking:{id:'B-99'}}; ivr.value = JSON.stringify(s,null,2); document.getElementById('apply_s').click();});
+  document.getElementById('save_s').addEventListener('click', ()=>{localStorage.setItem('variant2', JSON.stringify({customerId:cust.value,phone:phone.value,email:email.value,intent:intent.value})); alert('Saved')});
+  (function(){const d=localStorage.getItem('variant2'); if(d){const o=JSON.parse(d); if(o.customerId) cust.value=o.customerId; if(o.phone) phone.value=o.phone; if(o.email) email.value=o.email; if(o.intent) intent.value=o.intent;} check();})();
+</script>
+</body>
+</html>

@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>CXone Form — Minimal</title>
+<style>
+  body{font-family:Segoe UI, Roboto, Arial;margin:0;background:#fff;color:#111}
+  .shell{max-width:640px;margin:20px auto;padding:18px}
+  input,textarea,select{width:100%;padding:8px;margin-top:6px;border:1px solid #ddd;border-radius:6px}
+  label{font-size:13px;color:#666}
+  .bar{display:flex;justify-content:space-between;align-items:center}
+  .btn{background:#0b6efd;color:#fff;padding:8px 12px;border-radius:8px;border:0}
+  .icon{ width:16px; height:16px; display:inline-block; vertical-align:middle; margin-right:6px }
+  .auth-icon{ width:18px; height:18px; margin-right:6px }
+</style>
+</head>
+<body>
+  <div class="shell">
+    <div class="bar"><h2 style="margin:0">Minimal Form</h2><div id="auth_min">Auth: <span id="authChipMin">?</span></div></div>
+    <label>Phone<input id="phone_min"/></label>
+    <label>Customer ID<input id="cust_min"/></label>
+    <label>Intent<select id="intent_min"><option></option><option value="support">Support</option></select></label>
+    <label>IVR JSON<textarea id="ivr_min" placeholder='{"phone":"+1"}'></textarea></label>
+    <div style="margin-top:10px;display:flex;gap:8px;justify-content:flex-end"><button id="apply_min" class="btn">Populate</button><button id="sample_min">Sample</button></div>
+    <p style="color:#888;margin-top:12px">File: <code>CXoneWebForm_variant4_minimal.html</code></p>
+  </div>
+<script>
+  const phone=document.getElementById('phone_min'), cust=document.getElementById('cust_min'), intent=document.getElementById('intent_min'), ivr=document.getElementById('ivr_min'), auth=document.getElementById('auth_min');
+  function j(s){try{return JSON.parse(s)}catch(e){return null}}
+  function svgCheck(){ return '<svg class="auth-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M20 6L9 17l-5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>'; }
+  function svgCross(){ return '<svg class="auth-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>'; }
+  function svgWarn(){ return '<svg class="auth-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z" stroke="currentColor" stroke-width="0" fill="currentColor"/><path d="M12 9v4" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M12 17h.01" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>'; }
+  function setAuthMin(status){ const el = document.getElementById('authChipMin'); if(!el) return; if(status==='authenticated') el.innerHTML = svgCheck() + '<strong>Authenticated</strong>'; else if(status==='partial') el.innerHTML = svgWarn() + 'Partially Authenticated'; else el.innerHTML = svgCross() + 'Unauthenticated'; }
+  function check(){ if(cust.value) setAuthMin('authenticated'); else if(phone.value) setAuthMin('partial'); else setAuthMin('unauthenticated'); }
+  document.getElementById('apply_min').addEventListener('click', ()=>{const p=j(ivr.value); if(!p){alert('invalid json');return} if(p.phone) phone.value=p.phone; if(p.customerId) cust.value=p.customerId; if(p.intent) intent.value=p.intent; check()});
+  document.getElementById('sample_min').addEventListener('click', ()=>{ivr.value=JSON.stringify({phone:'+1555',customerId:'C9',intent:'support'},null,2); document.getElementById('apply_min').click()});
+  (function(){const d=localStorage.getItem('variant4'); if(d){const o=JSON.parse(d); if(o.phone) phone.value=o.phone; if(o.customerId) cust.value=o.customerId; if(o.intent) intent.value=o.intent} check();})();
+</script>
+</body>
+</html>
