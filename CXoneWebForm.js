@@ -13,11 +13,57 @@ function loadSavedTheme() {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-  loadSavedTheme();
+	loadSavedTheme();
 
-  document.getElementById('serviceSelector').addEventListener('change', (e) => {
-    setTheme(e.target.value);
-  });
+	document.getElementById('serviceSelector').addEventListener('change', (e) => {
+		setTheme(e.target.value);
+	});
+
+	// Compact mode toggle wiring
+	const compactToggle = document.getElementById('compactToggle');
+	const appRoot = document.getElementById('app');
+	if(compactToggle && appRoot){
+		const saved = localStorage.getItem('cxone-compact') === '1';
+		compactToggle.checked = saved;
+		appRoot.classList.toggle('compact', saved);
+		compactToggle.addEventListener('change', (ev)=>{
+			const on = !!ev.target.checked;
+			appRoot.classList.toggle('compact', on);
+			localStorage.setItem('cxone-compact', on ? '1' : '0');
+		});
+	}
+
+	// Make panels collapsible: wrap panel contents (after H3) into .panel-body and add a small toggle
+	document.querySelectorAll('.panel').forEach(panel => {
+		if(panel.querySelector('.panel-body')) return; // already processed
+		// find first heading (h3)
+		const header = Array.from(panel.children).find(n=> n.tagName && n.tagName.toLowerCase() === 'h3');
+		const body = document.createElement('div'); body.className = 'panel-body';
+		if(header){
+			// move all following sibling nodes into body
+			let node = header.nextSibling;
+			const toMove = [];
+			while(node){
+				toMove.push(node);
+				node = node.nextSibling;
+			}
+			toMove.forEach(n=> body.appendChild(n));
+			// append collapse toggle to header
+			const btn = document.createElement('button');
+			btn.type = 'button';
+			btn.className = 'panel-toggle';
+			btn.setAttribute('aria-expanded','true');
+			btn.innerHTML = '▾';
+			btn.addEventListener('click', ()=>{
+				panel.classList.toggle('collapsed');
+				const expanded = !panel.classList.contains('collapsed');
+				btn.setAttribute('aria-expanded', expanded);
+				btn.innerHTML = expanded ? '▾' : '▸';
+			});
+			header.appendChild(btn);
+			panel.appendChild(body);
+		}
+	});
 });
 
 
@@ -388,4 +434,25 @@ btnNext.addEventListener('click', ()=>{
 				updateSummary();
 			}
 		}
+    // Responsive: collapse IVR aside by default on narrow screens and restore on wider screens
+    const aside = document.querySelector('aside');
+    const toggle = document.getElementById('ivrToggle');
+    function handleResponsiveAside(){
+        try{
+            const narrow = window.innerWidth <= 820;
+            if(!aside) return;
+            if(narrow){
+                aside.classList.add('collapsed');
+                if(toggle) toggle.setAttribute('aria-expanded', 'false');
+            } else {
+                aside.classList.remove('collapsed');
+                if(toggle) toggle.setAttribute('aria-expanded', 'true');
+            }
+        }catch(e){ /* ignore */ }
+    }
+    // initial
+    handleResponsiveAside();
+    // throttle resize
+    let rr;
+    window.addEventListener('resize', ()=>{ clearTimeout(rr); rr = setTimeout(handleResponsiveAside, 120); });
 })();

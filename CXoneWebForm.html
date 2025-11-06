@@ -36,6 +36,11 @@
 						IVR Payload:
 						<button class="btn-ghost" id="btnSample">Use sample</button>
 					</div>
+
+					<div class="small" style="display:flex;align-items:center;gap:8px">
+						<label for="compactToggle" class="muted" style="font-size:13px;margin:0">Compact</label>
+						<input type="checkbox" id="compactToggle" aria-label="Compact mode" />
+					</div>
 				</div>
 			</header>
 
@@ -96,21 +101,29 @@
 									<option value="booking">Booking / Appointment</option>
 								</select>
 							</div>
-							<div class="field">
-								<label for="rating">Rating (caller urgency)</label>
-								<select id="rating">
-									<option value="">--</option>
-									<option>1</option>
-									<option>2</option>
-									<option>3</option>
-									<option>4</option>
-									<option>5</option>
-								</select>
-							</div>
-							<div class="field">
-								<label>Satisfied?</label>
-								<label><input type="radio" name="satisfied" value="yes" id="satisfiedYes" /> Yes</label>
-								<label><input type="radio" name="satisfied" value="no" id="satisfiedNo" /> No</label>
+							<div class="short-row">
+								<div class="field">
+									<label for="rating">Rating</label>
+									<select id="rating">
+										<option value="">--</option>
+										<option>1</option>
+										<option>2</option>
+										<option>3</option>
+										<option>4</option>
+										<option>5</option>
+									</select>
+								</div>
+								<div class="field">
+									<label>Satisfied?</label>
+									<div style="display:flex;gap:8px;align-items:center">
+										<label style="font-weight:500"><input type="radio" name="satisfied" value="yes" id="satisfiedYes" /> Yes</label>
+										<label style="font-weight:500"><input type="radio" name="satisfied" value="no" id="satisfiedNo" /> No</label>
+									</div>
+								</div>
+								<div class="field">
+									<label>Media</label>
+									<div id="mediaTypeLabel" class="muted">—</div>
+								</div>
 							</div>
 							<div class="field">
 								<label for="transcript">IVR Transcript</label>
@@ -147,10 +160,7 @@
 											class="icon" aria-hidden="true"></span> Chat</label>
 								</div>
 							</div>
-							<div class="field" id="mediaTypeArea">
-								<label>Media Type</label>
-								<div id="mediaTypeLabel" class="muted">—</div>
-							</div>
+
 							<div class="field" id="askOtherChannels" style="display:none">
 								<label>May we contact the guest by:</label>
 								<label><input type="checkbox" id="addSMS" /> SMS</label>

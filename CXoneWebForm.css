@@ -205,7 +205,7 @@ button.primary:hover {
 .theme-cun{ --brand:#c21807; }
 
 html,body{ height:100%; margin:0; background:var(--bg); color:#0f172a }
-.wrap{ max-width:var(--max-width); margin:28px auto; padding:calc(var(--pad)); }
+.wrap{ max-width:var(--max-width); margin:18px auto; padding:14px; }
 .card{ background:var(--card); border-radius:var(--radius); box-shadow:0 8px 28px rgba(15,23,42,0.08); overflow:hidden }
 
 /* Header: polished bar with subtle depth and brand area */
@@ -240,12 +240,12 @@ header{
 
 main{ padding:var(--pad) }
 .grid{ display:grid; grid-template-columns: 1fr 360px; gap:var(--gap) }
-.panel{ background:var(--card); border-radius:10px; padding:16px; border:1px solid rgba(15,23,42,0.03) }
-.panel h3{ margin:0 0 8px 0; font-size:15px }
-.field{ margin-bottom:12px }
-label{ display:block; font-size:13px; color:var(--muted); margin-bottom:8px }
-input[type=text], input[type=email], input[type=tel], select, textarea{ width:100%; padding:10px 12px; border-radius:8px; border:1px solid #e8f0f8; font-size:15px; height:var(--input-height); box-sizing:border-box }
-textarea{ min-height:110px; resize:vertical }
+.panel{ background:var(--card); border-radius:10px; padding:12px; border:1px solid rgba(15,23,42,0.03); margin-bottom:10px }
+.panel h3{ margin:0 0 6px 0; font-size:14px }
+.field{ margin-bottom:8px }
+label{ display:block; font-size:13px; color:var(--muted); margin-bottom:6px }
+input[type=text], input[type=email], input[type=tel], select, textarea{ width:100%; padding:8px 10px; border-radius:8px; border:1px solid #e8f0f8; font-size:15px; height:var(--input-height); box-sizing:border-box }
+textarea{ min-height:100px; resize:vertical }
 .muted{ color:var(--muted); font-size:13px }
 
 .controls{ display:flex; gap:12px; justify-content:space-between; align-items:center; padding:14px 20px; border-top:1px solid rgba(15,23,42,0.04); background:linear-gradient(180deg, rgba(255,255,255,0.6), rgba(255,255,255,0.9)); }
@@ -297,3 +297,86 @@ input:focus, select:focus, textarea:focus{ outline:none; box-shadow:0 0 0 4px rg
 
 /* allow collapsing the IVR aside on mobile */
 aside.collapsed{ display:none }
+
+/* make summaries easier to read */
+#summary{ white-space:pre-wrap; word-break:break-word; font-family:monospace; font-size:13px }
+
+/* Tighter responsive rules to ensure stacking and touch targets */
+@media (max-width:1100px){
+  .grid{ grid-template-columns: 1fr 320px; gap:14px }
+}
+
+@media (max-width:900px){
+  .grid{ grid-template-columns:1fr; }
+  aside{ order:2; }
+  /* make header controls wrap cleanly */
+  .header-controls{ flex-wrap:wrap; gap:10px }
+  .header-controls .small{ min-width:140px }
+  /* give inputs and selects comfortable touch size */
+  input[type=text], input[type=email], input[type=tel], select, textarea{ height:48px }
+}
+
+@media (max-width:720px){
+  /* collapse IVR pane by default on small devices (JS will toggle class) */
+  aside.collapsed{ display:none }
+  aside{ width:100%; }
+  .panel{ padding:12px }
+  .brand{ gap:10px }
+}
+
+/* Ensure buttons expand on very small screens */
+@media (max-width:480px){
+  .header-controls .small{ flex:1 1 100%; display:flex; justify-content:space-between; align-items:center }
+  .header-controls button, .header-controls select{ min-width:48%; }
+  .controls{ flex-direction:row; gap:8px }
+}
+
+/* Compact mode: denser layout and grouped short fields */
+#app.compact .wrap{ padding:10px }
+#app.compact .panel{ padding:8px; margin-bottom:8px }
+#app.compact .panel h3{ font-size:13px; margin-bottom:6px }
+#app.compact .field{ margin-bottom:6px }
+#app.compact label{ margin-bottom:4px }
+#app.compact input[type=text],
+#app.compact input[type=email],
+#app.compact input[type=tel],
+#app.compact select,
+#app.compact textarea{ padding:7px 8px }
+
+/* grouped short fields into a responsive row */
+.short-row{ display:grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap:8px; align-items:center }
+.short-row .field{ display:flex; gap:8px; margin:0 }
+.short-row .field label{ width:80px }
+
+@media (max-width:820px){
+  .short-row{ grid-template-columns: 1fr }
+  .short-row .field label{ width:120px }
+}
+
+/* panel body wrapper used by JS for collapse/expand */
+.panel .panel-body{ transition: max-height .22s ease; overflow:hidden }
+.panel.collapsed .panel-body{ display:none }
+.panel .panel-toggle{ float:right; background:transparent;border:0;color:var(--muted); cursor:pointer; font-size:13px }
+
+/* v2 visual tweaks (screenshots): orange underline, star rating, advisor pill, media pills */
+.panel h3{ position:relative; color:var(--color-primary); font-weight:800 }
+.panel h3::after{ content:''; display:block; width:80px; height:6px; background:#eb8a1f; border-radius:4px; margin-top:8px }
+
+#starRating button{ font-size:22px; border:0; background:transparent; color:#f59e0b; padding:6px 8px; border-radius:6px }
+#starRating button[aria-pressed="false"]{ opacity:0.35 }
+#starRating button[aria-pressed="true"]{ opacity:1 }
+
+.advisor-chip{ background:#f59e0b; color:#fff; border:0; padding:10px 14px; border-radius:999px; font-weight:700 }
+
+/* media pills */
+#mediaCall, #mediaChat, #mediaSMS{ border-radius:12px; padding:12px 18px; font-weight:700; box-shadow:none; border:1px solid rgba(2,6,23,0.06) }
+#mediaCall.btn-save{ background:var(--brand); color:#fff; }
+#mediaChat.btn-ghost, #mediaSMS.btn-ghost{ background:transparent; }
+
+/* make footer buttons a bit larger and centered like screenshot */
+.controls button{ min-width:120px }
+
+/* Ensure Save/Next are visible on load even if theme vars haven't been applied */
+.controls .btn-save{ background: linear-gradient(90deg, var(--brand, #0b6efd), #1366d6) !important; color: var(--brand-contrast, #fff) !important; border: none; }
+.controls .btn-next{ background: var(--brand, #0b6efd) !important; color: var(--brand-contrast, #fff) !important; border: none; }
+
