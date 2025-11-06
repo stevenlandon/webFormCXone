@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Service Line Response Form</title>
+  <link rel="stylesheet" href="themes.css" />
+</head>
+<body>
+  <header class="brand">
+    <div class="brand-logo"></div>
+    <div>
+      <label for="themeSelector">Brand:</label>
+      <select id="themeSelector">
+        <option value="cunard">Cunard</option>
+        <option value="holland">Holland America</option>
+        <option value="princess">Princess</option>
+        <option value="seabourn">Seabourn</option>
+      </select>
+    </div>
+  </header>
+
+  <main class="section">
+    <h2>Service Line Response Form</h2>
+
+    <!-- Customer Info -->
+    <section class="form-section">
+      <h3>Customer Information</h3>
+      <label>Customer Name</label>
+      <input type="text" id="custName" placeholder="Enter name" />
+
+      <label>Contact Number</label>
+      <input type="text" id="contactNo" placeholder="Enter contact number" />
+
+      <label>Email</label>
+      <input type="email" id="email" placeholder="Enter email address" />
+    </section>
+
+    <!-- Query Info -->
+    <section class="form-section">
+      <h3>Query Details</h3>
+      <label>Query Type</label>
+      <select id="queryType">
+        <option value="">Select Query Type</option>
+        <option value="booking">Booking Related</option>
+        <option value="payment">Payment Related</option>
+        <option value="cancellation">Cancellation</option>
+        <option value="other">Other</option>
+      </select>
+
+      <!-- Booking Fields -->
+      <div class="query-fields" id="bookingFields" hidden>
+        <label>Booking ID</label>
+        <input type="text" placeholder="Enter booking ID" />
+
+        <label>Travel Date</label>
+        <input type="date" />
+      </div>
+
+      <!-- Payment Fields -->
+      <div class="query-fields" id="paymentFields" hidden>
+        <label>Transaction ID</label>
+        <input type="text" placeholder="Enter transaction ID" />
+
+        <label>Payment Method</label>
+        <select>
+          <option>Credit Card</option>
+          <option>Debit Card</option>
+          <option>Net Banking</option>
+          <option>Wallet</option>
+        </select>
+      </div>
+
+      <!-- Cancellation Fields -->
+      <div class="query-fields" id="cancellationFields" hidden>
+        <label>Reason for Cancellation</label>
+        <textarea rows="3" placeholder="Provide reason"></textarea>
+      </div>
+
+      <!-- Other Fields -->
+      <div class="query-fields" id="otherFields" hidden>
+        <label>Describe Query</label>
+        <textarea rows="3" placeholder="Type your query"></textarea>
+      </div>
+    </section>
+
+    <!-- Transfer Info -->
+    <section class="form-section">
+      <h3>Transfer Information</h3>
+      <label>Transfer To Department</label>
+      <select>
+        <option>Sales</option>
+        <option>Support</option>
+        <option>Billing</option>
+        <option>Operations</option>
+      </select>
+
+      <label>Transfer Notes</label>
+      <textarea rows="3" placeholder="Enter notes for next department"></textarea>
+    </section>
+
+    <!-- Terms -->
+    <section class="form-section terms">
+      <label>
+        <input type="checkbox" /> I confirm customer verification and accuracy of details.
+      </label>
+    </section>
+
+    <button class="primary">Submit</button>
+    <p class="theme-name"></p>
+  </main>
+
+  <script src="themes.js"></script>
+</body>
+</html>

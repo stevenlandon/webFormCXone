@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Customer Enquiry Form</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-50 font-sans">
+  <div class="max-w-4xl mx-auto mt-6 p-6 bg-white rounded-2xl shadow-md">
+    <!-- Header -->
+    <div class="flex items-center justify-between mb-6">
+      <img src="https://yourdomain.com/logo.png" alt="Service Logo" class="h-12">
+      <h2 class="text-2xl font-semibold text-blue-700">Customer Enquiry Form</h2>
+    </div>
+
+    <!-- Customer Info Section -->
+    <section class="mb-6">
+      <h3 class="text-lg font-semibold border-b pb-1 mb-3 text-gray-700">Customer Info</h3>
+      <div class="grid grid-cols-2 gap-4">
+        <input id="custName" type="text" placeholder="Customer Name" class="input">
+        <input id="custPhone" type="text" placeholder="Phone Number" class="input">
+        <input id="custEmail" type="text" placeholder="Email" class="input">
+      </div>
+    </section>
+
+    <!-- Dynamic Intent Section -->
+    <section id="intent-section" class="mb-6 hidden">
+      <h3 class="text-lg font-semibold border-b pb-1 mb-3 text-gray-700">Booking Info</h3>
+      <div id="dynamic-fields" class="grid grid-cols-2 gap-4">
+        <!-- Fields will be injected dynamically -->
+      </div>
+    </section>
+
+    <!-- Terms -->
+    <section class="mb-4">
+      <label class="inline-flex items-center">
+        <input type="checkbox" class="form-checkbox" required>
+        <span class="ml-2 text-gray-600 text-sm">I confirm that customer details are verified.</span>
+      </label>
+    </section>
+
+    <!-- Action Buttons -->
+    <div class="flex justify-end gap-4">
+      <button id="transferBtn" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg">Transfer Call</button>
+      <button id="submitBtn" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg">Submit</button>
+    </div>
+  </div>
+
+  <script>
+    // Sample data simulation
+    const intent = new URLSearchParams(window.location.search).get('intent') || 'Booking';
+
+    const fieldMap = {
+      Booking: [
+        { id: 'bookingId', placeholder: 'Booking ID' },
+        { id: 'travelDate', placeholder: 'Travel Date' }
+      ],
+      Refund: [
+        { id: 'refundId', placeholder: 'Refund ID' },
+        { id: 'refundReason', placeholder: 'Reason for Refund' }
+      ]
+    };
+
+    function loadIntentFields() {
+      const section = document.getElementById('intent-section');
+      const fieldsContainer = document.getElementById('dynamic-fields');
+      fieldsContainer.innerHTML = '';
+
+      if (fieldMap[intent]) {
+        section.classList.remove('hidden');
+        fieldMap[intent].forEach(field => {
+          const input = document.createElement('input');
+          input.type = 'text';
+          input.placeholder = field.placeholder;
+          input.className = 'input';
+          fieldsContainer.appendChild(input);
+        });
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', loadIntentFields);
+  </script>
+
+  <style>
+    .input {
+      @apply border rounded-lg px-3 py-2 w-full focus:ring-2 focus:ring-blue-400;
+    }
+  </style>
+</body>
+</html>

@@ -1,0 +1,61 @@
+/* Seabourn Theme CSS */
+:root {
+  --sb-color-primary: #E3CE66;  /* Yellow accent */
+  --sb-color-accent: #9A7B2F;   /* Gold accent */
+  --sb-color-text: #000000;     /* Black */
+  --sb-color-bg: #FFFFFF;
+  --sb-color-border: #E5E5E5;
+
+  --sb-font-heading: 'Playfair Display', serif;
+  --sb-font-body: 'Inter', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+
+  --sb-radius-md: 8px;
+  --sb-spacing-md: 24px;
+}
+
+body {
+  font-family: var(--sb-font-body);
+  color: var(--sb-color-text);
+  background-color: var(--sb-color-bg);
+  line-height: 1.6;
+}
+
+h1, h2, h3 {
+  font-family: var(--sb-font-heading);
+  color: var(--sb-color-accent);
+  margin-bottom: var(--sb-spacing-md);
+}
+
+.section-sb {
+  background-color: var(--sb-color-bg);
+  border-radius: var(--sb-radius-md);
+  padding: var(--sb-spacing-md);
+  margin-bottom: var(--sb-spacing-md);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+input, select, textarea {
+  width: 100%;
+  padding: 10px 14px;
+  border: 1px solid var(--sb-color-border);
+  border-radius: var(--sb-radius-md);
+  font-size: 14px;
+}
+
+input:focus, select:focus, textarea:focus {
+  outline: none;
+  border-color: var(--sb-color-primary);
+  box-shadow: 0 0 0 3px rgba(227, 206, 102, 0.3);
+}
+
+button.primary-sb {
+  background-color: var(--sb-color-accent);
+  color: #fff;
+  padding: 12px 24px;
+  border: none;
+  border-radius: var(--sb-radius-md);
+  cursor: pointer;
+}
+button.primary-sb:hover {
+  background-color: #876a25;
+}

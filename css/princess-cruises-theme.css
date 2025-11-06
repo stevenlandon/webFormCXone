@@ -1,0 +1,60 @@
+/* Princess Cruises Theme CSS */
+:root {
+  --pc-color-primary: #00538B;
+  --pc-color-secondary: #54575A;
+  --pc-color-bg: #FFFFFF;
+  --pc-color-border: #E5E5E5;
+
+  --pc-font-heading: 'SangBleu', serif;
+  --pc-font-body: 'Inter', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+
+  --pc-radius-md: 8px;
+  --pc-spacing-md: 24px;
+}
+
+body {
+  font-family: var(--pc-font-body);
+  color: var(--pc-color-secondary);
+  background-color: var(--pc-color-bg);
+  line-height: 1.6;
+}
+
+h1, h2, h3 {
+  font-family: var(--pc-font-heading);
+  color: var(--pc-color-primary);
+  margin-bottom: var(--pc-spacing-md);
+}
+
+.section-pc {
+  background-color: var(--pc-color-bg);
+  border-radius: var(--pc-radius-md);
+  padding: var(--pc-spacing-md);
+  margin-bottom: var(--pc-spacing-md);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+input, select, textarea {
+  width: 100%;
+  padding: 10px 14px;
+  border: 1px solid var(--pc-color-border);
+  border-radius: var(--pc-radius-md);
+  font-size: 14px;
+}
+
+input:focus, select:focus, textarea:focus {
+  outline: none;
+  border-color: var(--pc-color-primary);
+  box-shadow: 0 0 0 3px rgba(0, 83, 139, 0.3);
+}
+
+button.primary-pc {
+  background-color: var(--pc-color-primary);
+  color: #fff;
+  padding: 12px 24px;
+  border: none;
+  border-radius: var(--pc-radius-md);
+  cursor: pointer;
+}
+button.primary-pc:hover {
+  background-color: #00446e;
+}

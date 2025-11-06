@@ -1,518 +1,212 @@
 <!doctype html>
 <html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width,initial-scale=1" />
-		<title>Service Line Response Form</title>
-		<style>
-			:root{
-				--brand:#0b6efd; /* default blue */
-				--brand-contrast:#fff;
-				--muted:#6b7280;
-				--bg:#f7fafc;
-				--card:#ffffff;
-				--radius:8px;
-				--max-width:980px;
-				font-family:Segoe UI, Roboto, system-ui, -apple-system, 'Helvetica Neue', Arial;
-			}
 
-			/* icon styles */
-			.icon{ width:16px; height:16px; display:inline-block; vertical-align:middle; margin-right:8px }
-			.auth-icon{ width:18px; height:18px; margin-right:8px }
-			.icon.check{ color:#10b981 }
-			.icon.cross{ color:#ef4444 }
-			.icon.warn{ color:#f59e0b }
-			.chip.auth-chip{ display:inline-flex; align-items:center; gap:6px }
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width,initial-scale=1" />
+	<title>Service Line Response Form</title>
+	<link rel="stylesheet" href="CXoneWebForm.css" />
+	<!-- <link rel="stylesheet" href="cunard-theme.css"> -->
+</head>
 
-			/* Service-line themes (colors + logo tint applied via script) */
-			.theme-telecom{ --brand:#0b6efd; }
-			.theme-energy{  --brand:#0bbf6f; }
-			.theme-banking{ --brand:#8b5cf6; }
-			.theme-health{  --brand:#ef4444; }
-
-			html,body{ height:100%; margin:0; background:var(--bg); color:#0f172a }
-			.wrap{ max-width:var(--max-width); margin:28px auto; padding:20px; }
-			.card{ background:var(--card); border-radius:var(--radius); box-shadow:0 6px 18px rgba(2,6,23,0.06); overflow:hidden }
-
-			header{ display:flex; align-items:center; justify-content:space-between; gap:16px; padding:18px 22px; border-bottom:1px solid #eef2f7 }
-			.brand{ display:flex; align-items:center; gap:14px }
-			.logo{ width:56px; height:56px; border-radius:10px; display:flex; align-items:center; justify-content:center; background:linear-gradient(135deg, rgba(255,255,255,0.08), rgba(0,0,0,0.03)); }
-			.logo svg{ width:36px; height:36px; fill:var(--brand); }
-			.service-meta{ display:flex; flex-direction:column }
-			.service-name{ font-weight:600; font-size:15px }
-			.auth-status{ font-size:13px; color:var(--muted) }
-
-			.header-controls{ display:flex; gap:12px; align-items:center }
-			.small{ font-size:13px; color:var(--muted) }
-
-			main{ padding:20px }
-			.grid{ display:grid; grid-template-columns: 1fr 340px; gap:18px }
-			.panel{ background:var(--card); border-radius:8px; padding:14px; border:1px solid #f1f5f9 }
-			.panel h3{ margin:0 0 8px 0; font-size:14px }
-			.field{ margin-bottom:10px }
-			label{ display:block; font-size:13px; color:var(--muted); margin-bottom:6px }
-			input[type=text], input[type=email], input[type=tel], select, textarea{ width:100%; padding:8px 10px; border-radius:6px; border:1px solid #e6edf3; font-size:14px }
-			textarea{ min-height:80px; resize:vertical }
-			.muted{ color:var(--muted); font-size:13px }
-
-			.controls{ display:flex; gap:8px; justify-content:flex-end; align-items:center; padding:14px 20px; border-top:1px solid #eef2f7 }
-			button{ padding:9px 14px; border-radius:8px; border:0; cursor:pointer; font-weight:600 }
-			.btn-ghost{ background:transparent; color:var(--muted); border:1px solid transparent }
-			.btn-save{ background:linear-gradient(90deg,var(--brand), #1366d6); color:var(--brand-contrast) }
-			.btn-next{ background:var(--brand); color:var(--brand-contrast) }
-			.btn-danger{ background:#f97373; color:white }
-
-			.section-title{ font-weight:700; margin-bottom:6px }
-			.meta-row{ display:flex; gap:10px; align-items:center }
-			.chip{ background:#f1f5f9; padding:6px 8px; border-radius:999px; font-size:13px }
-
-			.footer-note{ font-size:12px; color:var(--muted) }
-
-			/* small screens */
-			@media (max-width:900px){ .grid{ grid-template-columns:1fr } .header-controls{ flex-direction:column; align-items:flex-end } }
-		</style>
-	</head>
-	<body>
-		<div class="wrap">
-			<div class="card" id="app" data-theme="telecom">
-				<header>
-					<div class="brand">
-						<div class="logo" id="logo">
-							<!-- SVG logo placeholder -->
-							<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/></svg>
+<body>
+	<div class="wrap">
+		<div class="card" id="app" data-theme="telecom">
+			<header class="brand">
+				<div class="brand">
+    				<div class="brand-logo"></div>
+					<!-- <div class="service-meta">
+						<div class="auth-status" id="authStatus">Authentication: <strong id="authLabel">Unknown</strong>
 						</div>
-						<div class="service-meta">
-							<div class="service-name" id="serviceName">Telecom Support</div>
-							<div class="auth-status" id="authStatus">Authentication: <strong id="authLabel">Unknown</strong></div>
-						</div>
-					</div>
-
-					<div class="header-controls">
-						<div class="small">
-							Service line:
-							<select id="serviceSelector" aria-label="Select service line">
-								<option value="telecom">Telecom</option>
-								<option value="energy">Energy</option>
-								<option value="banking">Banking</option>
-								<option value="health">Health</option>
-							</select>
-						</div>
-
-						<div class="small">
-							IVR Payload:
-							<button class="btn-ghost" id="btnSample">Use sample</button>
-						</div>
-					</div>
-				</header>
-
-				<main>
-					<div class="grid">
-						<div>
-							<div class="panel" aria-labelledby="contactHeading">
-								<h3 id="contactHeading">Contact / Authentication</h3>
-								<div class="field">
-									<label for="phone">Phone</label>
-									<input type="tel" id="phone" placeholder="+1 555-123-4567" />
-								</div>
-								<div class="field">
-									<label for="email">Email</label>
-									<input type="email" id="email" placeholder="name@example.com" />
-								</div>
-								<div class="field">
-									<label for="customerId">Customer ID</label>
-									<input type="text" id="customerId" placeholder="Registered customer id (if any)" />
-								</div>
-												<div class="field meta-row">
-													<div class="chip" id="regChip">Registered: <span id="registeredVal">No</span></div>
-													<div class="chip auth-chip" id="authChip" aria-live="polite"> <!-- content set by JS -->
-													</div>
-												</div>
-								<div class="field">
-									<button id="btnCheckAuth" class="btn-ghost">Check / Update Auth</button>
-								</div>
-							</div>
-
-							<div class="panel" style="margin-top:12px;" aria-labelledby="intentHeading">
-								<h3 id="intentHeading">Intent & Booking</h3>
-								<div class="field">
-									<label for="intent">Customer intent</label>
-									<select id="intent">
-										<option value="">-- Select intent --</option>
-										<option value="billing">Billing Issue</option>
-										<option value="outage">Report Outage</option>
-										<option value="upgrade">Upgrade Request</option>
-										<option value="support">Product Support</option>
-										<option value="booking">Booking / Appointment</option>
-									</select>
-								</div>
-								<div id="bookingSection" style="display:none">
-									<div class="field">
-										<label for="bookingId">Booking ID</label>
-										<input type="text" id="bookingId" />
-									</div>
-									<div class="field">
-										<label for="bookingDate">Booking date</label>
-										<input type="text" id="bookingDate" placeholder="2025-11-01 10:00" />
-									</div>
-								</div>
-								<div class="field">
-									<label for="notes">Agent notes</label>
-									<textarea id="notes" placeholder="Notes or IVR transcript..."></textarea>
-								</div>
-							</div>
-
-							<div class="panel" style="margin-top:12px;" aria-labelledby="communicationHeading">
-								<h3 id="communicationHeading">Communication & Transfer</h3>
-								<div class="field">
-									<label>Communication routes</label>
-														<div class="meta-row">
-															<label><input type="checkbox" id="routeEmail"/> <span id="iconRouteEmail" class="icon" aria-hidden="true"></span> Email</label>
-															<label><input type="checkbox" id="routePhone"/> <span id="iconRoutePhone" class="icon" aria-hidden="true"></span> Phone</label>
-															<label><input type="checkbox" id="routeSMS"/> <span id="iconRouteSMS" class="icon" aria-hidden="true"></span> SMS</label>
-															<label><input type="checkbox" id="routeChat"/> <span id="iconRouteChat" class="icon" aria-hidden="true"></span> Chat</label>
-														</div>
-								</div>
-								<div class="field">
-									<label for="transferTo">Call transfer (if any)</label>
-									<input type="text" id="transferTo" placeholder="Transfer to queue or agent" />
-								</div>
-								<div class="field">
-									<label><input type="checkbox" id="acceptTerms"/> Accept terms and conditions</label>
-								</div>
-							</div>
-						</div>
-
-						<aside>
-							<div class="panel">
-								<h3>IVR Payload (JSON)</h3>
-								<p class="muted">Paste the IVR JSON payload here or use sample to auto-populate the form.</p>
-												<textarea id="ivrPayload" placeholder='{"intent":"billing","phone":"+15551234567","email":"a@b.com","customerId":"C123","booking":{}}'></textarea>
-												<div id="fetchStatus" class="muted" style="margin-top:6px"> </div>
-												<div style="margin-top:8px; display:flex; gap:8px;">
-									<button id="btnPopulate" class="btn-save">Populate from IVR</button>
-									<button id="btnClear" class="btn-ghost">Clear</button>
-								</div>
-								<hr style="margin:12px 0" />
-								<h3>Form Summary</h3>
-								<div class="muted" id="summary">No data yet</div>
-							</div>
-						</aside>
-					</div>
-				</main>
-
-				<div class="controls">
-					<div class="footer-note" style="flex:1">© <span id="copyrightYear"></span> <span id="serviceFooterName">Service Line</span> — "We connect you"</div>
-					<button id="btnCancel" class="btn-ghost">Cancel</button>
-					<button id="btnSave" class="btn-save">Save</button>
-					<button id="btnNext" class="btn-next" disabled>Next</button>
+					</div> -->
 				</div>
+
+				<div class="header-controls">
+					<div class="small">
+						Cruise line:
+						<select id="serviceSelector" aria-label="Select cruise line">
+							<option value="holland">Holland America (HAL)</option>
+							<option value="princess">Princess Cruise (PCL)</option>
+							<option value="seabourn">Seabourn (SBN)</option>
+							<option value="cunard">Cunard (CUN)</option>
+						</select>
+					</div>
+
+					<div class="small">
+						IVR Payload:
+						<button class="btn-ghost" id="btnSample">Use sample</button>
+					</div>
+				</div>
+			</header>
+
+			<main>
+				<div class="grid">
+					<div>
+						<div class="panel" aria-labelledby="contactHeading">
+							<h3 id="contactHeading">Contact / Authentication</h3>
+							<div class="field">
+								<label for="callerName">Name</label>
+								<input type="text" id="callerName" placeholder="Caller name (from IVR)" />
+							</div>
+							<div class="field">
+								<label for="ccn">CCN</label>
+								<input type="text" id="ccn" placeholder="Customer CCN" />
+							</div>
+							<div class="field">
+								<label for="phone">Phone</label>
+								<input type="tel" id="phone" placeholder="+1 555-123-4567" />
+							</div>
+							<div class="field">
+								<label for="email">Email</label>
+								<input type="email" id="email" placeholder="name@example.com" />
+							</div>
+							<div class="field">
+								<label for="customerId">Customer ID</label>
+								<input type="text" id="customerId" placeholder="Registered customer id (if any)" />
+							</div>
+							<div class="field" id="travelAdvisorArea" style="display:none">
+								<label>Travel Advisor</label>
+								<div style="display:flex;align-items:center;gap:8px">
+									<div id="travelAdvisorLogo"
+										style="width:42px;height:28px;background:#f1f5f9;border-radius:6px;display:flex;align-items:center;justify-content:center">
+										TA</div>
+									<div id="travelAdvisorName" class="muted">Advisor name</div>
+								</div>
+							</div>
+							<div class="field meta-row">
+								<div class="chip" id="regChip">Registered: <span id="registeredVal">No</span></div>
+								<div class="chip auth-chip" id="authChip" aria-live="polite"> <!-- content set by JS -->
+								</div>
+							</div>
+							<div class="field">
+								<button id="btnCheckAuth" class="btn-ghost">Check / Update Auth</button>
+							</div>
+						</div>
+
+						<div class="panel" style="margin-top:12px;" aria-labelledby="intentHeading">
+							<h3 id="intentHeading">Intent & Booking</h3>
+							<div class="field">
+								<label for="intent">Customer intent</label>
+								<select id="intent">
+									<option value="">-- Select intent --</option>
+									<option value="billing">Billing Issue</option>
+									<option value="outage">Report Outage</option>
+									<option value="upgrade">Upgrade Request</option>
+									<option value="support">Product Support</option>
+									<option value="booking">Booking / Appointment</option>
+								</select>
+							</div>
+							<div class="field">
+								<label for="rating">Rating (caller urgency)</label>
+								<select id="rating">
+									<option value="">--</option>
+									<option>1</option>
+									<option>2</option>
+									<option>3</option>
+									<option>4</option>
+									<option>5</option>
+								</select>
+							</div>
+							<div class="field">
+								<label>Satisfied?</label>
+								<label><input type="radio" name="satisfied" value="yes" id="satisfiedYes" /> Yes</label>
+								<label><input type="radio" name="satisfied" value="no" id="satisfiedNo" /> No</label>
+							</div>
+							<div class="field">
+								<label for="transcript">IVR Transcript</label>
+								<textarea id="transcript" placeholder="Transcript from IVR"></textarea>
+							</div>
+							<div id="bookingSection" style="display:none">
+								<div class="field">
+									<label for="bookingId">Booking ID</label>
+									<input type="text" id="bookingId" />
+								</div>
+								<div class="field">
+									<label for="bookingDate">Booking date</label>
+									<input type="text" id="bookingDate" placeholder="2025-11-01 10:00" />
+								</div>
+							</div>
+							<div class="field">
+								<label for="notes">Agent notes</label>
+								<textarea id="notes" placeholder="Notes or IVR transcript..."></textarea>
+							</div>
+						</div>
+
+						<div class="panel" style="margin-top:12px;" aria-labelledby="communicationHeading">
+							<h3 id="communicationHeading">Communication & Transfer</h3>
+							<div class="field">
+								<label>Communication routes</label>
+								<div class="meta-row">
+									<label><input type="checkbox" id="routeEmail" /> <span id="iconRouteEmail"
+											class="icon" aria-hidden="true"></span> Email</label>
+									<label><input type="checkbox" id="routePhone" /> <span id="iconRoutePhone"
+											class="icon" aria-hidden="true"></span> Phone</label>
+									<label><input type="checkbox" id="routeSMS" /> <span id="iconRouteSMS" class="icon"
+											aria-hidden="true"></span> SMS</label>
+									<label><input type="checkbox" id="routeChat" /> <span id="iconRouteChat"
+											class="icon" aria-hidden="true"></span> Chat</label>
+								</div>
+							</div>
+							<div class="field" id="mediaTypeArea">
+								<label>Media Type</label>
+								<div id="mediaTypeLabel" class="muted">—</div>
+							</div>
+							<div class="field" id="askOtherChannels" style="display:none">
+								<label>May we contact the guest by:</label>
+								<label><input type="checkbox" id="addSMS" /> SMS</label>
+								<label><input type="checkbox" id="addEmailContact" /> Email</label>
+								<label><input type="checkbox" id="addChat" /> Chat</label>
+							</div>
+							<div class="field">
+								<label for="transferTo">Call transfer (if any)</label>
+								<input type="text" id="transferTo" placeholder="Transfer to queue or agent" />
+							</div>
+							<div class="field">
+								<label><input type="checkbox" id="acceptTerms" /> Accept terms and conditions</label>
+							</div>
+						</div>
+					</div>
+
+					<aside>
+						<div class="panel">
+							<div style="display:flex;align-items:center;justify-content:space-between;gap:8px">
+								<h3 style="margin:0">IVR Payload (JSON)</h3>
+								<button id="ivrToggle" class="btn-ghost" aria-expanded="true"
+									aria-controls="ivrPayload">Toggle IVR</button>
+							</div>
+							<p class="muted">Paste the IVR JSON payload here or use sample to auto-populate the form.
+							</p>
+							<textarea id="ivrPayload"
+								placeholder='{"intent":"billing","phone":"+15551234567","email":"a@b.com","customerId":"C123","booking":{}}'></textarea>
+							<div id="fetchStatus" class="muted" style="margin-top:6px"> </div>
+							<div style="margin-top:8px; display:flex; gap:8px;">
+								<button id="btnPopulate" class="btn-save">Populate from IVR</button>
+								<button id="btnClear" class="btn-ghost">Clear</button>
+							</div>
+							<style>
+								aside.collapsed {
+									display: none
+								}
+							</style>
+							<hr style="margin:12px 0" />
+							<h3>Form Summary</h3>
+							<div class="muted" id="summary">No data yet</div>
+						</div>
+					</aside>
+				</div>
+			</main>
+
+			<div class="controls">
+				<div class="footer-note" style="flex:1">© <span id="copyrightYear"></span> <span
+						id="serviceFooterName">Service Line</span> — <span id="serviceFooterTagline">We connect
+						you</span></div>
+				<button id="btnCancel" class="btn-ghost">Cancel</button>
+				<button id="btnSave" class="btn-save">Save</button>
+				<button id="btnNext" class="btn-next" disabled>Next</button>
 			</div>
 		</div>
+	</div>
+	<script src="CXoneWebForm.js" defer></script>
+</body>
 
-		<script>
-					// Utility: safe JSON parse
-					function tryParseJSON(s){ try{ return JSON.parse(s) }catch(e){ return null } }
-
-					// SVG icon helpers (returns an inline SVG string)
-					function svgCheck(){ return '<svg class="auth-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M20 6L9 17l-5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>'; }
-					function svgCross(){ return '<svg class="auth-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>'; }
-					function svgWarn(){ return '<svg class="auth-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z" stroke="currentColor" stroke-width="0" fill="currentColor"/><path d="M12 9v4" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M12 17h.01" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>'; }
-					function svgPhone(){ return '<svg class="icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.8 19.8 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.09 4.18 2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.12 1.05.38 2.07.77 3.03a2 2 0 0 1-.45 2.11L8.91 10.91a16 16 0 0 0 6 6l1.05-1.05a2 2 0 0 1 2.11-.45c.96.39 1.98.65 3.03.77A2 2 0 0 1 22 16.92z" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/></svg>'; }
-					function svgEmail(){ return '<svg class="icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M4 4h16v16H4z" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/><path d="M22 6L12 13 2 6" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/></svg>'; }
-					function svgSMS(){ return '<svg class="icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/></svg>'; }
-					function svgChat(){ return '<svg class="icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/></svg>'; }
-
-					function setAuthChip(status){
-						// status: 'authenticated' | 'partial' | 'unauthenticated'
-						if(!document.getElementById('authChip')) return;
-						if(status === 'authenticated'){
-							document.getElementById('authChip').innerHTML = '<span class="icon check" style="color:var(--brand);">'+svgCheck()+'</span><span><strong>Authenticated</strong></span>';
-						} else if(status === 'partial'){
-							document.getElementById('authChip').innerHTML = '<span class="icon warn" style="color:#d97706;">'+svgWarn()+'</span><span>Partially Authenticated</span>';
-						} else {
-							document.getElementById('authChip').innerHTML = '<span class="icon cross" style="color:#9ca3af;">'+svgCross()+'</span><span>Unauthenticated</span>';
-						}
-
-								// Read query params into an object
-								function getQueryParams(){
-									const qs = location.search.replace(/^\?/, '');
-									if(!qs) return {};
-									return qs.split('&').reduce((acc, pair) => {
-										const [k, v] = pair.split('=');
-										if(!k) return acc;
-										try{ acc[decodeURIComponent(k)] = decodeURIComponent(v || ''); }catch(e){ acc[k] = v || ''; }
-										return acc;
-									}, {});
-								}
-
-								// Build API URL by appending known params if base is provided
-								function buildApiUrl(base, params){
-									if(!base) return null;
-									try{
-										const url = new URL(base, location.href);
-										Object.keys(params).forEach(k => {
-											if(params[k]) url.searchParams.set(k, params[k]);
-										});
-										return url.toString();
-									}catch(e){
-										// base might be a raw string - try simple concatenation
-										const qs = Object.keys(params).filter(k=>params[k]).map(k=> encodeURIComponent(k)+'='+encodeURIComponent(params[k])).join('&');
-										return base + (base.includes('?') ? '&' : '?') + qs;
-									}
-								}
-
-								// Fetch from REST API (apiUrl may be passed) and populate form
-								async function fetchFromApi(apiUrl, params){
-									const statusEl = document.getElementById('fetchStatus');
-									if(!apiUrl){ statusEl.textContent = 'No API URL configured (use ?api=...)'; return null; }
-									statusEl.textContent = 'Loading...';
-									try{
-										const url = buildApiUrl(apiUrl, params);
-										const resp = await fetch(url, { method:'GET', credentials:'omit' });
-										if(!resp.ok) throw new Error('HTTP '+resp.status);
-										const data = await resp.json();
-										statusEl.textContent = 'Data loaded';
-										// attempt to map common fields
-										const mapped = {
-											service: data.service || params.service || serviceSelector.value,
-											phone: data.phone || data.contact?.phone || data.mobile || data.msisdn || '',
-											email: data.email || data.contact?.email || '',
-											customerId: data.customerId || data.customer_id || data.ccn || params.customerId || '',
-											intent: data.intent || data.callerIntent || '',
-											booking: { id: data.booking?.id || data.bookingNumber || params.bookingNumber || '', date: data.booking?.date || data.bookingDate || '' },
-											notes: data.notes || data.transferNotes || data.callerTranscript || ''
-										};
-										populateFromIVR(mapped);
-										// Show the raw payload in IVR textarea for debugging
-										ivrPayload.value = JSON.stringify(data, null, 2);
-										return data;
-									}catch(err){
-										statusEl.textContent = 'Error: ' + (err.message || err);
-										return null;
-									}
-								}
-					}
-
-			// Elements
-			const app = document.getElementById('app');
-			const serviceSelector = document.getElementById('serviceSelector');
-			const serviceName = document.getElementById('serviceName');
-			const logo = document.getElementById('logo');
-			const authLabel = document.getElementById('authLabel');
-			const authChip = document.getElementById('authChip');
-			const regChip = document.getElementById('registeredVal');
-			const phone = document.getElementById('phone');
-			const email = document.getElementById('email');
-			const customerId = document.getElementById('customerId');
-			const intent = document.getElementById('intent');
-			const bookingSection = document.getElementById('bookingSection');
-			const bookingId = document.getElementById('bookingId');
-			const bookingDate = document.getElementById('bookingDate');
-			const notes = document.getElementById('notes');
-			const ivrPayload = document.getElementById('ivrPayload');
-			const btnPopulate = document.getElementById('btnPopulate');
-			const btnSample = document.getElementById('btnSample');
-			const btnClear = document.getElementById('btnClear');
-			const btnCheckAuth = document.getElementById('btnCheckAuth');
-			const acceptTerms = document.getElementById('acceptTerms');
-			const btnNext = document.getElementById('btnNext');
-			const btnSave = document.getElementById('btnSave');
-			const btnCancel = document.getElementById('btnCancel');
-			const summary = document.getElementById('summary');
-			const serviceFooterName = document.getElementById('serviceFooterName');
-
-			// Service line metadata
-			const SERVICES = {
-				telecom: {name:'Telecom Support', tag:'We keep you connected', theme:'theme-telecom'},
-				energy:  {name:'Energy Support', tag:'Powering your world', theme:'theme-energy'},
-				banking: {name:'Banking Support', tag:'Your money, simplified', theme:'theme-banking'},
-				health:  {name:'Health Support', tag:'Care that matters', theme:'theme-health'}
-			};
-
-			// Initialize
-			function applyService(s){
-				const meta = SERVICES[s] || SERVICES['telecom'];
-				// set class theme
-				Object.values(SERVICES).forEach(v=> app.classList.remove(v.theme));
-				app.classList.add(meta.theme);
-				serviceName.textContent = meta.name;
-				serviceFooterName.textContent = meta.name;
-				// simple SVG tint via inline fill (logo svg present)
-				const svg = logo.querySelector('svg');
-				if(svg) svg.style.fill = getComputedStyle(document.documentElement).getPropertyValue('--brand');
-			}
-
-			// Update summary
-			function updateSummary(){
-				const s = {
-					service: serviceSelector.value,
-					phone: phone.value || null,
-					email: email.value || null,
-					customerId: customerId.value || null,
-					intent: intent.value || null,
-					bookingId: bookingId.value || null
-				};
-				summary.textContent = JSON.stringify(s, null, 2);
-			}
-
-					// Check auth: simple heuristic/demo
-					function checkAuth(){
-						let registered = !!customerId.value.trim();
-						regChip.textContent = registered ? 'Yes' : 'No';
-						if(registered){
-							authLabel.textContent = 'Authenticated';
-							setAuthChip('authenticated');
-						} else if(phone.value.trim() || email.value.trim()){
-							authLabel.textContent = 'Partially Authenticated';
-							setAuthChip('partial');
-						} else {
-							authLabel.textContent = 'Unauthenticated';
-							setAuthChip('unauthenticated');
-						}
-						updateNextEnabled();
-						updateSummary();
-					}
-
-			// Enable Next only when terms accepted and at least an intent selected
-			function updateNextEnabled(){
-				btnNext.disabled = !(acceptTerms.checked && !!intent.value);
-			}
-
-			// Populate from IVR payload
-			function populateFromIVR(payload){
-				if(!payload) return;
-				if(payload.service) serviceSelector.value = payload.service;
-				if(payload.phone) phone.value = payload.phone;
-				if(payload.email) email.value = payload.email;
-				if(payload.customerId) customerId.value = payload.customerId;
-				if(payload.intent){
-					intent.value = payload.intent;
-					handleIntentChange();
-				}
-				if(payload.booking){
-					bookingId.value = payload.booking.id || '';
-					bookingDate.value = payload.booking.date || '';
-					bookingSection.style.display = 'block';
-				}
-				if(payload.notes) notes.value = payload.notes;
-				checkAuth();
-			}
-
-			function handleIntentChange(){
-				if(intent.value === 'booking') bookingSection.style.display = 'block'; else bookingSection.style.display = 'none';
-				updateNextEnabled();
-				updateSummary();
-			}
-
-			// Events
-			serviceSelector.addEventListener('change', ()=>{ applyService(serviceSelector.value); });
-			phone.addEventListener('input', ()=>{ updateSummary(); });
-			email.addEventListener('input', ()=>{ updateSummary(); });
-			customerId.addEventListener('input', ()=>{ updateSummary(); });
-			intent.addEventListener('change', handleIntentChange);
-			acceptTerms.addEventListener('change', updateNextEnabled);
-			btnCheckAuth.addEventListener('click', checkAuth);
-
-			btnPopulate.addEventListener('click', ()=>{
-				const parsed = tryParseJSON(ivrPayload.value);
-				if(!parsed){ alert('Invalid JSON'); return; }
-				populateFromIVR(parsed);
-			});
-
-			btnSample.addEventListener('click', ()=>{
-				const sample = { service:'telecom', phone:'+15551234567', email:'caller@example.com', customerId:'C-0001', intent:'billing', booking:{id:'B-123', date:'2025-11-05 09:30'}, notes:'IVR detected billing issue' };
-				ivrPayload.value = JSON.stringify(sample, null, 2);
-				populateFromIVR(sample);
-			});
-
-			btnClear.addEventListener('click', ()=>{
-				ivrPayload.value = '';
-			});
-
-			btnSave.addEventListener('click', ()=>{
-				const data = {
-					service: serviceSelector.value,
-					phone: phone.value, email: email.value, customerId: customerId.value,
-					intent: intent.value, booking:{id:bookingId.value, date:bookingDate.value}, notes:notes.value,
-					routes: {email: document.getElementById('routeEmail').checked, phone: document.getElementById('routePhone').checked, sms: document.getElementById('routeSMS').checked, chat: document.getElementById('routeChat').checked},
-					transferTo: document.getElementById('transferTo').value,
-					timestamp: new Date().toISOString()
-				};
-				localStorage.setItem('cxone-form-draft', JSON.stringify(data));
-				alert('Saved locally');
-				updateSummary();
-			});
-
-			btnCancel.addEventListener('click', ()=>{
-				if(confirm('Discard changes?')){
-					// reload last saved or clear
-					const saved = localStorage.getItem('cxone-form-draft');
-					if(saved){
-						const obj = JSON.parse(saved); populateFromIVR(obj);
-					} else {
-						phone.value = email.value = customerId.value = '';
-						intent.value = '';
-						bookingId.value = bookingDate.value = '';
-						notes.value = '';
-						acceptTerms.checked = false;
-						checkAuth();
-					}
-				}
-			});
-
-			btnNext.addEventListener('click', ()=>{
-				if(btnNext.disabled) return;
-				// In a real app we'd POST to server or route to next screen
-				const payload = {
-					service: serviceSelector.value,
-					phone: phone.value, email: email.value, customerId: customerId.value,
-					intent: intent.value, booking:{id:bookingId.value, date:bookingDate.value}, notes:notes.value
-				};
-				alert('Proceeding to next step with payload:\n' + JSON.stringify(payload, null, 2));
-			});
-
-			// Init on load
-					(function init(){
-				document.getElementById('copyrightYear').textContent = new Date().getFullYear();
-				applyService(serviceSelector.value);
-				// load saved draft if any
-				const draft = localStorage.getItem('cxone-form-draft');
-				if(draft){
-					const obj = JSON.parse(draft);
-					// show a small indicator
-					summary.textContent = 'Loaded saved draft — click Populate to apply';
-					ivrPayload.value = JSON.stringify(obj, null, 2);
-				}
-						// check URL params and optionally call API
-						const params = getQueryParams();
-						// Recognize common keys: bookingNumber, customerId, api, service
-						const bookingNumberParam = params.bookingNumber || params.booking || params.booking_id || params.bookingNumber;
-						const customerIdParam = params.customerId || params.customer_id || params.customer || params.ccn || '';
-						const apiUrlParam = params.api || params.apiUrl || params.endpoint || '';
-						const serviceParam = params.service || '';
-
-						// prefill booking/customer fields from URL
-						if(bookingNumberParam) bookingId.value = bookingNumberParam; 
-						if(customerIdParam) customerId.value = customerIdParam;
-						if(serviceParam) serviceSelector.value = serviceParam;
-
-						// if an API is supplied, call it with booking/customer
-						if(apiUrlParam){
-							fetchFromApi(apiUrlParam, { bookingNumber: bookingNumberParam, customerId: customerIdParam, service: serviceParam }).then(()=>{
-								checkAuth(); updateSummary();
-							});
-						} else {
-							// no API: just update UI from query params
-							if(bookingNumberParam || customerIdParam || serviceParam){
-								updateSummary();
-								checkAuth();
-								document.getElementById('fetchStatus').textContent = 'Populated from URL params';
-							} else {
-								checkAuth();
-								updateSummary();
-							}
-						}
-			})();
-		</script>
-	</body>
 </html>

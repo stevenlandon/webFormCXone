@@ -1,0 +1,60 @@
+/* Holland America Line Theme CSS */
+:root {
+  --ha-color-primary: #1A2857;
+  --ha-color-text: #1A2857;
+  --ha-color-bg: #FFFFFF;
+  --ha-color-border: #E5E5E5;
+
+  --ha-font-heading: 'Playfair Display', serif;
+  --ha-font-body: 'Inter', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+
+  --ha-radius-md: 8px;
+  --ha-spacing-md: 24px;
+}
+
+body {
+  font-family: var(--ha-font-body);
+  color: var(--ha-color-text);
+  background-color: var(--ha-color-bg);
+  line-height: 1.6;
+}
+
+h1, h2, h3 {
+  font-family: var(--ha-font-heading);
+  color: var(--ha-color-primary);
+  margin-bottom: var(--ha-spacing-md);
+}
+
+.section-ha {
+  background-color: var(--ha-color-bg);
+  border-radius: var(--ha-radius-md);
+  padding: var(--ha-spacing-md);
+  margin-bottom: var(--ha-spacing-md);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+input, select, textarea {
+  width: 100%;
+  padding: 10px 14px;
+  border: 1px solid var(--ha-color-border);
+  border-radius: var(--ha-radius-md);
+  font-size: 14px;
+}
+
+input:focus, select:focus, textarea:focus {
+  outline: none;
+  border-color: var(--ha-color-primary);
+  box-shadow: 0 0 0 3px rgba(26, 40, 87, 0.3);
+}
+
+button.primary-ha {
+  background-color: var(--ha-color-primary);
+  color: #fff;
+  padding: 12px 24px;
+  border: none;
+  border-radius: var(--ha-radius-md);
+  cursor: pointer;
+}
+button.primary-ha:hover {
+  background-color: #151f4f;
+}
