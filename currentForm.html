@@ -1,0 +1,275 @@
+<?xml version="1.0" encoding="utf-16"?>
+<PageContainer xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    UseBrowserBack="true">
+    <Components>
+        <ItemParent xsi:type="Paragraph" Class="" ID="" Name="Authenticated">
+            <Text>
+                <Expression>Authenticated: {authenticated}</Expression>
+            </Text>
+        </ItemParent>
+        <ItemParent xsi:type="Paragraph" Class="" ID="" Name="Intent">
+            <Text>
+                <Expression>Caller Intent: {intent}</Expression>
+            </Text>
+        </ItemParent>
+        <ItemParent xsi:type="InputField" Class="" ID="" Name="newCustomerName">
+            <Label>
+                <Expression>Customer Name:</Expression>
+            </Label>
+            <DefaultValue>
+                <Expression>{callerName}</Expression>
+            </DefaultValue>
+            <IsPassword>
+                <Expression>False</Expression>
+            </IsPassword>
+            <MaxLength>
+                <Expression>-1</Expression>
+            </MaxLength>
+            <Size>
+                <Expression>-1</Expression>
+            </Size>
+            <Validators />
+            <IsPasswordActual>false</IsPasswordActual>
+            <MaxLengthActual>0</MaxLengthActual>
+            <SizeActual>0</SizeActual>
+        </ItemParent>
+        <ItemParent xsi:type="Paragraph" Class="" ID="" Name="TravelAdvisor">
+            <Text>
+                <Expression>Travel Advisor: {travelAdvisor}</Expression>
+            </Text>
+        </ItemParent>
+        <ItemParent xsi:type="InputField" Class="" ID="" Name="newBookingNum">
+            <Label>
+                <Expression>Booking Number:</Expression>
+            </Label>
+            <DefaultValue>
+                <Expression>{bookingNumber}</Expression>
+            </DefaultValue>
+            <IsPassword>
+                <Expression>False</Expression>
+            </IsPassword>
+            <MaxLength>
+                <Expression>-1</Expression>
+            </MaxLength>
+            <Size>
+                <Expression>-1</Expression>
+            </Size>
+            <Validators />
+            <IsPasswordActual>false</IsPasswordActual>
+            <MaxLengthActual>0</MaxLengthActual>
+            <SizeActual>0</SizeActual>
+        </ItemParent>
+        <ItemParent xsi:type="InputField" Class="" ID="" Name="newCCN">
+            <Label>
+                <Expression>CCN:</Expression>
+            </Label>
+            <DefaultValue>
+                <Expression>{ccn}</Expression>
+            </DefaultValue>
+            <IsPassword>
+                <Expression>False</Expression>
+            </IsPassword>
+            <MaxLength>
+                <Expression>-1</Expression>
+            </MaxLength>
+            <Size>
+                <Expression>-1</Expression>
+            </Size>
+            <Validators />
+            <IsPasswordActual>false</IsPasswordActual>
+            <MaxLengthActual>0</MaxLengthActual>
+            <SizeActual>0</SizeActual>
+        </ItemParent>
+        <ItemParent xsi:type="Paragraph" Class="" ID="" Name="isMobilePhone">
+            <Text>
+                <Expression>Mobile Phone: {mobilePhone}</Expression>
+            </Text>
+        </ItemParent>
+        <ItemParent xsi:type="DropdownList" Class="" ID="" Name="agentAuth">
+            <Label>
+                <Expression>Agent Authenticated: </Expression>
+            </Label>
+            <Choices>
+                <DropdownItem>
+                    <Display>
+                        <Expression>Yes</Expression>
+                    </Display>
+                    <Value>
+                        <Expression>Yes</Expression>
+                    </Value>
+                </DropdownItem>
+                <DropdownItem>
+                    <Display>
+                        <Expression>No</Expression>
+                    </Display>
+                    <Value>
+                        <Expression>No</Expression>
+                    </Value>
+                </DropdownItem>
+            </Choices>
+            <DefaultChoice>
+                <Expression>{agentAuth}</Expression>
+            </DefaultChoice>
+            <DefaultIndex>
+                <Expression>-1</Expression>
+            </DefaultIndex>
+            <DynamicChoices>
+                <Expression />
+            </DynamicChoices>
+        </ItemParent>
+        <ItemParent xsi:type="Paragraph" Class="" ID="" Name="Transcript">
+            <Text>
+                <Expression>Transcript of caller request: {callerTranscript}</Expression>
+            </Text>
+        </ItemParent>
+        <ItemParent xsi:type="TextArea" Class="" ID="" Name="transferNotes">
+            <Label>
+                <Expression>Transfer Notes:</Expression>
+            </Label>
+            <Columns>
+                <Expression>60</Expression>
+            </Columns>
+            <DefaultValue>
+                <Expression>{transferNotes}</Expression>
+            </DefaultValue>
+            <Enabled>
+                <Expression>True</Expression>
+            </Enabled>
+            <ReadOnly>
+                <Expression>False</Expression>
+            </ReadOnly>
+            <Rows>
+                <Expression>4</Expression>
+            </Rows>
+            <Validators />
+        </ItemParent>
+        <ItemParent xsi:type="Paragraph" Class="" ID="" Name="Continue">
+            <Text>
+                <Expression>Please click the NEXT button prior to hanging up or transferring the call.</Expression>
+            </Text>
+        </ItemParent>
+    </Components>
+    <ShowBack>
+        <Expression>False</Expression>
+    </ShowBack>
+    <ShowCancel>
+        <Expression>False</Expression>
+    </ShowCancel>
+    <ShowHold>
+        <Expression>False</Expression>
+    </ShowHold>
+    <ShowNext>
+        <Expression>True</Expression>
+    </ShowNext>
+    <ShowTransfer>
+        <Expression>False</Expression>
+    </ShowTransfer>
+    <Title>
+        <Expression>Untitled</Expression>
+    </Title>
+    <ShowBackActual>false</ShowBackActual>
+    <ShowCancelActual>false</ShowCancelActual>
+    <ShowHoldActual>false</ShowHoldActual>
+    <ShowNextActual>false</ShowNextActual>
+    <ShowTransferActual>false</ShowTransferActual>
+</PageContainer>
+
+<!-- Script: read URL params (bookingNumber, customerId or aliases), call REST API and populate placeholders in the document -->
+<!-- <script>
+    (function(){
+        function parseQuery(){
+            const q = {};
+            location.search.replace(/^\?/, '').split('&').forEach(p=>{
+                if(!p) return;
+                const [k,v] = p.split('=');
+                q[decodeURIComponent(k||'')] = decodeURIComponent((v||'').replace(/\+/g,' '));
+            });
+            return q;
+        }
+
+        function getParam(params, names){
+            for(const n of names){ if(params[n] !== undefined) return params[n]; if(params[n.toLowerCase()] !== undefined) return params[n.toLowerCase()]; }
+            return null;
+        }
+
+        function buildApiUrl(base, params){
+            const u = new URL(base, location.href);
+            Object.keys(params).forEach(k=>{ if(params[k] != null) u.searchParams.set(k, params[k]); });
+            return u.toString();
+        }
+
+        function getValueByPath(obj, path){
+            if(!path) return undefined;
+            const parts = path.split('.');
+            let cur = obj;
+            for(const p of parts){ if(cur == null) return undefined; cur = cur[p]; }
+            return cur;
+        }
+
+        function replacePlaceholders(data){
+            // Replace placeholders of form {key} inside text nodes and <Expression> nodes
+            const walker = document.createTreeWalker(document.body || document.documentElement, NodeFilter.SHOW_TEXT, null, false);
+            const toReplace = [];
+            while(walker.nextNode()){
+                const node = walker.currentNode;
+                if(node.nodeValue && node.nodeValue.indexOf('{') !== -1){
+                    toReplace.push(node);
+                }
+            }
+            toReplace.forEach(node=>{
+                let text = node.nodeValue;
+                text = text.replace(/\{([a-zA-Z0-9_.]+)\}/g, (m, key)=>{
+                    const val = getValueByPath(data, key) ?? '';
+                    return String(val);
+                });
+                node.nodeValue = text;
+            });
+
+            // Additionally update common attributes like DefaultChoice/DefaultValue expressions if present
+            const exprs = document.querySelectorAll('DefaultValue Expression, DefaultChoice Expression, Expression');
+            exprs.forEach(e=>{
+                if(!e || !e.textContent) return;
+                const original = e.textContent;
+                const replaced = original.replace(/\{([a-zA-Z0-9_.]+)\}/g, (m,key)=> getValueByPath(data,key) ?? '');
+                if(replaced !== original) e.textContent = replaced;
+            });
+        }
+
+        async function run(){
+            const params = parseQuery();
+            const booking = getParam(params, ['bookingNumber','booking','bookingnumber']);
+            const customerId = getParam(params, ['customerId','customer','customerid','cid']);
+            const apiOverride = getParam(params, ['api','apiUrl','endpoint']);
+
+            // If no params, do nothing
+            if(!booking && !customerId){ console.info('No bookingNumber or customerId in URL; skipping API call.'); return; }
+
+            // Configure API base - change to your backend endpoint. You can override via ?api=<url>
+            const API_BASE = apiOverride || 'https://api.example.com/cxone/lookup';
+            const url = buildApiUrl(API_BASE, { bookingNumber: booking, customerId: customerId });
+
+            // Small in-page status element
+            let status = document.getElementById('cx_fetch_status');
+            if(!status){ status = document.createElement('div'); status.id = 'cx_fetch_status'; status.style.cssText = 'position:fixed;right:12px;bottom:12px;padding:8px 10px;background:#111;color:#fff;border-radius:6px;font-size:12px;opacity:0.9;z-index:9999'; document.body.appendChild(status); }
+            status.textContent = 'Fetching data...';
+
+            try{
+                const resp = await fetch(url, { credentials: 'include' });
+                if(!resp.ok) throw new Error('HTTP ' + resp.status);
+                const json = await resp.json();
+                // Example expected keys: callerName, bookingNumber, ccn, mobilePhone, agentAuth, travelAdvisor, callerTranscript, transferNotes, authenticated, intent
+                replacePlaceholders(json);
+                status.textContent = 'Data loaded';
+                setTimeout(()=>{ if(status) status.remove(); }, 2500);
+            }catch(err){
+                console.error('Error fetching CX data', err);
+                status.textContent = 'Data load failed';
+                status.style.background = '#7f1d1d';
+                setTimeout(()=>{ if(status) status.remove(); }, 4000);
+            }
+        }
+
+        // Run after DOM ready
+        if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', run); else run();
+    })();
+</script> -->
