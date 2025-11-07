@@ -1,11 +1,13 @@
 <!doctype html>
 <html lang="en">
+
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>cxOne Web Form — v2 (compact)</title>
-  <link rel="stylesheet" href="CXoneWebForm.css">
+  <link rel="stylesheet" href="CXoneWebForm_v2.css">
 </head>
+
 <body>
   <div class="wrap">
     <div class="card" id="app" data-theme="holland">
@@ -14,29 +16,31 @@
           <div style="display:flex;gap:14px;align-items:center">
             <div class="brand-logo logo" id="logo" aria-hidden="true"></div>
             <div>
-              <!-- Large stacked brand title like screenshot -->
-              <div class="brand-stacked">HOLLAND<br/>AMERICA<br/>LINE</div>
-              <div style="color:rgba(255,255,255,0.85);font-size:13px;margin-top:6px">Authentication Status:</div>
+
+              <div class="header-controls" style="margin-top:10px">
+                <div class="small">
+                  <select id="serviceSelector" aria-label="Select cruise line">
+                    <option value="holland">Holland America (HAL)</option>
+                    <option value="princess">Princess Cruises (PCL)</option>
+                    <option value="seabourn">Seabourn (SBN)</option>
+                    <option value="cunard">Cunard (CUN)</option>
+                  </select>
+                </div>
+                <div class="small" id="authChip"> <!-- set by JS -->
+                </div>
+              </div>
             </div>
           </div>
           <div style="display:flex;align-items:center;gap:12px">
             <!-- Verified chip on the right -->
-            <div id="authVerified" class="chip" style="background:#10b981;color:#fff;display:flex;align-items:center;gap:8px;padding:8px 12px;border-radius:999px">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M20 6L9 17l-5-5" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <div id="authVerified" class="chip"
+              style="background:#10b981;color:#fff;display:flex;align-items:center;gap:8px;padding:8px 12px;border-radius:999px">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M20 6L9 17l-5-5" stroke="white" stroke-width="2" stroke-linecap="round"
+                  stroke-linejoin="round" />
+              </svg>
               <div style="font-weight:700">Verified</div>
             </div>
-          </div>
-        </div>
-        <div class="header-controls" style="margin-top:10px">
-          <div class="small">
-            <select id="serviceSelector" aria-label="Select cruise line">
-              <option value="holland">Holland America (HAL)</option>
-              <option value="princess">Princess Cruises (PCL)</option>
-              <option value="seabourn">Seabourn (SBN)</option>
-              <option value="cunard">Cunard (CUN)</option>
-            </select>
-          </div>
-          <div class="small" id="authChip"> <!-- set by JS -->
           </div>
         </div>
       </header>
@@ -58,7 +62,8 @@
 
           <!-- Travel advisor pill like screenshot -->
           <div class="field" style="margin-top:8px">
-            <button type="button" class="advisor-chip" id="travelAdvisor">🏢 Travel Advisor: Sunshine Travel Agency</button>
+            <button type="button" class="advisor-chip" id="travelAdvisor">🏢 Travel Advisor: Sunshine Travel
+              Agency</button>
           </div>
 
           <div class="short-row" style="margin-top:6px">
@@ -115,7 +120,8 @@
 
           <div class="field">
             <label for="transcript">IVR Transcript / Details</label>
-            <textarea id="transcript" placeholder="Customer requested to modify stateroom category for upcoming Alaska cruise."></textarea>
+            <textarea id="transcript"
+              placeholder="Customer requested to modify stateroom category for upcoming Alaska cruise."></textarea>
           </div>
 
           <div id="bookingSection">
@@ -153,43 +159,45 @@
       </main>
 
       <div class="controls">
-        <div style="flex:1; text-align:center; font-style:italic; color:var(--muted)">Explore the world with Holland America Line</div>
+        <div style="flex:1; text-align:center; font-style:italic; color:var(--muted)">Explore the world with Holland
+          America Line</div>
         <button id="btnCancel" class="btn-ghost">Cancel</button>
         <button id="btnSave" class="btn-save">Save & Next</button>
       </div>
     </div>
   </div>
 
-  <script src="CXoneWebForm.js" defer></script>
+  <script src="CXoneWebForm_v2.js" defer></script>
   <script>
     // Minimal UI wiring for v2: star rating visual + media button toggles
-    (function(){
-      function setRating(val){
+    (function () {
+      function setRating(val) {
         const sel = document.getElementById('rating');
-        if(sel) sel.value = val;
+        if (sel) sel.value = val;
         // update visual states
-        document.querySelectorAll('#starRating button').forEach(b=>{
-          const v = parseInt(b.getAttribute('data-value'),10);
+        document.querySelectorAll('#starRating button').forEach(b => {
+          const v = parseInt(b.getAttribute('data-value'), 10);
           b.style.opacity = v <= val ? '1' : '0.35';
           b.setAttribute('aria-pressed', v <= val ? 'true' : 'false');
         });
       }
-      document.querySelectorAll('#starRating button').forEach(b=> b.addEventListener('click', ()=> setRating(parseInt(b.dataset.value))));
+      document.querySelectorAll('#starRating button').forEach(b => b.addEventListener('click', () => setRating(parseInt(b.dataset.value))));
 
       // media type toggles: ensure only one active
-      const mediaButtons = ['mediaCall','mediaChat','mediaSMS'].map(id=>document.getElementById(id));
-      mediaButtons.forEach(btn=> btn && btn.addEventListener('click', ()=>{
-        mediaButtons.forEach(x=> x && x.classList.remove('btn-save'));
-        mediaButtons.forEach(x=> x && x.classList.add('btn-ghost'));
+      const mediaButtons = ['mediaCall', 'mediaChat', 'mediaSMS'].map(id => document.getElementById(id));
+      mediaButtons.forEach(btn => btn && btn.addEventListener('click', () => {
+        mediaButtons.forEach(x => x && x.classList.remove('btn-save'));
+        mediaButtons.forEach(x => x && x.classList.add('btn-ghost'));
         btn.classList.remove('btn-ghost'); btn.classList.add('btn-save');
       }));
 
       // initial states
       setRating(4);
       // set call active by default
-      const callBtn = document.getElementById('mediaCall'); if(callBtn){ callBtn.classList.remove('btn-ghost'); callBtn.classList.add('btn-save'); }
+      const callBtn = document.getElementById('mediaCall'); if (callBtn) { callBtn.classList.remove('btn-ghost'); callBtn.classList.add('btn-save'); }
 
     })();
   </script>
 </body>
+
 </html>

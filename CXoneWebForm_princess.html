@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CXone Web Form - Princess Cruises</title>
+    <link rel="stylesheet" href="CXoneWebForm_princess.css">
+    <style>
+        body {
+            background: #f4f7fa;
+        }
+        .pc-form-container {
+            max-width: 420px;
+            margin: 48px auto;
+            background: #fff;
+            border-radius: 18px;
+            box-shadow: 0 4px 24px 0 rgba(0,32,128,0.08);
+            padding: 0 0 24px 0;
+            font-family: 'Segoe UI', Arial, sans-serif;
+        }
+        .pc-form-header {
+            background: #1a397b;
+            border-radius: 18px 18px 0 0;
+            padding: 22px 28px 18px 28px;
+            color: #fff;
+            position: relative;
+        }
+        .pc-form-header .logo {
+            font-size: 1.3rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+        }
+        .pc-form-header .logo:before {
+            content: "";
+            display: inline-block;
+            background: url('assets/logos/princess.svg') no-repeat center/32px 32px;
+            width: 32px;
+            height: 32px;
+            margin-right: 10px;
+        }
+        .pc-form-header .auth {
+            position: absolute;
+            right: 28px;
+            top: 24px;
+            display: flex;
+            align-items: center;
+            font-size: 0.98rem;
+        }
+        .pc-form-header .auth .check {
+            width: 18px;
+            height: 18px;
+            background: #2ecc71;
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 6px;
+            position: relative;
+        }
+        .pc-form-header .auth .check:after {
+            content: "";
+            position: absolute;
+            left: 5px;
+            top: 2px;
+            width: 5px;
+            height: 10px;
+            border: solid #fff;
+            border-width: 0 2px 2px 0;
+            transform: rotate(45deg);
+        }
+        .pc-form-section {
+            padding: 0 28px;
+            margin-top: 18px;
+        }
+        .pc-form-section h3 {
+            font-size: 1.08rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #1a397b;
+        }
+        .pc-form-row {
+            margin-bottom: 12px;
+        }
+        .pc-form-label {
+            font-weight: 500;
+            color: #222;
+            margin-bottom: 2px;
+            display: block;
+        }
+        .pc-form-value {
+            color: #444;
+            font-size: 1rem;
+        }
+        .pc-form-radio-group {
+            display: flex;
+            gap: 18px;
+            margin-bottom: 8px;
+        }
+        .pc-form-radio {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .pc-form-rating {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            margin-bottom: 8px;
+        }
+        .pc-form-rating .star {
+            color: #f7b500;
+            font-size: 1.1rem;
+        }
+        .pc-form-switch {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            margin-left: 10px;
+        }
+        .pc-form-switch input[type="checkbox"] {
+            width: 32px;
+            height: 18px;
+            appearance: none;
+            background: #d1d5db;
+            border-radius: 9px;
+            outline: none;
+            transition: background 0.2s;
+            position: relative;
+        }
+        .pc-form-switch input[type="checkbox"]:checked {
+            background: #1a397b;
+        }
+        .pc-form-switch input[type="checkbox"]:before {
+            content: "";
+            position: absolute;
+            left: 3px;
+            top: 3px;
+            width: 12px;
+            height: 12px;
+            background: #fff;
+            border-radius: 50%;
+            transition: transform 0.2s;
+        }
+        .pc-form-switch input[type="checkbox"]:checked:before {
+            transform: translateX(14px);
+        }
+        .pc-form-textarea {
+            width: 100%;
+            min-height: 54px;
+            border: 1.5px solid #d1d5db;
+            border-radius: 7px;
+            padding: 8px 10px;
+            font-size: 1rem;
+            color: #222;
+            background: #f8fafc;
+            resize: vertical;
+        }
+        .pc-form-footer {
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+            padding: 18px 28px 0 28px;
+        }
+        .pc-form-btn {
+            padding: 8px 22px;
+            border-radius: 7px;
+            border: none;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background 0.18s;
+        }
+        .pc-form-btn.cancel {
+            background: #e5e7eb;
+            color: #1a397b;
+        }
+        .pc-form-btn.save {
+            background: #1a397b;
+            color: #fff;
+        }
+        .pc-form-footer {
+            margin-top: 10px;
+        }
+        .pc-form-booking {
+            display: flex;
+            justify-content: space-between;
+            gap: 18px;
+        }
+        .pc-form-booking .left, .pc-form-booking .right {
+            flex: 1;
+        }
+        .pc-form-booking .right {
+            text-align: right;
+        }
+        .pc-form-booking .media-type {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            align-items: flex-end;
+        }
+        .pc-form-footer .pc-form-btn:active {
+            opacity: 0.85;
+        }
+        @media (max-width: 520px) {
+            .pc-form-container {
+                max-width: 98vw;
+                margin: 12px;
+            }
+            .pc-form-header, .pc-form-section, .pc-form-footer {
+                padding-left: 12px;
+                padding-right: 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="pc-form-container">
+        <div class="pc-form-header">
+            <span class="logo">PRINCESS CRUISES</span>
+            <span class="auth"><span class="check"></span>Authenticated</span>
+        </div>
+        <form id="cxone-pc-form">
+            <div class="pc-form-section">
+                <h3>Contact Information</h3>
+                <div class="pc-form-row">
+                    <span class="pc-form-label">Name:</span>
+                    <span class="pc-form-value" id="contactName">Jane Doe</span>
+                </div>
+                <div class="pc-form-row">
+                    <span class="pc-form-label">CCN:</span>
+                    <span class="pc-form-value" id="contactCCN">123-45-6789</span>
+                </div>
+            </div>
+            <div class="pc-form-section">
+                <h3>Caller Intent</h3>
+                <div class="pc-form-radio-group">
+                    <label class="pc-form-radio">
+                        <input type="radio" name="callerIntent" value="Direct Guest" checked>
+                        Direct Guest
+                    </label>
+                    <label class="pc-form-radio">
+                        <input type="radio" name="callerIntent" value="Travel Advisor">
+                        Travel Advisor
+                    </label>
+                </div>
+                <div class="pc-form-rating">
+                    <span class="star">&#9733;</span>
+                    <span class="star">&#9733;</span>
+                    <span class="star">&#9733;</span>
+                    <span class="star">&#9733;</span>
+                    <span class="star" style="color:#e5e7eb;">&#9733;</span>
+                    <span style="margin-left:8px; font-size:0.98rem; color:#444;">Satisfied yes / no</span>
+                    <span class="pc-form-switch">
+                        <input type="checkbox" id="satisfiedSwitch">
+                    </span>
+                </div>
+                <textarea class="pc-form-textarea" id="detailsTranscript" readonly>Details Transcript from IVR: Caller wants to change bed configuration to a queen-size bed in a cabin 105.</textarea>
+            </div>
+            <div class="pc-form-section">
+                <h3>Booking Information</h3>
+                <div class="pc-form-booking">
+                    <div class="left">
+                        <div class="pc-form-row">
+                            <span class="pc-form-label">Booking Number:</span>
+                            <span class="pc-form-value" id="bookingNumber">PR987654</span>
+                        </div>
+                        <div class="pc-form-row">
+                            <span class="pc-form-label">Customer Name:</span>
+                            <span class="pc-form-value" id="bookingCustomer">Jane Doe</span>
+                        </div>
+                    </div>
+                    <div class="right">
+                        <span class="pc-form-label">Media Type:</span>
+                        <div class="media-type">
+                            <label><input type="radio" name="mediaType" value="Call" checked> Call</label>
+                            <label><input type="radio" name="mediaType" value="Chat"> Chat</label>
+                            <label><input type="radio" name="mediaType" value="SMS"> SMS</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="pc-form-footer">
+                <button type="button" class="pc-form-btn cancel">Cancel</button>
+                <button type="submit" class="pc-form-btn save">Save &amp; Next</button>
+            </div>
+        </form>
+        <div style="text-align:center; margin-top:18px; color:#1a397b; font-size:0.98rem;">
+            <span style="font-weight:600;">PRINCESS CRUISES</span><br>
+            <span style="font-size:0.92rem; color:#6b7280;">Escape Completely.</span>
+        </div>
+    </div>
+    <script src="CXoneWebForm_princess.js"></script>
+</body>
+</html>

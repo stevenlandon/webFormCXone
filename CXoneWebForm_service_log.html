@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Service Line Log - CXone Web Form</title>
+    <link rel="stylesheet" href="CXoneWebForm_service_log.css">
+</head>
+<body>
+    <div class="service-log-container">
+        <header class="service-log-header">
+            <div class="service-log-logos">
+                <img src="assets/logos/holland.svg" alt="Holland America Line">
+                <img src="assets/logos/princess.svg" alt="Princess Cruises">
+                <img src="assets/logos/seabourn.svg" alt="Seabourn">
+                <img src="assets/logos/cunard.svg" alt="Cunard">
+            </div>
+            <h1>SERVICE LINE LOG</h1>
+        </header>
+        <form class="service-log-form" id="serviceLogForm">
+            <section class="form-section">
+                <h2>Contact Information</h2>
+                <div class="form-row">
+                    <label for="name">Name</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+                <div class="form-row form-row-split">
+                    <div>
+                        <label for="ccn">CCN</label>
+                        <input type="text" id="ccn" name="ccn">
+                    </div>
+                    <div>
+                        <label for="advisor">Travel advisor</label>
+                        <input type="checkbox" id="advisor" name="advisor">
+                    </div>
+                </div>
+            </section>
+            <section class="form-section">
+                <h2>Caller Intent</h2>
+                <div class="form-row">
+                    <label for="intent">Intent</label>
+                    <select id="intent" name="intent">
+                        <option value="modify">Modify</option>
+                        <option value="cancel">Cancel</option>
+                        <option value="book">Book</option>
+                        <option value="inquire">Inquire</option>
+                    </select>
+                </div>
+                <div class="form-row form-row-rating">
+                    <label>Rating</label>
+                    <div class="star-rating" id="starRating">
+                        <span data-value="1">★</span>
+                        <span data-value="2">★</span>
+                        <span data-value="3">★</span>
+                        <span data-value="4">★</span>
+                        <span data-value="5">★</span>
+                    </div>
+                    <label for="satisfied" class="satisfied-label">Satisfied?</label>
+                    <input type="checkbox" id="satisfied" name="satisfied">
+                </div>
+                <div class="form-row">
+                    <label for="details">Details</label>
+                    <textarea id="details" name="details" rows="2" placeholder="Describe the request..."></textarea>
+                </div>
+            </section>
+            <section class="form-section">
+                <h2>Booking Information</h2>
+                <div class="form-row form-row-split">
+                    <div>
+                        <label for="bookingNumber">Booking number</label>
+                        <input type="text" id="bookingNumber" name="bookingNumber">
+                    </div>
+                    <div>
+                        <label for="customer">Customer</label>
+                        <input type="text" id="customer" name="customer">
+                    </div>
+                </div>
+            </section>
+            <section class="form-section">
+                <h2>Media Type</h2>
+                <div class="form-row media-type-row">
+                    <label><input type="radio" name="mediaType" value="chat"> Chat</label>
+                    <label><input type="radio" name="mediaType" value="sms"> SMS</label>
+                    <label><input type="radio" name="mediaType" value="call" checked> Call</label>
+                </div>
+            </section>
+            <div class="form-actions">
+                <button type="submit" class="save-next-btn">Save and Next</button>
+            </div>
+        </form>
+    </div>
+    <script src="CXoneWebForm_service_log.js"></script>
+</body>
+</html>

@@ -1,0 +1,201 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>cxOne Web Form — Variant from Image</title>
+  <link rel="stylesheet" href="CXoneWebForm_from_image.css">
+</head>
+
+<body class="cx-variant">
+  <div id="app">
+
+    <select id="serviceSelector" style="display:none;">
+      <option value="cunard">Cunard</option>
+      <option value="holland">Holland</option>
+      <option value="princess">Princess</option>
+      <option value="seabourn">Seabourn</option>
+    </select>
+    <textarea id="ivrPayload" style="display:none;" aria-hidden="true"></textarea>
+    <button id="btnPopulate" style="display:none;">Populate</button>
+    <button id="btnSample" style="display:none;">Sample</button>
+    <button id="btnClear" style="display:none;">Clear</button>
+    <div id="fetchStatus" style="display:none;" aria-hidden="true"></div>
+
+    <div class="cx-card" role="region" aria-label="cxOne contact card">
+      <header class="cx-header">
+        <div class="brand">
+          <div id="logo" class="logo" aria-hidden="true">
+            <img src="assets/logos/cunard.svg" alt="brand logo" />
+          </div>
+          <!-- <span id="serviceName">Cunard</span> -->
+        </div>
+        <div style="display:flex;align-items:center;gap:12px;">
+          <div id="authChip" class="chip auth-chip" aria-live="polite"></div>
+        </div>
+      </header>
+
+      <div class="cx-body">
+        <!-- Top row: Contact Information (left) | Caller Intent (right) -->
+        <div class="row section">
+          <div class="col">
+            <h3>Contact Information</h3>
+            <label class="info-line"><strong>Name:</strong>
+              <input id="callerName" class="field-input" type="text" value="Jane Doe" placeholder="Caller name" />
+            </label>
+            <label class="info-line"><strong>CCN:</strong>
+              <input id="ccn" class="field-input" type="text" value="123-45-6789" placeholder="Customer / CCN" />
+            </label>
+            <label class="info-line"><strong>Phone:</strong>
+              <input id="phone" class="field-input" type="tel" value="" placeholder="Phone number" />
+            </label>
+            <label class="info-line"><strong>Email:</strong>
+              <input id="email" class="field-input" type="email" value="" placeholder="Email" />
+            </label>
+            <label class="info-line"><strong>Customer ID:</strong>
+              <input id="customerId" class="field-input" type="text" value="" placeholder="Customer ID" />
+            </label>
+            <div class="info-line muted">Registered: <span id="registeredVal">No</span></div>
+          </div>
+
+          <div class="col">
+            <h3>Caller Intent</h3>
+            <form aria-label="caller intent">
+              <!-- visible radios (user-friendly) — these update the hidden #intent field used by the existing JS -->
+              <label class="info-line">
+                <input type="radio" name="intent_radio" value="direct" checked
+                  onclick="document.getElementById('intent').value='direct'; document.getElementById('intent').dispatchEvent(new Event('change'))">
+                Direct Guest
+              </label>
+              <label class="info-line">
+                <input type="radio" name="intent_radio" value="advisor"
+                  onclick="document.getElementById('intent').value='advisor'; document.getElementById('intent').dispatchEvent(new Event('change'))">
+                Travel Advisor
+              </label>
+
+              <input id="intent" type="hidden" value="direct">
+
+              <div class="intent-controls" style="display:flex;align-items:center;justify-content:flex-end;gap:12px;">
+                <div class="muted">Rating</div>
+                <div id="starRating" role="radiogroup" aria-label="Rating">
+                  <button type="button" data-value="1" aria-pressed="false" aria-label="1 star">★</button>
+                  <button type="button" data-value="2" aria-pressed="false" aria-label="2 stars">★</button>
+                  <button type="button" data-value="3" aria-pressed="false" aria-label="3 stars">★</button>
+                  <button type="button" data-value="4" aria-pressed="false" aria-label="4 stars">★</button>
+                  <button type="button" data-value="5" aria-pressed="false" aria-label="5 stars">★</button>
+                </div>
+                <input id="rating" type="hidden" value="4">
+
+                <label class="switch" title="Satisfied">
+                  <input id="satisfiedYes" type="checkbox" aria-label="Satisfied">
+                  <span class="slider" aria-hidden></span>
+                  <span class="muted" style="margin-left:8px;">Satisfied</span>
+                </label>
+              </div>
+            </form>
+          </div>
+        </div>
+
+        <!-- Transcript -->
+        <div class="section">
+          <h3>Details Transcript from IVR:</h3>
+          <div class="transcript">
+            <textarea id="notes"
+              class="transcript-textarea">Caller wants to change bed configuration to a queen-size bed in a cabin 105.</textarea>
+          </div>
+        </div>
+
+        <!-- Booking Information and Media Type -->
+        <div class="row section" style="align-items:center;">
+          <div id="bookingSection" class="col">
+            <h3>Booking Information</h3>
+            <label class="info-line"><strong>Booking Number:</strong>
+              <input id="bookingId" class="field-input" type="text" value="CU987654" />
+            </label>
+            <input id="bookingDate" type="hidden" value="">
+            <label class="info-line"><strong>Customer Name:</strong>
+              <input id="callerDisplayName" class="field-input" type="text" value="Jane" />
+            </label>
+          </div>
+
+          <div class="col" style="display:flex;flex-direction:column;align-items:flex-end;">
+            <h3>Media Type:</h3>
+            <div class="media-group">
+              <label><input id="routePhone" type="checkbox"> Call</label>
+              <label><input id="routeChat" type="checkbox"> Chat</label>
+              <label><input id="routeSMS" type="checkbox"> SMS</label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="booking-footer">
+        <div style="display:flex;align-items:center;gap:12px;">
+          <img src="assets/logos/cunard.svg" alt="brand" style="height:28px;">
+          <div style="font-size:13px;color:#5b6770;">Experience the World in Style.</div>
+        </div>
+        <div class="cx-actions">
+          <button id="btnCancel" class="btn secondary btn-ghost" type="button">Cancel</button>
+          <button id="btnSave" class="btn primary btn-save" type="button">Save &amp; Next</button>
+        </div>
+      </div>
+      <!-- small status/summary area used by existing JS -->
+      <div style="padding:12px 24px;border-top:1px solid #f0f2f4;">
+        <pre id="summary"
+          style="margin:0;font-size:12px;color:#3b4250;white-space:pre-wrap;">Summary will appear here</pre>
+        <span id="serviceFooterName">Cunard </span> - 
+            <span id="serviceFooterTagline">We connect
+            you</span>
+        <div style="display:none">© <span id="copyrightYear"></span></div>
+      </div>
+    </div>
+    <!-- Hidden controls expected by existing JS (acceptTerms, check auth, next) -->
+    <button id="btnCheckAuth" style="display:none">Check Auth</button>
+    <input id="acceptTerms" type="checkbox" style="display:none" checked />
+    <button id="btnNext" style="display:none" type="button">Next</button>
+
+    <script src="CXoneWebForm_from_image.js"></script>
+    <script>
+      // Small glue to wire the interactive star rating and ensure accessibility.
+      (function () {
+        function setStars(n) {
+          const buttons = document.querySelectorAll('#starRating button');
+          buttons.forEach(b => { const v = Number(b.getAttribute('data-value')); b.setAttribute('aria-pressed', v <= n ? 'true' : 'false'); });
+          const rating = document.getElementById('rating'); if (rating) rating.value = n;
+          // update summary if the main script provided updateSummary
+          if (typeof updateSummary === 'function') updateSummary();
+        }
+        const buttons = document.querySelectorAll('#starRating button');
+        buttons.forEach(b => {
+          b.addEventListener('click', (ev) => { const v = Number(b.getAttribute('data-value')); setStars(v); });
+          b.addEventListener('keydown', (ev) => {
+            if (ev.key === 'Enter' || ev.key === ' ') { ev.preventDefault(); b.click(); }
+            if (ev.key === 'ArrowLeft' || ev.key === 'ArrowDown') { ev.preventDefault(); const prev = b.previousElementSibling; if (prev) prev.focus(); }
+            if (ev.key === 'ArrowRight' || ev.key === 'ArrowUp') { ev.preventDefault(); const next = b.nextElementSibling; if (next) next.focus(); }
+          });
+        });
+        // Initialize to 4 stars (matching earlier default)
+        setStars(Number(document.getElementById('rating')?.value || 4));
+
+        // Make the visible intent radios update the hidden #intent element (in case JS wasn't wired yet)
+        document.querySelectorAll('input[name="intent_radio"]').forEach(r => r.addEventListener('change', () => {
+          const h = document.getElementById('intent'); if (h) { const sel = document.querySelector('input[name="intent_radio"]:checked'); if (sel) { h.value = sel.value; h.dispatchEvent(new Event('change')); } }
+        }));
+
+        // Ensure toggles update summary
+        const toggles = document.querySelectorAll('#satisfiedYes, #routePhone, #routeChat, #routeSMS');
+        toggles.forEach(t => t.addEventListener('change', () => { if (typeof updateSummary === 'function') updateSummary(); }));
+
+        // Make Save button also trigger Next after saving (small UX convenience)
+        const saveBtn = document.getElementById('btnSave');
+        const nextBtn = document.getElementById('btnNext');
+        if (saveBtn && nextBtn) {
+          saveBtn.addEventListener('click', () => { setTimeout(() => { if (!nextBtn.disabled) nextBtn.click(); }, 140); });
+        }
+      })();
+    </script>
+  </div>
+</body>
+
+</html>

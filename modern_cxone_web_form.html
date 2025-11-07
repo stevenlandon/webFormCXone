@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CXone Web Form - Modern Layout</title>
+    <link rel="stylesheet" href="modern_cxone_web_form.css">
+    <link rel="stylesheet" href="themes.css">
+    <style>
+        body {
+            background: #f7fafc;
+            font-family: 'Segoe UI', Arial, sans-serif;
+        }
+        .cxone-container {
+            max-width: 500px;
+            margin: 40px auto;
+            background: #fff;
+            border-radius: 22px;
+            box-shadow: 0 8px 32px rgba(60, 120, 200, 0.08);
+            padding: 32px 28px 28px 28px;
+            position: relative;
+        }
+        .cxone-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 18px;
+        }
+        .cxone-logo {
+            width: 44px;
+            margin-right: 10px;
+        }
+        .cxone-title {
+            font-size: 1.7rem;
+            font-weight: 700;
+            color: #1a2a4f;
+        }
+        .cxone-status {
+            position: absolute;
+            top: 24px;
+            right: 28px;
+            display: flex;
+            align-items: center;
+            background: #f6fef7;
+            border-radius: 16px;
+            padding: 3px 14px 3px 8px;
+            font-size: 1rem;
+            color: #1a7f2e;
+            font-weight: 500;
+        }
+        .cxone-status-dot {
+            width: 10px;
+            height: 10px;
+            background: #1ed760;
+            border-radius: 50%;
+            margin-right: 7px;
+        }
+        .cxone-tabs {
+            display: flex;
+            gap: 18px;
+            margin-bottom: 22px;
+        }
+        .cxone-tab {
+            flex: 1;
+            background: #f7fafd;
+            border-radius: 12px;
+            padding: 18px 10px 14px 10px;
+            text-align: center;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: border 0.2s, box-shadow 0.2s;
+            min-width: 90px;
+        }
+        .cxone-tab.selected {
+            border: 2px solid #1a7ff0;
+            background: #fff;
+            box-shadow: 0 2px 8px rgba(26,127,240,0.07);
+        }
+        .cxone-tab-icon {
+            font-size: 1.7rem;
+            color: #1a7ff0;
+            margin-bottom: 6px;
+        }
+        .cxone-tab-title {
+            font-weight: 600;
+            color: #1a2a4f;
+            margin-bottom: 2px;
+        }
+        .cxone-tab-desc {
+            font-size: 0.92rem;
+            color: #b0b8c9;
+        }
+        .cxone-arrow-btn {
+            position: absolute;
+            top: 120px;
+            right: 28px;
+            background: #1a7ff0;
+            color: #fff;
+            border: none;
+            border-radius: 50%;
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+            cursor: pointer;
+            box-shadow: 0 2px 8px rgba(26,127,240,0.13);
+        }
+        .cxone-form-area {
+            margin: 30px 0 22px 0;
+        }
+        .cxone-textarea {
+            width: 100%;
+            min-height: 90px;
+            border-radius: 12px;
+            border: 1.5px solid #e3e8f0;
+            padding: 14px 12px;
+            font-size: 1.08rem;
+            background: #f7fafd;
+            resize: vertical;
+            margin-bottom: 0;
+        }
+        .cxone-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-top: 10px;
+        }
+        .cxone-btn-primary {
+            background: linear-gradient(90deg, #1a7ff0 60%, #1ed0f0 100%);
+            color: #fff;
+            border: none;
+            border-radius: 22px;
+            padding: 13px 0;
+            font-size: 1.13rem;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 2px 8px rgba(26,127,240,0.13);
+            transition: background 0.2s;
+        }
+        .cxone-btn-primary:hover {
+            background: linear-gradient(90deg, #1a7ff0 40%, #1ed0f0 100%);
+        }
+        .cxone-btn-secondary {
+            background: #fff;
+            color: #1a2a4f;
+            border: 2px solid #e3e8f0;
+            border-radius: 22px;
+            padding: 13px 0;
+            font-size: 1.13rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: border 0.2s, color 0.2s;
+        }
+        .cxone-btn-secondary:hover {
+            border: 2px solid #1a7ff0;
+            color: #1a7ff0;
+        }
+        @media (max-width: 600px) {
+            .cxone-container {
+                padding: 16px 4px 18px 4px;
+            }
+            .cxone-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .cxone-status {
+                position: static;
+                margin-top: 10px;
+            }
+            .cxone-arrow-btn {
+                top: 170px;
+                right: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="cxone-container">
+        <div class="cxone-header">
+            <img src="assets/logos/princess.svg" alt="CXone Logo" class="cxone-logo">
+            <span class="cxone-title">CXone</span>
+        </div>
+        <div class="cxone-status">
+            <span class="cxone-status-dot"></span> Live: Active
+        </div>
+        <div class="cxone-tabs" id="cxoneTabs">
+            <div class="cxone-tab selected" data-tab="contact">
+                <div class="cxone-tab-icon">👥</div>
+                <div class="cxone-tab-title">Contact</div>
+                <div class="cxone-tab-desc">Contact details and info</div>
+            </div>
+            <div class="cxone-tab" data-tab="booking">
+                <div class="cxone-tab-icon">📅</div>
+                <div class="cxone-tab-title">Booking</div>
+                <div class="cxone-tab-desc">Booking details</div>
+            </div>
+            <div class="cxone-tab" data-tab="intent">
+                <div class="cxone-tab-icon">📝</div>
+                <div class="cxone-tab-title">Intent</div>
+                <div class="cxone-tab-desc">Purpose of request</div>
+            </div>
+            <div class="cxone-tab" data-tab="transcript">
+                <div class="cxone-tab-icon">💬</div>
+                <div class="cxone-tab-title">Transcript</div>
+                <div class="cxone-tab-desc">Chat transcript</div>
+            </div>
+        </div>
+        <button class="cxone-arrow-btn" title="Next">
+            <span style="font-size:1.3rem;">&#8594;</span>
+        </button>
+        <form class="cxone-form-area">
+            <textarea class="cxone-textarea" placeholder="Type your message or request here..."></textarea>
+        </form>
+        <div class="cxone-actions">
+            <button class="cxone-btn-primary" type="submit">Submit Request</button>
+            <button class="cxone-btn-secondary" type="button">Chat Now</button>
+        </div>
+    </div>
+    <script src="modern_cxone_web_form.js"></script>
+    <script>
+        // Tab selection logic
+        document.querySelectorAll('.cxone-tab').forEach(tab => {
+            tab.addEventListener('click', function() {
+                document.querySelectorAll('.cxone-tab').forEach(t => t.classList.remove('selected'));
+                this.classList.add('selected');
+            });
+        });
+        // Arrow button (can be extended for navigation)
+        document.querySelector('.cxone-arrow-btn').addEventListener('click', function() {
+            // Example: go to next tab (optional logic)
+            const tabs = Array.from(document.querySelectorAll('.cxone-tab'));
+            let idx = tabs.findIndex(t => t.classList.contains('selected'));
+            tabs[idx].classList.remove('selected');
+            idx = (idx + 1) % tabs.length;
+            tabs[idx].classList.add('selected');
+        });
+    </script>
+</body>
+</html>

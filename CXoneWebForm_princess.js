@@ -172,7 +172,9 @@ async function fetchFromApi(apiUrl, params){
 // Elements
 const app = document.getElementById('app');
 const serviceSelector = document.getElementById('serviceSelector');
+// const serviceName = document.getElementById('serviceName');
 const logo = document.getElementById('logo');
+const authLabel = document.getElementById('authLabel');
 const authChip = document.getElementById('authChip');
 const regChip = document.getElementById('registeredVal');
 const phone = document.getElementById('phone');
@@ -266,10 +268,13 @@ function checkAuth(){
 	let registered = !!customerId.value.trim();
 	regChip.textContent = registered ? 'Yes' : 'No';
 	if(registered){
+		authLabel.textContent = 'Authenticated';
 		setAuthChip('authenticated');
 	} else if(phone.value.trim() || email.value.trim()){
+		authLabel.textContent = 'Partially Authenticated';
 		setAuthChip('partial');
 	} else {
+		authLabel.textContent = 'Unauthenticated';
 		setAuthChip('unauthenticated');
 	}
 	updateNextEnabled();
