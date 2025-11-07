@@ -15,31 +15,17 @@
 			<header class="brand">
 				<div class="brand">
     				<div class="brand-logo"></div>
-					<!-- <div class="service-meta">
-						<div class="auth-status" id="authStatus">Authentication: <strong id="authLabel">Unknown</strong>
-						</div>
-					</div> -->
 				</div>
 
 				<div class="header-controls">
 					<div class="small">
-						Cruise line:
+						<!-- Cruise line: -->
 						<select id="serviceSelector" aria-label="Select cruise line">
 							<option value="holland">Holland America (HAL)</option>
 							<option value="princess">Princess Cruise (PCL)</option>
 							<option value="seabourn">Seabourn (SBN)</option>
 							<option value="cunard">Cunard (CUN)</option>
 						</select>
-					</div>
-
-					<div class="small">
-						IVR Payload:
-						<button class="btn-ghost" id="btnSample">Use sample</button>
-					</div>
-
-					<div class="small" style="display:flex;align-items:center;gap:8px">
-						<label for="compactToggle" class="muted" style="font-size:13px;margin:0">Compact</label>
-						<input type="checkbox" id="compactToggle" aria-label="Compact mode" />
 					</div>
 					<div style="display:flex;align-items:center;gap:12px;">
 						<div id="authChip" class="chip auth-chip" aria-live="polite"></div>
@@ -189,13 +175,9 @@
 							</div>
 							<p class="muted">Paste the IVR JSON payload here or use sample to auto-populate the form.
 							</p>
-							<textarea id="ivrPayload"
+							<textarea id="ivrPayload" rows="10" style="height: 200px;"
 								placeholder='{"intent":"billing","phone":"+15551234567","email":"a@b.com","customerId":"C123","booking":{}}'></textarea>
-							<div id="fetchStatus" class="muted" style="margin-top:6px"> </div>
-							<div style="margin-top:8px; display:flex; gap:8px;">
-								<button id="btnPopulate" class="btn-save">Populate from IVR</button>
-								<button id="btnClear" class="btn-ghost">Clear</button>
-							</div>
+								<div id="fetchStatus" class="muted" style="margin-top:6px;"> </div>
 							<style>
 								aside.collapsed {
 									display: none

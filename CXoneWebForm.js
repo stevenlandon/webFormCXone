@@ -19,20 +19,6 @@ document.addEventListener('DOMContentLoaded', () => {
 		setTheme(e.target.value);
 	});
 
-	// Compact mode toggle wiring
-	const compactToggle = document.getElementById('compactToggle');
-	const appRoot = document.getElementById('app');
-	if(compactToggle && appRoot){
-		const saved = localStorage.getItem('cxone-compact') === '1';
-		compactToggle.checked = saved;
-		appRoot.classList.toggle('compact', saved);
-		compactToggle.addEventListener('change', (ev)=>{
-			const on = !!ev.target.checked;
-			appRoot.classList.toggle('compact', on);
-			localStorage.setItem('cxone-compact', on ? '1' : '0');
-		});
-	}
-
 	// Make panels collapsible: wrap panel contents (after H3) into .panel-body and add a small toggle
 	document.querySelectorAll('.panel').forEach(panel => {
 		if(panel.querySelector('.panel-body')) return; // already processed
@@ -125,44 +111,130 @@ function buildApiUrl(base, params){
 	}
 }
 
-// Fetch from REST API (apiUrl may be passed) and populate form
-async function fetchFromApi(apiUrl, params){
+
+// --- ENV and Sample API Response ---
+let ENV_API_URL = '';
+// Load environment file when served over http/https; skip when opened via file:// to avoid CORS issues
+if (location.protocol === 'http:' || location.protocol === 'https:') {
+	fetch('cxone.env')
+		.then(r => r.text())
+		.then(txt => {
+			const match = txt.match(/^API_URL=(.*)$/m);
+			if (match) ENV_API_URL = match[1].trim();
+		})
+		.catch(err => {
+			// ignore missing env file or network errors
+			console.warn('Could not load cxone.env:', err);
+		});
+} else {
+	// running from file:// – skip loading env to avoid CORS errors
+	console.info('Skipping cxone.env fetch when running from file://');
+}
+
+const SAMPLE_API_RESPONSE = {
+	brand: 'cunard',
+	phone: '+15551234567',
+	email: 'sample@email.com',
+	customerId: 'C-0001',
+	callerName: 'John Doe',
+	ccn: 'CCN-12345',
+	callerType: 'Guest',
+	travelAdvisor: 'Jane Smith',
+	intent: 'billing',
+	rating: '5',
+	satisfied: 'yes',
+	booking: { id: 'B-123', date: '2025-11-05 09:30' },
+	notes: 'Sample notes for the agent.',
+	mediaType: 'call',
+	authenticated: true,
+	lang: 'en-US',
+	transcript: 'Sample IVR transcript',
+	transferTo: 'Support Queue',
+	routeEmail: true,
+	routePhone: true,
+	routeSMS: false,
+	routeChat: true,
+	acceptTerms: true
+};
+
+// Fetch from REST API (ENV_API_URL may be passed) and populate form
+async function fetchFromApi(params){
 	const statusEl = document.getElementById('fetchStatus');
-	if(!apiUrl){ statusEl.textContent = 'No API URL configured (use ?api=...)'; return null; }
+	console.log('ENV_API_URL: ', ENV_API_URL);
+	// if(!ENV_API_URL){ statusEl.textContent = 'No API URL configured (use ?api=...)'; return null; }
 	statusEl.textContent = 'Loading...';
 	try{
-		const url = buildApiUrl(apiUrl, params);
-		const resp = await fetch(url, { method:'GET', credentials:'omit' });
-		if(!resp.ok) throw new Error('HTTP '+resp.status);
-		const data = await resp.json();
-		statusEl.textContent = 'Data loaded';
-		// attempt to map common fields
-		const mapped = {
-			brand: data.brand || params.brand || serviceSelector.value,
-			phone: data.phone || data.contact?.phone || data.mobile || data.msisdn || '',
-			email: data.email || data.contact?.email || '',
-			customerId: data.customerId || data.customer_id || data.ccn || params.customerId || '',
-			callerName: data.callerName || data.name || '',
-			ccn: data.ccn || data.ccnNumber || '',
-			callerType: data.callerType || data.caller_type || '',
-			travelAdvisor: data.travelAdvisor || data.advisor || '',
-			intent: data.intent || data.callerIntent || '',
-			rating: data.rating || data.urgency || '',
-			satisfied: data.satisfied || data.isSatisfied || '',
-			booking: { id: data.booking?.id || data.bookingNumber || params.bookingNumber || '', date: data.booking?.date || data.bookingDate || '' },
-			notes: data.notes || data.transferNotes || data.callerTranscript || '',
-			mediaType: data.mediaType || data.media || '',
-			authenticated: data.authenticated || data.auth || '' ,
-			lang: data.lang || data.language || ''
-		};
-		// set brand/service and lang if provided by API
-		if(mapped.brand) serviceSelector.value = mapped.brand;
-		if(mapped.lang) setLangFlag(mapped.lang);
-		applyService(serviceSelector.value);
-		populateFromIVR(mapped);
-		// Show the raw payload in IVR textarea for debugging
-		ivrPayload.value = JSON.stringify(data, null, 2);
-		return data;
+		// If the API URL matches the env value, use the sample JSON
+		if(ENV_API_URL){
+			// Otherwise, do real fetch
+			const url = buildApiUrl(ENV_API_URL, params);
+			const resp = await fetch(url, { method:'GET', credentials:'omit' });
+			if(!resp.ok) throw new Error('HTTP '+resp.status);
+			const data = await resp.json();
+			statusEl.textContent = 'Data loaded';
+			const mapped = {
+				brand: data.brand || params.brand || serviceSelector.value,
+				phone: data.phone || data.contact?.phone || data.mobile || data.msisdn || '',
+				email: data.email || data.contact?.email || '',
+				customerId: data.customerId || data.customer_id || data.ccn || params.customerId || '',
+				callerName: data.callerName || data.name || '',
+				ccn: data.ccn || data.ccnNumber || '',
+				callerType: data.callerType || data.caller_type || '',
+				travelAdvisor: data.travelAdvisor || data.advisor || '',
+				intent: data.intent || data.callerIntent || '',
+				rating: data.rating || data.urgency || '',
+				satisfied: data.satisfied || data.isSatisfied || '',
+				booking: { id: data.booking?.id || data.bookingId || params.bookingId || '', date: data.booking?.date || data.bookingDate || '' },
+				notes: data.notes || data.transferNotes || data.callerTranscript || '',
+				mediaType: data.mediaType || data.media || '',
+				authenticated: data.authenticated || data.auth || '' ,
+				lang: data.lang || data.language || '',
+				transcript: data.transcript || '',
+				transferTo: data.transferTo || '',
+				routeEmail: data.routeEmail || false,
+				routePhone: data.routePhone || false,
+				routeSMS: data.routeSMS || false,
+				routeChat: data.routeChat || false,
+				acceptTerms: data.acceptTerms || false
+			};
+			applyService(serviceSelector.value);
+			populateFromIVR(mapped);
+			ivrPayload.value = JSON.stringify(data, null, 2);
+			return data;
+		}
+		else{
+			const data = SAMPLE_API_RESPONSE;
+			statusEl.textContent = 'Loaded sample data';
+			const mapped = {
+				brand: data.brand || params.brand || serviceSelector.value,
+				phone: data.phone || '',
+				email: data.email || '',
+				customerId: data.customerId || '',
+				callerName: data.callerName || '',
+				ccn: data.ccn || '',
+				callerType: data.callerType || '',
+				travelAdvisor: data.travelAdvisor || '',
+				intent: data.intent || '',
+				rating: data.rating || '',
+				satisfied: data.satisfied || '',
+				booking: { id: data.booking?.id || '', date: data.booking?.date || '' },
+				notes: data.notes || '',
+				mediaType: data.mediaType || '',
+				authenticated: data.authenticated || '',
+				lang: data.lang || '',
+				transcript: data.transcript || '',
+				transferTo: data.transferTo || '',
+				routeEmail: data.routeEmail || false,
+				routePhone: data.routePhone || false,
+				routeSMS: data.routeSMS || false,
+				routeChat: data.routeChat || false,
+				acceptTerms: data.acceptTerms || false
+			};
+			applyService(serviceSelector.value);
+			populateFromIVR(mapped);
+			ivrPayload.value = JSON.stringify(data, null, 2);
+			return data;
+		}
 	}catch(err){
 		statusEl.textContent = 'Error: ' + (err.message || err);
 		return null;
@@ -184,9 +256,6 @@ const bookingId = document.getElementById('bookingId');
 const bookingDate = document.getElementById('bookingDate');
 const notes = document.getElementById('notes');
 const ivrPayload = document.getElementById('ivrPayload');
-const btnPopulate = document.getElementById('btnPopulate');
-const btnSample = document.getElementById('btnSample');
-const btnClear = document.getElementById('btnClear');
 const btnCheckAuth = document.getElementById('btnCheckAuth');
 const acceptTerms = document.getElementById('acceptTerms');
 const btnNext = document.getElementById('btnNext');
@@ -228,20 +297,10 @@ function setLangFlag(lang){
 function applyService(s){
 	const meta = SERVICES[s] || Object.values(SERVICES)[0];
 	console.log('meta: ', meta);
-	// set class theme
 	Object.values(SERVICES).forEach(v=> app.classList.remove(v.theme));
 	app.classList.add(meta.theme);
-	// serviceName.textContent = meta.name;
 	serviceFooterName.textContent = meta.name;
 	document.getElementById('serviceFooterTagline').textContent = meta.tag;
-	// // simple SVG tint via inline fill (logo svg present)
-	// const svg = logo.querySelector('svg');
-	// if(svg) svg.style.fill = getComputedStyle(document.documentElement).getPropertyValue('--brand');
-	// if(window.BRAND_LOGOS && BRAND_LOGOS[meta.short]){
-	// 	logo.innerHTML = BRAND_LOGOS[meta.short];
-	// } else {
-	// 	logo.textContent = meta.short;
-	// }
 }
 
 // Update summary
@@ -283,6 +342,7 @@ function updateNextEnabled(){
 
 // Populate from IVR payload
 function populateFromIVR(payload){
+	console.log('payload: ', payload);
 	if(!payload) return;
 	if(payload.service) serviceSelector.value = payload.service;
 	if(payload.phone) phone.value = payload.phone;
@@ -315,22 +375,6 @@ customerId.addEventListener('input', ()=>{ updateSummary(); });
 intent.addEventListener('change', handleIntentChange);
 acceptTerms.addEventListener('change', updateNextEnabled);
 btnCheckAuth.addEventListener('click', checkAuth);
-
-btnPopulate.addEventListener('click', ()=>{
-	const parsed = tryParseJSON(ivrPayload.value);
-	if(!parsed){ alert('Invalid JSON'); return; }
-	populateFromIVR(parsed);
-});
-
-btnSample.addEventListener('click', ()=>{
-	const sample = { service:'telecom', phone:'+15551234567', email:'caller@example.com', customerId:'C-0001', intent:'billing', booking:{id:'B-123', date:'2025-11-05 09:30'}, notes:'IVR detected billing issue' };
-	ivrPayload.value = JSON.stringify(sample, null, 2);
-	populateFromIVR(sample);
-});
-
-btnClear.addEventListener('click', ()=>{
-	ivrPayload.value = '';
-});
 
 // collapse/expand IVR pane on small screens
 const ivrToggle = document.getElementById('ivrToggle');
@@ -385,9 +429,11 @@ btnNext.addEventListener('click', ()=>{
 });
 
 // Init on load
+
 (function init(){
 	document.getElementById('copyrightYear').textContent = new Date().getFullYear();
 	applyService(serviceSelector.value);
+
 	// load saved draft if any
 	const draft = localStorage.getItem('cxone-form-draft');
 	if(draft){
@@ -396,57 +442,95 @@ btnNext.addEventListener('click', ()=>{
 		summary.textContent = 'Loaded saved draft — click Populate to apply';
 		ivrPayload.value = JSON.stringify(obj, null, 2);
 	}
-		// check URL params and optionally call API
-		const params = getQueryParams();
-		console.log('params: ', params);
-		// Recognize common keys: bookingNumber, customerId, api, service
-		const bookingNumberParam = params.bookingNumber || params.booking || params.booking_id || params.bookingNumber;
-		const customerIdParam = params.customerId || params.customer_id || params.customer || params.ccn || '';
-		const apiUrlParam = params.api || params.apiUrl || params.endpoint || '';
-		const serviceParam = params.service || '';
 
-		// prefill booking/customer fields from URL
-		if(bookingNumberParam) bookingId.value = bookingNumberParam; 
-		if(customerIdParam) customerId.value = customerIdParam;
+	// check URL params and optionally call API
+	const params = getQueryParams();
+	console.log('params: ', params);
+	// Recognize common keys: bookingId, customerId, api, service
+	const bookingIdParam = params.bookingId;
+	const customerIdParam = params.customerId || params.customer_id || params.customer || params.ccn || '';
+	const serviceParam = params.service || '';
+
+	// If both bookingId and customerId are present, prepopulate all fields
+	if(bookingIdParam && customerIdParam) {
+		// Prepopulate fields
+		bookingId.value = bookingIdParam;
+		customerId.value = customerIdParam;
+
+		
+		fetchFromApi({ bookingNumber: bookingIdParam, customerId: customerIdParam, service: serviceParam }).then((data)=>{
+			if(params.lang) setLangFlag(params.lang);
+		});
+		
 		if(serviceParam) serviceSelector.value = serviceParam;
+		// // Optionally prepopulate other fields if present in params
+		// if(params.phone) phone.value = params.phone;
+		// if(params.email) email.value = params.email;
+		// if(params.callerName) document.getElementById('callerName').value = params.callerName;
+		// if(params.ccn) document.getElementById('ccn').value = params.ccn;
+		// if(params.intent) intent.value = params.intent;
+		// if(params.rating) document.getElementById('rating').value = params.rating;
+		// if(params.satisfied) {
+		// 	if(params.satisfied === 'yes') document.getElementById('satisfiedYes').checked = true;
+		// 	else if(params.satisfied === 'no') document.getElementById('satisfiedNo').checked = true;
+		// }
+		// if(params.transcript) document.getElementById('transcript').value = params.transcript;
+		// if(params.bookingDate) bookingDate.value = params.bookingDate;
+		// if(params.notes) notes.value = params.notes;
+		// if(params.transferTo) document.getElementById('transferTo').value = params.transferTo;
+		// // Communication routes
+		// if(params.routeEmail) document.getElementById('routeEmail').checked = params.routeEmail === 'true';
+		// if(params.routePhone) document.getElementById('routePhone').checked = params.routePhone === 'true';
+		// if(params.routeSMS) document.getElementById('routeSMS').checked = params.routeSMS === 'true';
+		// if(params.routeChat) document.getElementById('routeChat').checked = params.routeChat === 'true';
+		// // Accept terms
+		// if(params.acceptTerms) acceptTerms.checked = params.acceptTerms === 'true';
+		checkAuth();
+		updateSummary();
+	} else {
+		// Keep all fields empty
+		bookingId.value = '';
+		customerId.value = '';
+		phone.value = '';
+		email.value = '';
+		document.getElementById('callerName').value = '';
+		document.getElementById('ccn').value = '';
+		intent.value = '';
+		document.getElementById('rating').value = '';
+		document.getElementById('satisfiedYes').checked = false;
+		document.getElementById('satisfiedNo').checked = false;
+		document.getElementById('transcript').value = '';
+		bookingDate.value = '';
+		notes.value = '';
+		document.getElementById('transferTo').value = '';
+		document.getElementById('routeEmail').checked = false;
+		document.getElementById('routePhone').checked = false;
+		document.getElementById('routeSMS').checked = false;
+		document.getElementById('routeChat').checked = false;
+		acceptTerms.checked = false;
+		checkAuth();
+		updateSummary();
+	}
 
-			// if an API is supplied, call it with booking/customer
-			if(apiUrlParam){
-				fetchFromApi(apiUrlParam, { bookingNumber: bookingNumberParam, customerId: customerIdParam, service: serviceParam }).then((data)=>{
-					// if API returned language or brand we may have already applied it. Ensure flag is set if present in params
-					if(params.lang) setLangFlag(params.lang);
-					checkAuth(); updateSummary();
-				});
+	// Responsive: collapse IVR aside by default on narrow screens and restore on wider screens
+	const aside = document.querySelector('aside');
+	const toggle = document.getElementById('ivrToggle');
+	function handleResponsiveAside(){
+		try{
+			const narrow = window.innerWidth <= 820;
+			if(!aside) return;
+			if(narrow){
+				aside.classList.add('collapsed');
+				if(toggle) toggle.setAttribute('aria-expanded', 'false');
 			} else {
-			// no API: just update UI from query params
-			if(bookingNumberParam || customerIdParam || serviceParam){
-				updateSummary();
-				checkAuth();
-				document.getElementById('fetchStatus').textContent = 'Populated from URL params';
-			} else {
-				checkAuth();
-				updateSummary();
+				aside.classList.remove('collapsed');
+				if(toggle) toggle.setAttribute('aria-expanded', 'true');
 			}
-		}
-    // Responsive: collapse IVR aside by default on narrow screens and restore on wider screens
-    const aside = document.querySelector('aside');
-    const toggle = document.getElementById('ivrToggle');
-    function handleResponsiveAside(){
-        try{
-            const narrow = window.innerWidth <= 820;
-            if(!aside) return;
-            if(narrow){
-                aside.classList.add('collapsed');
-                if(toggle) toggle.setAttribute('aria-expanded', 'false');
-            } else {
-                aside.classList.remove('collapsed');
-                if(toggle) toggle.setAttribute('aria-expanded', 'true');
-            }
-        }catch(e){ /* ignore */ }
-    }
-    // initial
-    handleResponsiveAside();
-    // throttle resize
-    let rr;
-    window.addEventListener('resize', ()=>{ clearTimeout(rr); rr = setTimeout(handleResponsiveAside, 120); });
+		}catch(e){ /* ignore */ }
+	}
+	// initial
+	handleResponsiveAside();
+	// throttle resize
+	let rr;
+	window.addEventListener('resize', ()=>{ clearTimeout(rr); rr = setTimeout(handleResponsiveAside, 120); });
 })();
