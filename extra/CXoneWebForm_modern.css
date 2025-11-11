@@ -1,0 +1,207 @@
+/* CXoneWebForm_modern.css */
+body {
+    background: #f5f7fa;
+    font-family: 'Segoe UI', Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+.cxone-container {
+    background: #fff;
+    max-width: 1200px;
+    margin: 40px auto;
+    border-radius: 14px;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.10);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+.cxone-header {
+    background: #0a2c4d;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    padding: 18px 24px;
+    position: relative;
+    justify-content: space-between;
+}
+.cxone-logo {
+    height: 32px;
+    margin-right: 16px;
+}
+.cxone-title {
+    font-size: 1.2rem;
+    font-weight: 600;
+    flex: 1;
+}
+.cxone-authenticated {
+    display: flex;
+    align-items: center;
+    font-size: 1rem;
+    font-weight: 500;
+}
+.cxone-dot {
+    width: 14px;
+    height: 14px;
+    background: #2ecc40;
+    border-radius: 50%;
+    display: inline-block;
+    margin-right: 7px;
+    border: 2px solid #fff;
+}
+.cxone-main {
+    padding: 24px;
+    flex: 1;
+}
+.cxone-section {
+    margin-bottom: 28px;
+}
+.cxone-section h2 {
+    font-size: 1.1rem;
+    color: #0a2c4d;
+    margin-bottom: 10px;
+    font-weight: 600;
+}
+.cxone-row {
+    display: flex;
+    /* justify-content: space-between; */
+    margin-bottom: 8px;
+    font-size: 1rem;
+    gap: 12px;
+}
+.cxone-intent-options {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 10px;
+}
+.cxone-intent-btn {
+    background: #e9ecef;
+    border: none;
+    border-radius: 7px;
+    padding: 8px 18px;
+    font-size: 1rem;
+    color: #0a2c4d;
+    font-weight: 500;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    transition: background 0.2s;
+}
+.cxone-intent-btn.active, .cxone-intent-btn:hover {
+    background: #d0e6fa;
+}
+.cxone-plus {
+    font-size: 1.2rem;
+    margin-right: 7px;
+    color: #0a2c4d;
+}
+.cxone-rating-row {
+    align-items: center;
+    gap: 18px;
+}
+.cxone-rating {
+    display: flex;
+    align-items: center;
+    font-size: 1.3rem;
+    color: #f5b942;
+    gap: 2px;
+}
+.cxone-satisfied {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 1rem;
+}
+.cxone-switch {
+    position: relative;
+    display: inline-block;
+    width: 38px;
+    height: 22px;
+}
+.cxone-switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+.cxone-slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background-color: #ccc;
+    border-radius: 22px;
+    transition: .4s;
+}
+.cxone-switch input:checked + .cxone-slider {
+    background-color: #2ecc40;
+}
+.cxone-slider:before {
+    position: absolute;
+    content: "";
+    height: 16px;
+    width: 16px;
+    left: 3px;
+    bottom: 3px;
+    background-color: white;
+    border-radius: 50%;
+    transition: .4s;
+}
+.cxone-switch input:checked + .cxone-slider:before {
+    transform: translateX(16px);
+}
+.cxone-transcript {
+    background: #f3f6fa;
+    border-radius: 7px;
+    padding: 10px 14px;
+    font-size: 1rem;
+    color: #222;
+    margin-top: 10px;
+}
+.cxone-booking-info label {
+    margin-right: 16px;
+    font-weight: 400;
+}
+.cxone-footer {
+    background: #f5f7fa;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 24px;
+    border-top: 1px solid #e0e0e0;
+}
+.cxone-brand {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+.cxone-footer-logo {
+    height: 24px;
+}
+.cxone-tagline {
+    font-size: 0.95rem;
+    color: #888;
+    margin-left: 8px;
+}
+.cxone-actions {
+    display: flex;
+    gap: 10px;
+}
+.cxone-btn {
+    padding: 8px 22px;
+    border-radius: 7px;
+    border: none;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+.cxone-cancel {
+    background: #e9ecef;
+    color: #0a2c4d;
+}
+.cxone-save {
+    background: #0a2c4d;
+    color: #fff;
+}
+.cxone-save:hover {
+    background: #174a7c;
+}

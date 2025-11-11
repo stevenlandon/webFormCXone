@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CXone Support Form</title>
+    <link rel="stylesheet" href="CXoneWebForm_new.css">
+</head>
+<body>
+    <div class="cxone-form-container">
+        <div class="cxone-form-header">
+            <img src="assets/logos/princess.svg" alt="Logo" class="cxone-logo">
+            <h2>CXone Support Form</h2>
+        </div>
+        <div class="cxone-form-tabs">
+            <button class="tab active" data-tab="contact">Contact Info</button>
+            <button class="tab" data-tab="intent">Bookin Info</button>
+            <button class="tab" data-tab="lines">Media Type</button>
+            <button class="tab" data-tab="cruises">Tansfer Notes</button>
+        </div>
+        <form class="cxone-form" id="cxoneSupportForm">
+            <div class="cxone-form-group">
+                <input type="text" placeholder="Contact Info" name="contactInfo" required>
+            </div>
+            <div class="cxone-form-group">
+                <input type="text" placeholder="Intent" name="intent" required>
+            </div>
+            <div class="cxone-form-group">
+                <select name="bookingInfo" required>
+                    <option value="">Booking Info</option>
+                    <option value="booking1">Booking 1</option>
+                    <option value="booking2">Booking 2</option>
+                </select>
+            </div>
+            <div class="cxone-form-group">
+                <input type="text" placeholder="Transcript" name="transcript">
+            </div>
+            <div class="cxone-form-group">
+                <textarea placeholder="" name="extra"></textarea>
+            </div>
+        </form>
+        <div class="cxone-form-footer">
+            <!-- <img src="assets/shared image (4).jpg" alt="Cruise Ship" class="footer-ship"> -->
+            <div class="cxone-form-actions">
+                <button type="submit" class="submit-btn">Submit</button>
+                <button type="button" class="cancel-btn">Cancel</button>
+            </div>
+        </div>
+    </div>
+    <script src="CXoneWebForm_new.js"></script>
+</body>
+</html>

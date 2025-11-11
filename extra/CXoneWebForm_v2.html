@@ -1,0 +1,203 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>cxOne Web Form — v2 (compact)</title>
+  <link rel="stylesheet" href="CXoneWebForm_v2.css">
+</head>
+
+<body>
+  <div class="wrap">
+    <div class="card" id="app" data-theme="holland">
+      <header class="brand">
+        <div style="display:flex;align-items:center;justify-content:space-between;width:100%">
+          <div style="display:flex;gap:14px;align-items:center">
+            <div class="brand-logo logo" id="logo" aria-hidden="true"></div>
+            <div>
+
+              <div class="header-controls" style="margin-top:10px">
+                <div class="small">
+                  <select id="serviceSelector" aria-label="Select cruise line">
+                    <option value="holland">Holland America (HAL)</option>
+                    <option value="princess">Princess Cruises (PCL)</option>
+                    <option value="seabourn">Seabourn (SBN)</option>
+                    <option value="cunard">Cunard (CUN)</option>
+                  </select>
+                </div>
+                <div class="small" id="authChip"> <!-- set by JS -->
+                </div>
+              </div>
+            </div>
+          </div>
+          <div style="display:flex;align-items:center;gap:12px">
+            <!-- Verified chip on the right -->
+            <div id="authVerified" class="chip"
+              style="background:#10b981;color:#fff;display:flex;align-items:center;gap:8px;padding:8px 12px;border-radius:999px">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M20 6L9 17l-5-5" stroke="white" stroke-width="2" stroke-linecap="round"
+                  stroke-linejoin="round" />
+              </svg>
+              <div style="font-weight:700">Verified</div>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <main>
+        <!-- Contact Information -->
+        <section class="panel" aria-labelledby="contactTitle">
+          <h3 id="contactTitle">Contact Information</h3>
+
+          <div class="field">
+            <label for="callerName">Guest Name</label>
+            <input id="callerName" type="text" placeholder="John Anderson">
+          </div>
+
+          <div class="field">
+            <label for="ccn">Crown & Anchor Number (CCN)</label>
+            <input id="ccn" type="text" placeholder="CA1234567">
+          </div>
+
+          <!-- Travel advisor pill like screenshot -->
+          <div class="field" style="margin-top:8px">
+            <button type="button" class="advisor-chip" id="travelAdvisor">🏢 Travel Advisor: Sunshine Travel
+              Agency</button>
+          </div>
+
+          <div class="short-row" style="margin-top:6px">
+            <div class="field">
+              <label for="phone">Phone</label>
+              <input id="phone" type="tel" placeholder="+1 555-123-4567">
+            </div>
+            <div class="field">
+              <label for="email">Email</label>
+              <input id="email" type="email" placeholder="guest@example.com">
+            </div>
+            <div class="field">
+              <label for="customerId">Customer ID</label>
+              <input id="customerId" type="text" placeholder="C-0001">
+            </div>
+          </div>
+
+        </section>
+
+        <!-- Intent & Feedback -->
+        <section class="panel" aria-labelledby="intentTitle">
+          <h3 id="intentTitle">Caller Intent & Feedback</h3>
+
+          <div class="field">
+            <label for="intent">Intent</label>
+            <select id="intent">
+              <option value="">-- Select intent --</option>
+              <option value="modify">Modify Booking</option>
+              <option value="booking">Booking / Appointment</option>
+              <option value="billing">Billing Issue</option>
+              <option value="support">Support</option>
+            </select>
+          </div>
+
+          <div style="margin-top:6px" class="section-title">Satisfaction Rating</div>
+          <div style="margin:8px 0 12px 0; display:flex; gap:10px; align-items:center">
+            <div id="starRating" aria-label="Satisfaction rating" role="radiogroup">
+              <button type="button" class="btn-ghost" data-value="1" aria-pressed="false" title="1 star">★</button>
+              <button type="button" class="btn-ghost" data-value="2" aria-pressed="false" title="2 stars">★</button>
+              <button type="button" class="btn-ghost" data-value="3" aria-pressed="false" title="3 stars">★</button>
+              <button type="button" class="btn-ghost" data-value="4" aria-pressed="false" title="4 stars">★</button>
+              <button type="button" class="btn-ghost" data-value="5" aria-pressed="false" title="5 stars">★</button>
+            </div>
+            <!-- hidden select for compatibility with existing JS (id=rating) -->
+            <select id="rating" style="display:none">
+              <option value="">--</option>
+              <option>1</option>
+              <option>2</option>
+              <option>3</option>
+              <option>4</option>
+              <option>5</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label for="transcript">IVR Transcript / Details</label>
+            <textarea id="transcript"
+              placeholder="Customer requested to modify stateroom category for upcoming Alaska cruise."></textarea>
+          </div>
+
+          <div id="bookingSection">
+            <hr style="margin:12px 0">
+            <h3 style="margin:0 0 8px 0">Booking Information</h3>
+            <div class="field">
+              <label for="bookingId">Booking Number</label>
+              <input id="bookingId" type="text" placeholder="HAL987654321">
+            </div>
+            <div class="short-row">
+              <div class="field">
+                <label for="bookingDate">Sail Date</label>
+                <input id="bookingDate" type="text" placeholder="15/07/2025">
+              </div>
+              <div class="field">
+                <label for="destination">Destination</label>
+                <input id="destination" type="text" placeholder="Alaska - Inside Passage">
+              </div>
+              <div class="field"></div>
+            </div>
+          </div>
+
+        </section>
+
+        <!-- Media Type -->
+        <section class="panel" aria-labelledby="mediaTitle">
+          <h3 id="mediaTitle">Media Type</h3>
+          <div style="margin-top:8px; display:flex; gap:12px; align-items:center;">
+            <button type="button" class="btn-save" id="mediaCall">📞 Call</button>
+            <button type="button" class="btn-ghost" id="mediaChat">💬 Chat</button>
+            <button type="button" class="btn-ghost" id="mediaSMS">📱 SMS</button>
+          </div>
+        </section>
+
+      </main>
+
+      <div class="controls">
+        <div style="flex:1; text-align:center; font-style:italic; color:var(--muted)">Explore the world with Holland
+          America Line</div>
+        <button id="btnCancel" class="btn-ghost">Cancel</button>
+        <button id="btnSave" class="btn-save">Save & Next</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="CXoneWebForm_v2.js" defer></script>
+  <script>
+    // Minimal UI wiring for v2: star rating visual + media button toggles
+    (function () {
+      function setRating(val) {
+        const sel = document.getElementById('rating');
+        if (sel) sel.value = val;
+        // update visual states
+        document.querySelectorAll('#starRating button').forEach(b => {
+          const v = parseInt(b.getAttribute('data-value'), 10);
+          b.style.opacity = v <= val ? '1' : '0.35';
+          b.setAttribute('aria-pressed', v <= val ? 'true' : 'false');
+        });
+      }
+      document.querySelectorAll('#starRating button').forEach(b => b.addEventListener('click', () => setRating(parseInt(b.dataset.value))));
+
+      // media type toggles: ensure only one active
+      const mediaButtons = ['mediaCall', 'mediaChat', 'mediaSMS'].map(id => document.getElementById(id));
+      mediaButtons.forEach(btn => btn && btn.addEventListener('click', () => {
+        mediaButtons.forEach(x => x && x.classList.remove('btn-save'));
+        mediaButtons.forEach(x => x && x.classList.add('btn-ghost'));
+        btn.classList.remove('btn-ghost'); btn.classList.add('btn-save');
+      }));
+
+      // initial states
+      setRating(4);
+      // set call active by default
+      const callBtn = document.getElementById('mediaCall'); if (callBtn) { callBtn.classList.remove('btn-ghost'); callBtn.classList.add('btn-save'); }
+
+    })();
+  </script>
+</body>
+
+</html>
