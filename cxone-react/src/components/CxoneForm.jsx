@@ -13,6 +13,16 @@ export default function CxoneForm() {
   const [bookingDate, setBookingDate] = useState('');
   const [notes, setNotes] = useState('');
   const [transcript, setTranscript] = useState('');
+  // Reactive fields
+  const [callerName, setCallerName] = useState('');
+  const [ccn, setCcn] = useState('');
+  const [iata, setIata] = useState('');
+  const [clia, setClia] = useState('');
+  const [agencyId, setAgencyId] = useState('');
+  const [agencyName, setAgencyName] = useState('');
+  const [transferTo, setTransferTo] = useState('');
+  const [mediaType, setMediaType] = useState('email');
+  const [routes, setRoutes] = useState({ email: true, phone: false, sms: false, chat: false });
 
   const formAreaRef = useRef(null);
 
@@ -39,6 +49,13 @@ export default function CxoneForm() {
     setLangFlag(c.lang, c.langFlag);
     setPhoneType(c.phoneType, c.phoneTypeImage);
     populateFromIVR(c);
+    // Populate reactive fields when available on payload
+    if (c.callerName) setCallerName(c.callerName);
+    if (c.ccn) setCcn(c.ccn);
+    if (c.iata) setIata(c.iata);
+    if (c.clia) setClia(c.clia);
+    if (c.agencyId) setAgencyId(c.agencyId);
+    if (c.agencyName) setAgencyName(c.agencyName);
   }
 
   function setTheme(name = 'holland') {
@@ -96,6 +113,11 @@ export default function CxoneForm() {
     setNotes(payload.notes || '');
   }
 
+  // helper to toggle route checkboxes
+  function toggleRoute(route) {
+    setRoutes((r) => ({ ...r, [route]: !r[route] }));
+  }
+
   function repositionPanels() {
     const isMobile = window.innerWidth < 768;
     const panels = Array.from(document.querySelectorAll('.cxone-form-panel'));
@@ -114,16 +136,34 @@ export default function CxoneForm() {
   }
 
   function onSaveNext() {
-    const data = {
+    const submission = {
       brand: service,
+      customerId,
+      callerName,
+      ccn,
+      travelAdvisor: customer.travelAdvisor || null,
+      iata,
+      clia,
+      agencyId,
+      agencyName,
       intent,
+      satisfied,
+      transcript,
       booking: { id: bookingNumber, date: bookingDate },
       notes,
-      transcript,
+      transferTo,
+      mediaType,
+      routes,
+      phoneType: customer.phoneType || null,
+      lang: customer.lang || null,
+      authenticated: customer.authenticated || false,
       timestamp: new Date().toISOString(),
     };
-    localStorage.setItem('cxone-form-draft', JSON.stringify(data));
-    alert('Saved locally');
+    // Save final submission and a draft copy
+    localStorage.setItem('cxone-form-draft', JSON.stringify(submission));
+    localStorage.setItem('cxone-form-submission', JSON.stringify(submission));
+    console.log('Submission:', submission);
+    alert('Form saved locally (see console or localStorage)');
   }
 
   return (
@@ -196,11 +236,11 @@ export default function CxoneForm() {
             <div className="short-row">
                 <div className="field">
                 <label htmlFor="callerName">Customer Name</label>
-                <input type="text" id="callerName" placeholder="Enter name" />
+                <input type="text" id="callerName" placeholder="Enter name" value={callerName} onChange={(e)=>setCallerName(e.target.value)} />
                 </div>
                 <div className="field">
                 <label htmlFor="ccn">CCN</label>
-                <input type="text" id="ccn" placeholder="Customer CCN" />
+                <input type="text" id="ccn" placeholder="Customer CCN" value={ccn} onChange={(e)=>setCcn(e.target.value)} />
                 </div>
             </div>
           </div>
@@ -210,10 +250,10 @@ export default function CxoneForm() {
               <button type="button" className="advisor-chip">🏢 Travel Advisor: {customer.travelAdvisor || 'N/A'}</button>
             </div>
             <div className="short-row">
-              <div className="field"><label>IATA</label><input type="text" /></div>
-              <div className="field"><label>CLIA</label><input type="text" /></div>
-              <div className="field"><label>Agency Id</label><input type="text" /></div>
-              <div className="field"><label>Agency Name</label><input type="text" /></div>
+              <div className="field"><label>IATA</label><input type="text" value={iata} onChange={(e)=>setIata(e.target.value)} /></div>
+              <div className="field"><label>CLIA</label><input type="text" value={clia} onChange={(e)=>setClia(e.target.value)} /></div>
+              <div className="field"><label>Agency Id</label><input type="text" value={agencyId} onChange={(e)=>setAgencyId(e.target.value)} /></div>
+              <div className="field"><label>Agency Name</label><input type="text" value={agencyName} onChange={(e)=>setAgencyName(e.target.value)} /></div>
             </div>
           </div>
 
@@ -252,27 +292,36 @@ export default function CxoneForm() {
               <button type="button" className="advisor-chip">🏢 Voyage Type: {customer.voyageType || 'N/A'}</button>
             </div>
             
-            <div className="short-row">
-                <div className="field"><label>Booking Number</label><input type="text" value={bookingNumber} onChange={(e)=>setBookingNumber(e.target.value)} placeholder="Booking or reservation Number" /></div>
-                <div className="field"><label>Booking Date</label><input type="datetime-local" value={bookingDate} onChange={(e)=>setBookingDate(e.target.value)} /></div>
-                <div className="field"><label>Booking Notes</label><textarea className="cxone-textarea" value={notes} onChange={(e)=>setNotes(e.target.value)} placeholder="Additional booking details..." /></div>
-            </div>
+      <div className="short-row">
+        <div className="field"><label>Booking Number</label><input type="text" value={bookingNumber} onChange={(e)=>setBookingNumber(e.target.value)} placeholder="Booking or reservation Number" /></div>
+        <div className="field"><label>Booking Date</label><input type="datetime-local" value={bookingDate} onChange={(e)=>setBookingDate(e.target.value)} /></div>
+        <div className="field"><label>Booking Notes</label><textarea className="cxone-textarea" value={notes} onChange={(e)=>setNotes(e.target.value)} placeholder="Additional booking details..." /></div>
+      </div>
           </div>
 
           <div className="cxone-form-panel" data-tab="pcc" style={{display: selectedTab==='pcc' ? 'block':'none'}}>
             
-            <div className="short-row">
-                <div className="field"><label>Call transfer (if any)</label><input type="text" id="transferTo" placeholder="Transfer to queue or agent" /></div>
-            </div>
+      <div className="short-row">
+        <div className="field"><label>Call transfer (if any)</label><input type="text" id="transferTo" placeholder="Transfer to queue or agent" value={transferTo} onChange={(e)=>setTransferTo(e.target.value)} /></div>
+      </div>
           </div>
 
           <div className="cxone-form-panel" data-tab="mediaType" style={{display: selectedTab==='mediaType' ? 'block':'none'}}>
             <section className="panel" aria-labelledby="mediaType">
               <h3 id="mediaType">Media Type</h3>
               <div style={{marginTop:8, display:'flex', gap:12, alignItems:'center'}}>
-                <button type="button" className="btn-save"> EMail</button>
-                <button type="button" className="btn-ghost">💬 Chat</button>
-                <button type="button" className="btn-ghost">📱 SMS</button>
+                <button type="button" className={`btn-save ${mediaType==='email' ? 'selected':''}`} onClick={()=>setMediaType('email')}> EMail</button>
+                <button type="button" className={`btn-ghost ${mediaType==='chat' ? 'selected':''}`} onClick={()=>setMediaType('chat')}>💬 Chat</button>
+                <button type="button" className={`btn-ghost ${mediaType==='sms' ? 'selected':''}`} onClick={()=>setMediaType('sms')}>📱 SMS</button>
+                <div style={{marginLeft:12}}>
+                  <label style={{fontSize:13, color:'var(--muted)'}}>Routes</label>
+                  <div style={{display:'flex', gap:8, marginTop:6}}>
+                    <label><input type="checkbox" checked={routes.email} onChange={()=>toggleRoute('email')} /> Email</label>
+                    <label><input type="checkbox" checked={routes.phone} onChange={()=>toggleRoute('phone')} /> Phone</label>
+                    <label><input type="checkbox" checked={routes.sms} onChange={()=>toggleRoute('sms')} /> SMS</label>
+                    <label><input type="checkbox" checked={routes.chat} onChange={()=>toggleRoute('chat')} /> Chat</label>
+                  </div>
+                </div>
               </div>
             </section>
           </div>
