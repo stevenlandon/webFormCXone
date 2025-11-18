@@ -161,7 +161,7 @@ async function fetchFromApi(apiUrl, params){
 		applyService(serviceSelector.value);
 		populateFromIVR(mapped);
 		// Show the raw payload in IVR textarea for debugging
-		ivrPayload.value = JSON.stringify(data, null, 2);
+		ivrPayload.innerText = JSON.stringify(data, null, 2);
 		return data;
 	}catch(err){
 		statusEl.textContent = 'Error: ' + (err.message || err);

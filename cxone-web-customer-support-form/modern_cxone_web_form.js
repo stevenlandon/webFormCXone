@@ -1,4 +1,4 @@
-import { BRANDS, SAMPLE_API_RESPONSES } from "./data.js";
+import { BRANDS, SAMPLE_API_RESPONSES } from "../data.js";
 
 // Elements
 const serviceSelector = document.getElementById("serviceSelector");

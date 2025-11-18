@@ -4,7 +4,7 @@ import {
   cxOneAgents,
   deliverModes,
   SAMPLE_API_RESPONSES,
-} from "./data.js";
+} from "../data.js";
 
 // Elements
 const phoneTypeDiv = document.getElementById("phoneTypeDiv");
@@ -28,12 +28,17 @@ const btnCancel = document.getElementById("btnCancel");
 const serviceFooterName = document.getElementById("serviceFooterName");
 const serviceFooterTagline = document.getElementById("serviceFooterTagline");
 const copyrightYear = document.getElementById("copyrightYear");
+const ivrPayload = document.getElementById('ivrPayload');
 
 let customer = {};
 
-document.addEventListener("DOMContentLoaded", () => {
-  copyrightYear.textContent = new Date().getFullYear();
+(function init() {
+  copyrightYear.textContent =
+    new Date().getFullYear();
   setCustomer();
+})();
+
+document.addEventListener("DOMContentLoaded", () => {
   serviceSelector.addEventListener("change", (e) => {
     setTheme(e.target.value);
   });
@@ -71,11 +76,12 @@ function setCustomer(customerId = "C-0001") {
     setTabDetails(intentTab, customer.intentImage, customer.intent);
   }
   if (customer.booking) {
-    voyageTypeChip.textContent = `🏢 Voyage Type: ${customer.voyageType}`;
-    setTabDetails(bookingTab, customer.voyageTypeImage, customer.voyageType);
+    voyageTypeChip.textContent = `🏢 Voyage Type: ${customer.voyageTypeText}`;
+    setTabDetails(bookingTab, customer.voyageTypeImage, customer.voyageTypeText);
   }
 
   populateDropdown("intentSelector", customerIntents);
+  populateTransferModes(customer);
   populateDeliverModes(customer);
   populateFromIVR(customer);
   updateNextEnabled();
@@ -119,6 +125,7 @@ function setAuthChip(isAuthenticated) {
     authChip.innerHTML =
       `<span class="icon ${isAuthenticated ? 'check' : 'cross'}"> ${isAuthenticated ? svgCheck(): svgCross()}
       </span><span><strong>${isAuthenticated ? 'Authenticated' : 'Unauthenticated'}</strong></span>`;
+    authChip.title = customer.authStatus ? customer.authStatus.details : '';
 }
 
 function svgCheck() {
@@ -143,6 +150,35 @@ function setTabDetails(selectedTab, src = "/assets/directGuest.png", alt = 'Dire
   iconDiv.appendChild(img);
 }
 
+function populateTransferModes(customer) {
+  var deliverModesOption = [ 
+    { value: "skillSet", label: "Skill Set" },
+    { value: "consuktant", label: "PCC" },
+  ];
+  const group = document.getElementById("transferModeGroup");
+  group.innerHTML = "";
+
+  deliverModesOption.forEach((mode) => {
+    const wrapper = document.createElement("label");
+    wrapper.className = "radio-option";
+    wrapper.style.display = "block";
+    wrapper.style.cursor = "pointer";
+    wrapper.setAttribute("for", `transferMode_${mode.value}`);
+
+    const input = document.createElement("input");
+    input.type = "radio";
+    input.name = "transferMode";
+    input.value = mode.value;
+    input.id = `transferMode_${mode.value}`;
+
+    const text = document.createTextNode(" " + mode.label);
+
+    wrapper.appendChild(input);
+    wrapper.appendChild(text);
+    group.appendChild(wrapper);
+  });
+}
+
 function populateDeliverModes(customer) {
   var deliverModesOption = [...deliverModes];
   if (!(customer.routeEmail || customer.routeSMS || customer.routeChat)) {
@@ -154,16 +190,21 @@ function populateDeliverModes(customer) {
   group.innerHTML = "";
 
   deliverModesOption.forEach((mode) => {
-    const wrapper = document.createElement("p");
+    const wrapper = document.createElement("label");
     wrapper.className = "radio-option";
     wrapper.style.display = "block";
     wrapper.style.cursor = "pointer";
+    wrapper.setAttribute("for", `deliverMode_${mode.value}`);
 
     const input = document.createElement("input");
     input.type = "radio";
     input.name = "deliverMode";
     input.value = mode.value;
     input.id = `deliverMode_${mode.value}`;
+    
+    if (!(customer.routeEmail || customer.routeSMS || customer.routeChat)) {
+      input.checked = true;
+    }
 
     const text = document.createTextNode(" " + mode.label);
 
@@ -179,6 +220,34 @@ function updateNextEnabled() {
 
 function populateFromIVR(payload) {
   if (!payload) return;
+  let mainBasicDetails = {
+    intent: payload.intent,
+    bookingNumber: payload.booking.number,
+    bookingDate: payload.booking.date,
+    loyalty: payload.loyalty,
+    voyageType: payload.voyageTypeText,
+  }
+  // ivrPayload.textContent = JSON.stringify(mainBasicDetails, null, 2);
+  if(payload.callerType === "D") {
+    document.getElementById("callerNameText").innerText = payload.callerName || "";
+    document.getElementById("ccnText").innerText = payload.ccn || "";
+    mainBasicDetails = {
+      customerId: payload.customerId,
+      callerName: payload.callerName,
+      ccn: payload.ccn,
+      ...mainBasicDetails,
+    }
+  } else {
+    document.getElementById("iataText").innerText = payload.travelAdvisorInfo.iata || "";
+    document.getElementById("cliaText").innerText = payload.travelAdvisorInfo.clia || "";
+    document.getElementById("agencyIdText").innerText = payload.travelAdvisorInfo.agencyId || "";
+    document.getElementById("agencyNumberText").innerText = payload.travelAdvisorInfo.agencyName || "";
+    mainBasicDetails = {
+      travelAdvisor: payload.travelAdvisor,
+      ...mainBasicDetails,
+    }
+  }
+
   serviceSelector.value = payload.brand || "";
   if (payload.intent) {
     intentSelector.value = payload.intent;
@@ -187,12 +256,33 @@ function populateFromIVR(payload) {
     intentSelector.value = "";
   }
   if (payload.booking) {
-    bookingNumber.value = payload.booking.id || "";
+    bookingNumber.value = payload.booking.number || "";
     bookingDate.value = payload.booking.date || "";
     bookingTab.style.display = "block";
   }
   transcript.value = payload.transcript || "";
   bookingNotes.value = payload.bookingNotes;
+
+  const fieldLabels = {
+    customerId: 'Customer ID',
+    callerName: 'Customer Name',
+    ccn: 'CCN',
+    travelAdvisor: 'Travel Advisor',
+    intent: 'Intent',
+    bookingNumber: 'Booking Number',
+    bookingDate: 'Booking Date',
+    loyalty: 'Loyalty',
+    voyageType: 'Voyage Type'
+  }
+
+  const htmlContent = Object.keys(mainBasicDetails)
+    .map(key => `
+      <div class="field">
+        <p>${fieldLabels[key]}: <span id="${key}Text">${mainBasicDetails[key] || 'NA'}</span></p>
+      </div>
+    `)
+    .join('');
+  ivrPayload.innerHTML = htmlContent;
 }
 
 function handleIntentChange() {
@@ -210,7 +300,7 @@ btnNext.addEventListener("click", () => {
   const data = {
     brand: customer.value,
     intent: intentSelector.value,
-    booking: { id: bookingNumber.value, date: bookingDate.value },
+    booking: { number: bookingNumber.value, date: bookingDate.value },
     bookingNotes: bookingNotes.value,
     routes: {
       email: document.getElementById("mediaMail").checked,
@@ -235,7 +325,7 @@ btnNext.addEventListener("click", () => {
   //   intent,
   //   satisfied,
   //   transcript,
-  //   booking: { id: bookingNumber, date: bookingDate },
+  //   booking: { number: bookingNumber, date: bookingDate },
   //   bookingNotes,
   //   transferTo,
   //   mediaType,
