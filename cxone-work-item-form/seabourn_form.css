@@ -139,7 +139,7 @@ body {
     max-width: 1800px;
     margin: 0 auto;
     width: 100%;
-    overflow: hidden;
+    /* overflow: scroll; */
 }
 
 /* ================================================
@@ -245,7 +245,8 @@ body {
     box-shadow: var(--shadow-md);
     display: flex;
     flex-direction: column;
-    overflow: hidden;
+    max-height: 80vh;
+    overflow: scroll;
 }
 
 .passenger-tabs {

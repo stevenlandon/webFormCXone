@@ -123,7 +123,6 @@ body {
     max-width: 1600px;
     margin: 0 auto;
     width: 100%;
-    overflow: hidden;
 }
 
 /* ================================================
@@ -840,7 +839,7 @@ body {
     }
 
     .left-sidebar {
-        flex-direction: row;
+        flex-direction: column;
         overflow-x: auto;
     }
 
