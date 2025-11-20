@@ -17,7 +17,7 @@
   --brand: #c21807;
   --color-primary: #A41E35;
   --color-accent: #2D2A26;
-  --gradient: linear-gradient(135deg, #A41E35, #7B1326);
+  --gradient: linear-gradient(135deg, #A41E35, #2D2A26);
   --logo-url: url('../assets/logos/cunard.svg');
   --accent-bg: radial-gradient(circle at top left, #A41E35 0%, #2D2A26 100%);
 }
@@ -125,21 +125,45 @@ p{
 .main-container-div {
   display: flex;
   gap: 24px;
+  flex-direction: column;
 }
 
 .basic-details-div {
   min-width: 300px;
-  border: 1px solid #ccc;
+  /* border: 1px solid #ccc; */
   padding: 10px;
   margin-right: 20px;
   border-radius: 8px;
+  background: #f7fafd;
+  position: relative;
+  height: fit-content;
+}
+
+.basic-details-div .short-row .field:not(:last-child) {
+/* .basic-details-div .short-row .field { */
+  border-right: 1px solid #ddd;
+  /* padding-left: 10px; */
+}
+
+#updateInfoButton{ 
+  position: absolute;    
+  top: 10px;
+  right: 10px;
+  height: max-content;
+  padding: 4px;
+  border: 1px;
+  border-radius: 4px;
+  color: var(--brand, #0b6efd);
+  cursor: pointer;
+  font-size: 20px;
+  z-index: 1;
 }
 
 .section-wise-details-div{ 
   flex: 1;
 }
 
-#ivrPayload {
+#basicDetails {
   word-wrap: break-word;
   max-height: 400px;
   overflow-y: auto;
@@ -430,7 +454,9 @@ button {
   transform: translateY(-1px)
 }
 
-.media-type,.subscription-type {
+.media-type
+/* ,.subscription-type  */
+{
   background: transparent;
   color: var(--muted);
   border: 1px solid #e3e8f0;
@@ -447,7 +473,9 @@ button {
   color: var(--brand, #0b6efd);
 }
 
-.media-type.active, .subscription-type.active {
+.media-type.active
+/* , .subscription-type.active  */
+{
   background: var(--brand, #0b6efd);
   color: white;
   box-shadow: 0 0 6px rgba(0, 0, 0, 0.2);
@@ -511,7 +539,7 @@ button {
     width: -webkit-fill-available;
     border-radius: 8px;
     object-fit:contain;
-    height:200px;
+    height:100px;
 }
 
 .cxone-tab-title {
@@ -531,6 +559,7 @@ button {
 
 .cxone-form-panel {
   display: none;
+  position: relative;
 }
 
 .cxone-textarea {
@@ -547,6 +576,7 @@ button {
 /* cxone */
 
 
+/* intent satisfied css start */
 
 .thumb-group {
   display: flex;
@@ -577,6 +607,70 @@ button {
   opacity: 0.9;
 }
 
+/* intent satisfied css end */
+
+
+
+/* wrong user css start */
+
+#wrongUserField {
+  position: absolute;
+  right: 20px;
+}
+
+.user-img-wrapper {
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+    z-index: 1;
+}
+
+.cross-mark {
+    position: absolute;
+    top: -6px;
+    right: -6px;
+    width: 30px;
+    height: 30px;
+    background: #ff3b3b;
+    color: #fff;
+    border-radius: 50%;
+    display: none;
+    font-weight: bold;
+    font-size: 16px;
+    align-items: center;
+    justify-content: center;
+}
+
+.user-img-wrapper.wrong .cross-mark {
+    display: flex;
+}
+
+/* wrong user css end */
+.star-rating {
+  position: relative;
+  display: inline-block;
+  /* width: 36px;
+  height: 36px; */
+  position: absolute;
+  right: 20px;
+}
+
+.loyalty-star {
+  font-size: 50px;
+  color: gold;
+}
+
+.star-value {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -55%); /* adjust slight vertical offset */
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--brand);
+  pointer-events: none; /* click still hits the star */
+}
+
 #phoneTypeDiv img {
   width: 40px;
   height: 40px;
@@ -584,6 +678,20 @@ button {
   border-radius: 50%;
   transform: scale(1);
   animation: pulse 2s infinite;
+}
+
+.phoneTypeFieldDiv {
+  display: flex;
+  gap: 20px;
+}
+
+#phoneTypeField img {
+  width: 40px;
+  height: 40px;
+  object-fit: cover;
+  border-radius: 50%;
+  transform: scale(1);
+  /* animation: pulse 2s infinite; */
 }
 
 @keyframes pulse {
@@ -603,7 +711,8 @@ button {
 
 .tab-details-chip {
   margin-bottom: 32px;
-  background: var(--gradient);
+  /* background: var(--gradient); */
+  background: var(--color-accent);
   color: white;
 }
 
@@ -642,7 +751,7 @@ button {
   margin: 5% auto;
   padding: 20px;
   border-radius: 1rem;
-  width: 80%;
+  width: 50%;
   box-shadow: 0 4px 15px rgba(0,0,0,0.2);
   animation: fadeInUp 0.3s ease;
 }
@@ -785,6 +894,15 @@ button {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
+
+  #basicDetails {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+  
+  .cxone-modal-content {
+    width: 80%;    
+  }
 }
 
 @media (max-width:760px) {
@@ -810,9 +928,6 @@ button {
     flex-direction: column-reverse;
     justify-content: space-between
   } 
-  .main-container-div {
-    flex-direction: column;
-  }
   
   .cxone-tabs {
     display: grid;
@@ -869,4 +984,29 @@ button {
     flex-direction: column;
     gap: 8px
   }
+}
+
+
+
+
+
+
+
+
+.subscription-type img {
+    width: 80px;
+    height: 80px;
+    cursor: pointer;
+}
+
+.subscription-type img:nth-child(2) {
+    display: none; /* hide red by default */
+}
+
+.subscription-type.active img:nth-child(1) {
+    display: none; /* hide green */
+}
+
+.subscription-type.active img:nth-child(2) {
+    display: inline; /* show red */
 }

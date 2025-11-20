@@ -59,10 +59,6 @@ document.addEventListener("DOMContentLoaded", () => {
   serviceSelector.addEventListener("change", (e) => {
     setTheme(e.target.value);
   });
-
-  // customerSelector.addEventListener("change", (e) => {
-  //   setCustomer(e.target.value);
-  // });
 });
 
 function setTheme(name = "holland") {
@@ -78,12 +74,4 @@ function setTheme(name = "holland") {
     document.head.appendChild(link);
   }
   link.href = brand.favicon;
-}
-
-function setCustomer(customerId = "C-0001") {
-  customer = SAMPLE_API_RESPONSES.find((c) => c.customerId === customerId);
-
-  // setTheme(customer.brand);
-
-  populateFromIVR(customer);
 }

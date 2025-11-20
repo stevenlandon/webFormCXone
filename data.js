@@ -39,7 +39,7 @@ export const customerIntents = [
   { value: "luggageLost", label: "Luggage Lost" },
   { value: "shoreExcursion", label: "Shore Excursion Inquiry" },
   { value: "onboardCredit", label: "Onboard Credit Issue" },
-  { value: "specialAssistance", label: "Special Assistance Request" }
+  { value: "specialAssistance", label: "Special Assistance Request" },
 ];
 
 export const cxOneAgents = [
@@ -47,7 +47,7 @@ export const cxOneAgents = [
   { value: "agent2", label: "Agent 2" },
   { value: "agent3", label: "Agent 3" },
   { value: "agent4", label: "Agent 4" },
-  { value: "agent5", label: "Agent 5" }
+  { value: "agent5", label: "Agent 5" },
 ];
 
 // Example: Deliver mode options
@@ -68,23 +68,27 @@ export const SAMPLE_API_RESPONSES = [
     customerId: "C-0001",
     callerName: "John Doe",
     ccn: "CCN-12345",
-    loyalty:"5-Star Platinum",
+    loyalty: "5-Star Platinum",
     loyaltyLevel: "5",
     callerType: "D",
     callerImage: "/assets/icons/guest.png",
     intent: "newBooking",
     intentImage: "/assets/intents/newBooking2.png",
-    booking: { number: "B-123", date: "2025-11-05 09:30" },
+    booking: {
+      number: "B-123",
+      date: "2025-11-05 09:30",
+
+      bookingNotes: "Sample notes for the agent.",
+    },
     voyageType: "WC",
     voyageTypeText: "World Cruise",
     voyageTypeImage: "/assets/voyageTypes/worldCruise.png",
-    bookingNotes: "Sample notes for the agent.",
     mediaType: "Voice",
     authenticated: true,
     authStatus: {
       authenticated: true,
       status: "AI authenticated",
-      details: "Customer authenticated via security questions."
+      details: "Customer authenticated via security questions.",
     },
     lang: "en-US",
     langFlag: "/assets/flags/english.png",
@@ -99,11 +103,17 @@ export const SAMPLE_API_RESPONSES = [
       { value: "privacyGDPR", label: "Acknowledge Privacy Policy (GDPR)" },
       { value: "promoConsent", label: "Consent to Promotional Communication" },
       { value: "liabilityWaiver", label: "Accept Liability Waiver" },
-      { value: "insurancePolicy", label: "Acknowledge Travel Insurance Policy" },
+      {
+        value: "insurancePolicy",
+        label: "Acknowledge Travel Insurance Policy",
+      },
       { value: "behaviorPolicy", label: "Accept Onboard Behavior Policy" },
       { value: "paymentAuth", label: "Agree to Payment Authorization" },
       { value: "contractTerms", label: "Accept Cruise Contract Terms" },
-      { value: "healthSafety", label: "Consent to Health and Safety Protocols" }
+      {
+        value: "healthSafety",
+        label: "Consent to Health and Safety Protocols",
+      },
     ],
   },
   {
@@ -116,7 +126,7 @@ export const SAMPLE_API_RESPONSES = [
     customerId: "C-0002",
     callerName: "Lucas Müller",
     ccn: "CCN-23456",
-    loyalty:"3-Star Platinum",
+    loyalty: "3-Star Platinum",
     loyaltyLevel: "3",
     callerType: "T",
     travelAdvisor: "Cosco Travels",
@@ -125,21 +135,25 @@ export const SAMPLE_API_RESPONSES = [
       iata: "IATA-78901",
       clia: "CLIA-45678",
       agencyId: "AG-12345",
-      agencyName: "Cosco Travel Agency"
+      agencyName: "Cosco Travel Agency",
     },
     intent: "modifyBooking",
     intentImage: "/assets/intents/modifyBooking.png",
-    booking: { number: "B-234", date: "2025-11-06 14:00" },
+    booking: {
+      number: "B-234",
+      date: "2025-11-06 14:00",
+
+      bookingNotes: "Requested to modify the existing booking.",
+    },
     voyageType: "GV",
     voyageTypeText: "Grand Voyage",
     voyageTypeImage: "/assets/voyageTypes/grandVoyage.png",
-    bookingNotes: "Requested to modify the existing booking.",
     mediaType: "Chat",
     authenticated: false,
     authStatus: {
       authenticated: false,
       status: "Failed authentication",
-      details: "Customer failed security questions."
+      details: "Customer failed security questions.",
     },
     lang: "de-DE",
     langFlag: "/assets/flags/german.png",
@@ -154,11 +168,17 @@ export const SAMPLE_API_RESPONSES = [
       { value: "privacyGDPR", label: "Acknowledge Privacy Policy (GDPR)" },
       { value: "promoConsent", label: "Consent to Promotional Communication" },
       { value: "liabilityWaiver", label: "Accept Liability Waiver" },
-      { value: "insurancePolicy", label: "Acknowledge Travel Insurance Policy" },
+      {
+        value: "insurancePolicy",
+        label: "Acknowledge Travel Insurance Policy",
+      },
       { value: "behaviorPolicy", label: "Accept Onboard Behavior Policy" },
       { value: "paymentAuth", label: "Agree to Payment Authorization" },
       { value: "contractTerms", label: "Accept Cruise Contract Terms" },
-      { value: "healthSafety", label: "Consent to Health and Safety Protocols" }
+      {
+        value: "healthSafety",
+        label: "Consent to Health and Safety Protocols",
+      },
     ],
   },
   {
@@ -171,23 +191,27 @@ export const SAMPLE_API_RESPONSES = [
     customerId: "C-0003",
     callerName: "Emma de Jong",
     ccn: "CCN-34567",
-    loyalty:"2-Star Platinum",
+    loyalty: "2-Star Platinum",
     loyaltyLevel: "2",
     callerType: "D",
     callerImage: "/assets/icons/guest.png",
     intent: "cancelBooking",
     intentImage: "/assets/intents/cancelBooking.png",
-    booking: { number: "B-345", date: "2025-11-07 10:15" },
+    booking: {
+      number: "B-345",
+      date: "2025-11-07 10:15",
+
+      bookingNotes: "Customer wants to modify bed arrangement.",
+    },
     voyageType: "BC",
     voyageTypeText: "Bingo/Charity Voyage",
     voyageTypeImage: "/assets/voyageTypes/bingoCruise.png",
-    bookingNotes: "Customer wants to modify bed arrangement.",
     mediaType: "Voice",
     authenticated: true,
     authStatus: {
       authenticated: true,
       status: "Agent authenticated",
-      details: "Customer authenticated via security questions."
+      details: "Customer authenticated via security questions.",
     },
     lang: "nl-NL",
     langFlag: "/assets/flags/dutch.png",
@@ -202,11 +226,17 @@ export const SAMPLE_API_RESPONSES = [
       { value: "privacyGDPR", label: "Acknowledge Privacy Policy (GDPR)" },
       { value: "promoConsent", label: "Consent to Promotional Communication" },
       { value: "liabilityWaiver", label: "Accept Liability Waiver" },
-      { value: "insurancePolicy", label: "Acknowledge Travel Insurance Policy" },
+      {
+        value: "insurancePolicy",
+        label: "Acknowledge Travel Insurance Policy",
+      },
       { value: "behaviorPolicy", label: "Accept Onboard Behavior Policy" },
       { value: "paymentAuth", label: "Agree to Payment Authorization" },
       { value: "contractTerms", label: "Accept Cruise Contract Terms" },
-      { value: "healthSafety", label: "Consent to Health and Safety Protocols" }
+      {
+        value: "healthSafety",
+        label: "Consent to Health and Safety Protocols",
+      },
     ],
   },
   {
@@ -219,7 +249,7 @@ export const SAMPLE_API_RESPONSES = [
     customerId: "C-0004",
     callerName: "Sophie Brown",
     ccn: "CCN-45678",
-    loyalty:"1-Star Platinum",
+    loyalty: "1-Star Platinum",
     loyaltyLevel: "1",
     callerType: "T",
     travelAdvisorImage: "/assets/travelAdvisors/vacationToGo.jpg",
@@ -228,21 +258,24 @@ export const SAMPLE_API_RESPONSES = [
       iata: "IATA-78901",
       clia: "CLIA-45678",
       agencyId: "AG-12345",
-      agencyName: "Vacation To Go"
+      agencyName: "Vacation To Go",
     },
     intent: "billingIssue",
     intentImage: "/assets/intents/billingIssue.jpg",
-    booking: { number: "B-456", date: "2025-11-08 16:00" },
+    booking: {
+      number: "B-456",
+      date: "2025-11-08 16:00",
+      bookingNotes: "Customer requesting refund for canceled trip.",
+    },
     voyageType: "FF",
     voyageTypeText: "Friends & Family Voyage",
     voyageTypeImage: "/assets/voyageTypes/friendsFamily.png",
-    bookingNotes: "Customer requesting refund for canceled trip.",
     mediaType: "Email",
     authenticated: false,
     authStatus: {
       authenticated: false,
       status: "Not attempted",
-      details: "Authentication not attempted ."
+      details: "Authentication not attempted .",
     },
     lang: "en-DE",
     langFlag: "/assets/flags/english.png",
@@ -257,11 +290,17 @@ export const SAMPLE_API_RESPONSES = [
       { value: "privacyGDPR", label: "Acknowledge Privacy Policy (GDPR)" },
       { value: "promoConsent", label: "Consent to Promotional Communication" },
       { value: "liabilityWaiver", label: "Accept Liability Waiver" },
-      { value: "insurancePolicy", label: "Acknowledge Travel Insurance Policy" },
+      {
+        value: "insurancePolicy",
+        label: "Acknowledge Travel Insurance Policy",
+      },
       { value: "behaviorPolicy", label: "Accept Onboard Behavior Policy" },
       { value: "paymentAuth", label: "Agree to Payment Authorization" },
       { value: "contractTerms", label: "Accept Cruise Contract Terms" },
-      { value: "healthSafety", label: "Consent to Health and Safety Protocols" }
+      {
+        value: "healthSafety",
+        label: "Consent to Health and Safety Protocols",
+      },
     ],
   },
   {
@@ -274,23 +313,26 @@ export const SAMPLE_API_RESPONSES = [
     customerId: "C-0005",
     callerName: "Jason Williams",
     ccn: "CCN-56789",
-    loyalty:"2-Star Platinum",
+    loyalty: "2-Star Platinum",
     loyaltyLevel: "2",
     callerType: "D",
     callerImage: "/assets/icons/guest.png",
     intent: "newBooking",
     intentImage: "/assets/intents/newBooking2.png",
-    booking: { number: "B-567", date: "2025-11-09 11:45" },
+    booking: {
+      number: "B-567",
+      date: "2025-11-09 11:45",
+      bookingNotes: "Interested in upgrading to premium suite.",
+    },
     voyageType: "IL",
     voyageTypeText: "Inteline Cruise",
     voyageTypeImage: "/assets/voyageTypes/interline.png",
-    bookingNotes: "Interested in upgrading to premium suite.",
     mediaType: "Voice",
     authenticated: true,
     authStatus: {
       authenticated: true,
       status: "AI GDPR authenticated",
-      details: "Customer authenticated via security questions."
+      details: "Customer authenticated via security questions.",
     },
     lang: "en-US",
     langFlag: "/assets/flags/german.png",
@@ -305,11 +347,17 @@ export const SAMPLE_API_RESPONSES = [
       { value: "privacyGDPR", label: "Acknowledge Privacy Policy (GDPR)" },
       { value: "promoConsent", label: "Consent to Promotional Communication" },
       { value: "liabilityWaiver", label: "Accept Liability Waiver" },
-      { value: "insurancePolicy", label: "Acknowledge Travel Insurance Policy" },
+      {
+        value: "insurancePolicy",
+        label: "Acknowledge Travel Insurance Policy",
+      },
       { value: "behaviorPolicy", label: "Accept Onboard Behavior Policy" },
       { value: "paymentAuth", label: "Agree to Payment Authorization" },
       { value: "contractTerms", label: "Accept Cruise Contract Terms" },
-      { value: "healthSafety", label: "Consent to Health and Safety Protocols" }
+      {
+        value: "healthSafety",
+        label: "Consent to Health and Safety Protocols",
+      },
     ],
   },
   {
@@ -322,7 +370,7 @@ export const SAMPLE_API_RESPONSES = [
     customerId: "C-0006",
     callerName: "Mark Visser",
     ccn: "CCN-67890",
-    loyalty:"1-Star Platinum",
+    loyalty: "1-Star Platinum",
     loyaltyLevel: "1",
     callerType: "T",
     travelAdvisorImage: "/assets/travelAdvisors/cosco.png",
@@ -331,21 +379,24 @@ export const SAMPLE_API_RESPONSES = [
       iata: "IATA-78901",
       clia: "CLIA-45678",
       agencyId: "AG-12345",
-      agencyName: "Cosco Travel Agency"
+      agencyName: "Cosco Travel Agency",
     },
     intent: "modifyBooking",
     intentImage: "/assets/intents/modifyBooking.png",
-    booking: { number: "B-678", date: "2025-11-10 08:00" },
+    booking: {
+      number: "B-678",
+      date: "2025-11-10 08:00",
+      bookingNotes: "Requested itinerary changes for cruise trip.",
+    },
     voyageType: "WC",
     voyageTypeText: "World Cruise",
     voyageTypeImage: "/assets/voyageTypes/worldCruise.png",
-    bookingNotes: "Requested itinerary changes for cruise trip.",
     mediaType: "Voice",
     authenticated: true,
     authStatus: {
       authenticated: true,
       status: "Incomplete authenticated",
-      details: "Customer authenticated via security questions."
+      details: "Customer authenticated via security questions.",
     },
     lang: "en-NL",
     langFlag: "/assets/flags/dutch.png",
@@ -360,11 +411,17 @@ export const SAMPLE_API_RESPONSES = [
       { value: "privacyGDPR", label: "Acknowledge Privacy Policy (GDPR)" },
       { value: "promoConsent", label: "Consent to Promotional Communication" },
       { value: "liabilityWaiver", label: "Accept Liability Waiver" },
-      { value: "insurancePolicy", label: "Acknowledge Travel Insurance Policy" },
+      {
+        value: "insurancePolicy",
+        label: "Acknowledge Travel Insurance Policy",
+      },
       { value: "behaviorPolicy", label: "Accept Onboard Behavior Policy" },
       { value: "paymentAuth", label: "Agree to Payment Authorization" },
       { value: "contractTerms", label: "Accept Cruise Contract Terms" },
-      { value: "healthSafety", label: "Consent to Health and Safety Protocols" }
+      {
+        value: "healthSafety",
+        label: "Consent to Health and Safety Protocols",
+      },
     ],
   },
   {
@@ -377,23 +434,26 @@ export const SAMPLE_API_RESPONSES = [
     customerId: "C-0007",
     callerName: "Olivia Martinez",
     ccn: "CCN-78901",
-    loyalty:"3-Star Platinum",
+    loyalty: "3-Star Platinum",
     loyaltyLevel: "3",
     callerType: "D",
     callerImage: "/assets/icons/guest.png",
     intent: "luggageLost",
     intentImage: "/assets/intents/luggageLost.png",
-    booking: { number: "B-789", date: "2025-11-11 12:30" },
+    booking: {
+      number: "B-789",
+      date: "2025-11-11 12:30",
+      bookingNotes: "Reported missing luggage after arrival.",
+    },
     voyageType: "GV",
     voyageTypeText: "Grand Voyage",
     voyageTypeImage: "/assets/voyageTypes/grandVoyage.png",
-    bookingNotes: "Reported missing luggage after arrival.",
     mediaType: "Voice",
     authenticated: false,
     authStatus: {
       authenticated: false,
       status: "Failed authentication",
-      details: "Customer failed security questions."
+      details: "Customer failed security questions.",
     },
     lang: "en-US",
     langFlag: "/assets/flags/english.png",
@@ -408,11 +468,17 @@ export const SAMPLE_API_RESPONSES = [
       { value: "privacyGDPR", label: "Acknowledge Privacy Policy (GDPR)" },
       { value: "promoConsent", label: "Consent to Promotional Communication" },
       { value: "liabilityWaiver", label: "Accept Liability Waiver" },
-      { value: "insurancePolicy", label: "Acknowledge Travel Insurance Policy" },
+      {
+        value: "insurancePolicy",
+        label: "Acknowledge Travel Insurance Policy",
+      },
       { value: "behaviorPolicy", label: "Accept Onboard Behavior Policy" },
       { value: "paymentAuth", label: "Agree to Payment Authorization" },
       { value: "contractTerms", label: "Accept Cruise Contract Terms" },
-      { value: "healthSafety", label: "Consent to Health and Safety Protocols" }
+      {
+        value: "healthSafety",
+        label: "Consent to Health and Safety Protocols",
+      },
     ],
   },
   {
@@ -425,7 +491,7 @@ export const SAMPLE_API_RESPONSES = [
     customerId: "C-0008",
     callerName: "Katrin Schmidt",
     ccn: "CCN-89012",
-    loyalty:"5-Star Platinum",
+    loyalty: "5-Star Platinum",
     loyaltyLevel: "5",
     callerType: "T",
     travelAdvisorImage: "/assets/travelAdvisors/vacationToGo.jpg",
@@ -434,21 +500,24 @@ export const SAMPLE_API_RESPONSES = [
       iata: "IATA-78901",
       clia: "CLIA-45678",
       agencyId: "AG-12345",
-      agencyName: "Vacation To Go"
+      agencyName: "Vacation To Go",
     },
     intent: "billingIssue",
     intentImage: "/assets/intents/billingIssue.jpg",
-    booking: { number: "B-890", date: "2025-11-12 09:45" },
+    booking: {
+      number: "B-890",
+      date: "2025-11-12 09:45",
+      bookingNotes: "Reported issue with credit card payment.",
+    },
     voyageType: "BC",
     voyageTypeText: "Bingo/Charity Voyage",
     voyageTypeImage: "/assets/voyageTypes/bingoCruise.png",
-    bookingNotes: "Reported issue with credit card payment.",
     mediaType: "Chat",
     authenticated: true,
     authStatus: {
       authenticated: true,
       status: "AI authenticated",
-      details: "Customer authenticated via security questions."
+      details: "Customer authenticated via security questions.",
     },
     lang: "de-DE",
     langFlag: "/assets/flags/german.png",
@@ -463,11 +532,17 @@ export const SAMPLE_API_RESPONSES = [
       { value: "privacyGDPR", label: "Acknowledge Privacy Policy (GDPR)" },
       { value: "promoConsent", label: "Consent to Promotional Communication" },
       { value: "liabilityWaiver", label: "Accept Liability Waiver" },
-      { value: "insurancePolicy", label: "Acknowledge Travel Insurance Policy" },
+      {
+        value: "insurancePolicy",
+        label: "Acknowledge Travel Insurance Policy",
+      },
       { value: "behaviorPolicy", label: "Accept Onboard Behavior Policy" },
       { value: "paymentAuth", label: "Agree to Payment Authorization" },
       { value: "contractTerms", label: "Accept Cruise Contract Terms" },
-      { value: "healthSafety", label: "Consent to Health and Safety Protocols" }
+      {
+        value: "healthSafety",
+        label: "Consent to Health and Safety Protocols",
+      },
     ],
   },
   {
@@ -480,23 +555,26 @@ export const SAMPLE_API_RESPONSES = [
     customerId: "C-0009",
     callerName: "William Johnson",
     ccn: "CCN-90123",
-    loyalty:"4-Star Platinum",
+    loyalty: "4-Star Platinum",
     loyaltyLevel: "4",
     callerType: "D",
     callerImage: "/assets/icons/guest.png",
     intent: "modifyBooking",
     intentImage: "/assets/intents/modifyBooking.png",
-    booking: { number: "B-901", date: "2025-11-13 15:00" },
+    booking: {
+      number: "B-901",
+      date: "2025-11-13 15:00",
+      bookingNotes: "Requested wheelchair assistance for boarding.",
+    },
     voyageType: "FF",
     voyageTypeText: "Friends & Family Voyage",
     voyageTypeImage: "/assets/voyageTypes/friendsFamily.png",
-    bookingNotes: "Requested wheelchair assistance for boarding.",
     mediaType: "Voice",
     authenticated: true,
     authStatus: {
       authenticated: true,
       status: "AI GDPR authenticated",
-      details: "Customer authenticated via security questions."
+      details: "Customer authenticated via security questions.",
     },
     lang: "en-US",
     langFlag: "/assets/flags/dutch.png",
@@ -511,11 +589,17 @@ export const SAMPLE_API_RESPONSES = [
       { value: "privacyGDPR", label: "Acknowledge Privacy Policy (GDPR)" },
       { value: "promoConsent", label: "Consent to Promotional Communication" },
       { value: "liabilityWaiver", label: "Accept Liability Waiver" },
-      { value: "insurancePolicy", label: "Acknowledge Travel Insurance Policy" },
+      {
+        value: "insurancePolicy",
+        label: "Acknowledge Travel Insurance Policy",
+      },
       { value: "behaviorPolicy", label: "Accept Onboard Behavior Policy" },
       { value: "paymentAuth", label: "Agree to Payment Authorization" },
       { value: "contractTerms", label: "Accept Cruise Contract Terms" },
-      { value: "healthSafety", label: "Consent to Health and Safety Protocols" }
+      {
+        value: "healthSafety",
+        label: "Consent to Health and Safety Protocols",
+      },
     ],
   },
   {
@@ -528,7 +612,7 @@ export const SAMPLE_API_RESPONSES = [
     customerId: "C-0010",
     callerName: "Sarah Jones",
     ccn: "CCN-01234",
-    loyalty:"4-Star Platinum",
+    loyalty: "4-Star Platinum",
     loyaltyLevel: "4",
     callerType: "T",
     travelAdvisorImage: "",
@@ -537,21 +621,24 @@ export const SAMPLE_API_RESPONSES = [
       iata: "NA",
       clia: "NA",
       agencyId: "NA",
-      agencyName: "NA"
+      agencyName: "NA",
     },
     intent: "newBooking",
     intentImage: "/assets/intents/newBooking2.png",
-    booking: { number: "B-012", date: "2025-11-14 18:00" },
+    booking: {
+      number: "B-012",
+      date: "2025-11-14 18:00",
+      bookingNotes: "Checking cabin availability for next month.",
+    },
     voyageType: "IL",
     voyageTypeText: "Interline Cruise",
     voyageTypeImage: "/assets/voyageTypes/interline.png",
-    bookingNotes: "Checking cabin availability for next month.",
     mediaType: "Voice",
     authenticated: true,
     authStatus: {
       authenticated: true,
       status: "AI Incompete authenticated",
-      details: "Customer authenticated via security questions."
+      details: "Customer authenticated via security questions.",
     },
     lang: "en-DE",
     langFlag: "/assets/flags/english.png",
@@ -566,11 +653,17 @@ export const SAMPLE_API_RESPONSES = [
       { value: "privacyGDPR", label: "Acknowledge Privacy Policy (GDPR)" },
       { value: "promoConsent", label: "Consent to Promotional Communication" },
       { value: "liabilityWaiver", label: "Accept Liability Waiver" },
-      { value: "insurancePolicy", label: "Acknowledge Travel Insurance Policy" },
+      {
+        value: "insurancePolicy",
+        label: "Acknowledge Travel Insurance Policy",
+      },
       { value: "behaviorPolicy", label: "Accept Onboard Behavior Policy" },
       { value: "paymentAuth", label: "Agree to Payment Authorization" },
       { value: "contractTerms", label: "Accept Cruise Contract Terms" },
-      { value: "healthSafety", label: "Consent to Health and Safety Protocols" }
+      {
+        value: "healthSafety",
+        label: "Consent to Health and Safety Protocols",
+      },
     ],
   },
 ];

@@ -8,6 +8,7 @@ import {
 
 // Elements
 const phoneTypeDiv = document.getElementById("phoneTypeDiv");
+const phoneTypeField = document.getElementById("phoneTypeField");
 const langFlagDiv = document.getElementById("langFlagDiv");
 const authChip = document.getElementById("authChip");
 const customerSelector = document.getElementById("customerSelector");
@@ -19,6 +20,7 @@ const intentTab = document.getElementById("intentTab");
 const intentSelector = document.getElementById("intentSelector");
 const bookingTab = document.getElementById("bookingTab");
 const voyageTypeChip = document.getElementById("voyageTypeChip");
+const loyaltyLevel = document.getElementById("loyaltyLevel");
 const bookingNumber = document.getElementById("bookingNumber");
 const bookingDate = document.getElementById("bookingDate");
 const bookingNotes = document.getElementById("bookingNotes");
@@ -28,7 +30,7 @@ const btnCancel = document.getElementById("btnCancel");
 const serviceFooterName = document.getElementById("serviceFooterName");
 const serviceFooterTagline = document.getElementById("serviceFooterTagline");
 const copyrightYear = document.getElementById("copyrightYear");
-const ivrPayload = document.getElementById('ivrPayload');
+const basicDetails = document.getElementById('basicDetails');
 
 let customer = {};
 
@@ -47,7 +49,7 @@ document.addEventListener("DOMContentLoaded", () => {
     setCustomer(e.target.value);
   });
   
-  intentSelector.addEventListener("change", handleIntentChange);
+  // intentSelector.addEventListener("change", handleIntentChange);
 });
 
 function setCustomer(customerId = "C-0001") {
@@ -55,6 +57,7 @@ function setCustomer(customerId = "C-0001") {
 
   setTheme(customer.brand);
   setPhoneType(phoneTypeDiv, customer.phoneType, customer.phoneTypeImage);
+  setPhoneType(phoneTypeField, customer.phoneType, customer.phoneTypeImage);
   setLangFlag(langFlagDiv, customer.lang, customer.langFlag);
   setAuthChip(customer.authenticated);
 
@@ -76,7 +79,8 @@ function setCustomer(customerId = "C-0001") {
     setTabDetails(intentTab, customer.intentImage, customer.intent);
   }
   if (customer.booking) {
-    voyageTypeChip.textContent = `🏢 Voyage Type: ${customer.voyageTypeText}`;
+    voyageTypeChip.textContent = `${customer.voyageTypeText}`;
+    loyaltyLevel.textContent = `${customer.loyaltyLevel}`;
     setTabDetails(bookingTab, customer.voyageTypeImage, customer.voyageTypeText);
   }
 
@@ -171,12 +175,25 @@ function populateTransferModes(customer) {
     input.value = mode.value;
     input.id = `transferMode_${mode.value}`;
 
+
+    input.addEventListener("change", onTransferModeChange);
     const text = document.createTextNode(" " + mode.label);
 
     wrapper.appendChild(input);
     wrapper.appendChild(text);
     group.appendChild(wrapper);
   });
+}
+
+function onTransferModeChange(e){
+  const selected = e.target.value; // email or chat
+  const targetEl = document.getElementById("pccNameField");
+
+  if (selected === "skillSet") {
+    targetEl.style.display = "none";      // hide on "email"
+  } else {
+    targetEl.style.display = "block";     // show on "chat"
+  }
 }
 
 function populateDeliverModes(customer) {
@@ -227,12 +244,11 @@ function populateFromIVR(payload) {
     loyalty: payload.loyalty,
     voyageType: payload.voyageTypeText,
   }
-  // ivrPayload.textContent = JSON.stringify(mainBasicDetails, null, 2);
   if(payload.callerType === "D") {
     document.getElementById("callerNameText").innerText = payload.callerName || "";
     document.getElementById("ccnText").innerText = payload.ccn || "";
     mainBasicDetails = {
-      customerId: payload.customerId,
+      // customerId: payload.customerId,
       callerName: payload.callerName,
       ccn: payload.ccn,
       ...mainBasicDetails,
@@ -247,6 +263,11 @@ function populateFromIVR(payload) {
       ...mainBasicDetails,
     }
   }
+  document.getElementById("intentText").innerText = payload.intent || "";
+  document.getElementById("transcriptText").innerText = payload.transcript || "";
+  document.getElementById("bookingNumberText").innerText = payload.booking.number || "";
+  document.getElementById("bookingDateText").innerText = payload.booking.date || "";
+  document.getElementById("bookingNotesText").innerText = payload.booking.bookingNotes || "";
 
   serviceSelector.value = payload.brand || "";
   if (payload.intent) {
@@ -259,12 +280,15 @@ function populateFromIVR(payload) {
     bookingNumber.value = payload.booking.number || "";
     bookingDate.value = payload.booking.date || "";
     bookingTab.style.display = "block";
+    bookingNotes.value = payload.booking.bookingNotes;
   }
   transcript.value = payload.transcript || "";
-  bookingNotes.value = payload.bookingNotes;
 
+  // setBasicDetails(mainBasicDetails);
+}
+
+function setBasicDetails(mainBasicDetails){
   const fieldLabels = {
-    customerId: 'Customer ID',
     callerName: 'Customer Name',
     ccn: 'CCN',
     travelAdvisor: 'Travel Advisor',
@@ -274,15 +298,30 @@ function populateFromIVR(payload) {
     loyalty: 'Loyalty',
     voyageType: 'Voyage Type'
   }
+  const fieldIcons = {
+    callerName: '<i class="fa-regular fa-user"></i>',
+    ccn: '<i class="fa-regular fa-address-card"></i>',
+    travelAdvisor: '<i class="fa-solid fa-user-tie"></i>',
+    intent: '<i class="fa-solid fa-list-check"></i>',
+    bookingNumber: '<i class="fa-solid fa-hashtag"></i>',
+    bookingDate: '<i class="fa-regular fa-calendar"></i>',
+    loyalty: '<i class="fa-regular fa-star"></i>',
+    voyageType: '<i class="fa-solid fa-ship"></i>'
+  }
 
   const htmlContent = Object.keys(mainBasicDetails)
     .map(key => `
       <div class="field">
-        <p>${fieldLabels[key]}: <span id="${key}Text">${mainBasicDetails[key] || 'NA'}</span></p>
+        <p>${fieldIcons[key]}: <span id="${key}TextBasic">${mainBasicDetails[key] || 'NA'}</span></p>
       </div>
     `)
     .join('');
-  ivrPayload.innerHTML = htmlContent;
+    // basicDetails.innerHTML = htmlContent;
+    basicDetails.innerHTML = `
+      <div class="short-row">
+        ${htmlContent}
+      </div>
+    `
 }
 
 function handleIntentChange() {
@@ -300,8 +339,7 @@ btnNext.addEventListener("click", () => {
   const data = {
     brand: customer.value,
     intent: intentSelector.value,
-    booking: { number: bookingNumber.value, date: bookingDate.value },
-    bookingNotes: bookingNotes.value,
+    booking: { number: bookingNumber.value, date: bookingDate.value, bookingNotes: bookingNotes.value,},
     routes: {
       email: document.getElementById("mediaMail").checked,
       email: document.getElementById("mediaMessage").checked,
@@ -325,8 +363,7 @@ btnNext.addEventListener("click", () => {
   //   intent,
   //   satisfied,
   //   transcript,
-  //   booking: { number: bookingNumber, date: bookingDate },
-  //   bookingNotes,
+  //   booking: { number: bookingNumber, date: bookingDate, bookingNotes, },
   //   transferTo,
   //   mediaType,
   //   routes,
@@ -422,6 +459,7 @@ function removeTerm(term) {
 
 input.addEventListener("focus", () => renderOptions());
 input.addEventListener("input", (e) => renderOptions(e.target.value));
+
 document.addEventListener("click", (e) => {
   if (!e.target.closest("#termSearch")) {
     optionsList.style.display = "none";
@@ -488,37 +526,47 @@ function populateDropdown(selectId, data) {
   });
 }
 
-const mediaButtons = document.querySelectorAll(
-  ".media-toggle-group .media-type"
-);
-const selectedMedia = new Set();
+// const mediaButtons = document.querySelectorAll(
+//   ".media-toggle-group .media-type"
+// );
+// const selectedMedia = new Set();
 
-mediaButtons.forEach((btn) => {
-  btn.addEventListener("click", () => {
-    const value = btn.dataset.value;
-    btn.classList.toggle("active");
-    if (selectedMedia.has(value)) {
-      selectedMedia.delete(value);
-    } else {
-      selectedMedia.add(value);
-    }
+// mediaButtons.forEach((btn) => {
+//   btn.addEventListener("click", () => {
+//     const value = btn.dataset.value;
+//     btn.classList.toggle("active");
+//     if (selectedMedia.has(value)) {
+//       selectedMedia.delete(value);
+//     } else {
+//       selectedMedia.add(value);
+//     }
 
-  });
-});
+//   });
+// });
 
-const subscriptionButtons = document.querySelectorAll(
-  ".subscription-toggle-group .subscription-type"
-);
-const selectedSubscription = new Set();
+// const subscriptionButtons = document.querySelectorAll(
+//   ".subscription-toggle-group .subscription-type"
+// );
+// const selectedSubscription = new Set();
 
-subscriptionButtons.forEach((btn) => {
-  btn.addEventListener("click", () => {
-    const value = btn.dataset.value;
-    btn.classList.toggle("active");
-    if (selectedSubscription.has(value)) {
-      selectedSubscription.delete(value);
-    } else {
-      selectedSubscription.add(value);
-    }
-  });
+// subscriptionButtons.forEach((btn) => {
+//   btn.addEventListener("click", () => {
+//     const value = btn.dataset.value;
+//     btn.classList.toggle("active");
+//     if (selectedSubscription.has(value)) {
+//       selectedSubscription.delete(value);
+//     } else {
+//       selectedSubscription.add(value);
+//     }
+//   });
+// });
+
+document.querySelectorAll(".subscription-type").forEach(type => {
+    type.addEventListener("click", () => {
+        const isActive = type.classList.toggle("active");
+        type.dataset.tooltip = isActive 
+            ? "Customer NOT authorized" 
+            : "Customer authorized for this";
+          isActive ? type.setAttribute('tooltip','Customer NOT authorized'): type.setAttribute('tooltip','Customer authorized for this');
+    });
 });

@@ -2,6 +2,8 @@
    HOLLAND AMERICA LINE WORK ITEM FORM - JavaScript
    ================================================ */
 
+import { BRANDS } from "../data.js";
+
 // ============================================
 // STATE MANAGEMENT
 // ============================================
@@ -58,16 +60,157 @@ const FormState = {
     }
 };
 
+// Sample passenger data - This would come from your database
+const passengerData = [
+    {
+        name: 'John Doe',
+        totalCancelFees: '398.04',
+        totalWaived: '398.04',
+        netCancelledFee: '0.00',
+        waiveReasonCD: 'PL',
+        waiveReasonDescription: 'POLAR ERROR',
+        cancelCode: 'D',
+        airCancelFees: '398.04',
+        packageCancelFees: '0.00',
+        transferCancelFees: '0.00',
+        ncfChargesCancelFees: '0.00',
+        nonRefundablePremium: '0.00',
+        openDate: '04/22/2025'
+    },
+    {
+        name: 'Jane Smith',
+        totalCancelFees: '275.50',
+        totalWaived: '275.50',
+        netCancelledFee: '0.00',
+        waiveReasonCD: 'PL',
+        waiveReasonDescription: 'POLAR ERROR',
+        cancelCode: 'D',
+        airCancelFees: '275.50',
+        packageCancelFees: '0.00',
+        transferCancelFees: '0.00',
+        ncfChargesCancelFees: '0.00',
+        nonRefundablePremium: '0.00',
+        openDate: '04/22/2025'
+    },
+    {
+        name: 'Bob Johnson',
+        totalCancelFees: '150.00',
+        totalWaived: '150.00',
+        netCancelledFee: '0.00',
+        waiveReasonCD: 'PL',
+        waiveReasonDescription: 'POLAR ERROR',
+        cancelCode: 'D',
+        airCancelFees: '150.00',
+        packageCancelFees: '0.00',
+        transferCancelFees: '0.00',
+        ncfChargesCancelFees: '0.00',
+        nonRefundablePremium: '0.00',
+        openDate: '04/22/2025'
+    },
+    {
+        name: 'Alice Williams',
+        totalCancelFees: '0.00',
+        totalWaived: '0.00',
+        netCancelledFee: '0.00',
+        waiveReasonCD: '',
+        waiveReasonDescription: '',
+        cancelCode: '',
+        airCancelFees: '0.00',
+        packageCancelFees: '0.00',
+        transferCancelFees: '0.00',
+        ncfChargesCancelFees: '0.00',
+        nonRefundablePremium: '0.00',
+        openDate: '04/22/2025'
+    }
+];
+
+// Field configuration
+const fieldConfig = [
+    { key: 'totalCancelFees', label: 'Total Cancel Fees', type: 'text' },
+    { key: 'totalWaived', label: 'Total Waived', type: 'text' },
+    { key: 'netCancelledFee', label: 'Net Cancelled Fee', type: 'text' },
+    { key: 'waiveReasonCD', label: 'Waive Reason CD', type: 'text' },
+    { key: 'waiveReasonDescription', label: 'Waive Reason Description', type: 'textarea' },
+    { key: 'cancelCode', label: 'Cancel Code', type: 'text' },
+    { key: 'airCancelFees', label: 'Air Cancel Fees', type: 'text' },
+    { key: 'packageCancelFees', label: 'Package Cancel Fees', type: 'text' },
+    { key: 'transferCancelFees', label: 'Transfer Cancel Fees', type: 'text' },
+    { key: 'ncfChargesCancelFees', label: 'NCF Charges Cancel Fees', type: 'text' },
+    { key: 'nonRefundablePremium', label: 'Non-Refundable Premium/Waiver', type: 'text' },
+    { key: 'openDate', label: 'Open Date', type: 'text' }
+];
+
 // ============================================
 // INITIALIZATION
 // ============================================
 
 document.addEventListener('DOMContentLoaded', () => {
+    setTheme();
+    initializeTable();
+    serviceSelector.addEventListener("change", (e) => {
+        setTheme(e.target.value);
+    });
     initializeForm();
     loadFormData();
     startAutoSave();
     attachWindowListeners();
+
+    
+    document.getElementById("otherCorrection").addEventListener("change", (e)=>toggleField(e,"otherCorrectionField"));
+    document.getElementById("otherCoaching").addEventListener("change", (e)=>toggleField(e,"otherCoachingDetailsField"));
 });
+
+function toggleField(e, fieldId){
+  const selected = e.target.checked; 
+  const targetEl = document.getElementById(fieldId);
+
+  if (selected) {
+    targetEl.style.display = "block"; 
+} else {
+    targetEl.style.display = "none";
+  }
+}
+
+function setTheme(name = "holland") {
+  document.documentElement.setAttribute("data-theme", name);
+  serviceSelector.value = name;
+
+  const brand = BRANDS[name] || Object.values(BRANDS)[0];
+  let link = document.querySelector("link[rel~='icon']");
+  if (!link) {
+    link = document.createElement("link");
+    link.rel = "icon";
+    document.head.appendChild(link);
+  }
+  link.href = brand.favicon;
+}
+
+function initializeTable() {
+    const totalPassengers = passengerData.length;
+    const headerRow = document.createElement('tr');
+    headerRow.innerHTML = '<th>Field Name</th>';
+    
+    for (let i = 0; i < totalPassengers; i++) {
+        headerRow.innerHTML += `<th>${passengerData[i].name}</th>`;
+    }
+    document.getElementById('tableHeader').appendChild(headerRow);
+    const tbody = document.getElementById('tableBody');
+    fieldConfig.forEach(field => {
+        const row = document.createElement('tr');
+        row.innerHTML = `<td>${field.label}</td>`;
+        for (let i = 0; i < totalPassengers; i++) {
+            const td = document.createElement('td');
+            const value = i < passengerData.length ? (passengerData[i][field.key] || '') : '';
+            if (field.type === 'textarea') {
+                td.innerHTML = `<textarea readonly>${value}</textarea>`;
+            } else {
+                td.innerHTML = `<input type="text" value="${value}" readonly>`;
+            }
+            row.appendChild(td);
+        }
+        tbody.appendChild(row);
+    });
+}
 
 function initializeForm() {
     attachEventListeners();
@@ -121,7 +264,6 @@ function setupActionButtons() {
     const passReviewBtn = document.getElementById('passReviewBtn');
     const correctionBtn = document.getElementById('correctionBtn');
     const coachingBtn = document.getElementById('coachingBtn');
-    const cancelBtn = document.getElementById('cancelBtn');
     const exitQueueBtn = document.getElementById('exitQueueBtn');
     const saveBtn = document.getElementById('saveBtn');
     const saveNextBtn = document.getElementById('saveNextBtn');
@@ -129,7 +271,6 @@ function setupActionButtons() {
     if (passReviewBtn) passReviewBtn.addEventListener('click', handlePassReview);
     if (correctionBtn) correctionBtn.addEventListener('click', handleCorrection);
     if (coachingBtn) coachingBtn.addEventListener('click', handleCoaching);
-    if (cancelBtn) cancelBtn.addEventListener('click', handleCancel);
     if (exitQueueBtn) exitQueueBtn.addEventListener('click', handleExit);
     if (saveBtn) saveBtn.addEventListener('click', handleSave);
     if (saveNextBtn) saveNextBtn.addEventListener('click', handleSaveNext);
@@ -277,11 +418,11 @@ function markFormDirty() {
 // ============================================
 
 function handlePassReview() {
-    if (!validateForm()) return;
+    // if (!validateForm()) return;
 
     showConfirmModal(
+        'passReview',
         'Pass Review',
-        'Are you sure you want to pass this work item for review?',
         () => {
             saveFormData();
             showNotification('Work item passed for review successfully!', 'success');
@@ -295,8 +436,8 @@ function handlePassReview() {
 
 function handleCorrection() {
     showConfirmModal(
+        'correctionRequest',
         'Request Correction',
-        'Send this work item for correction?',
         () => {
             saveFormData();
             showNotification('Correction request sent!', 'success');
@@ -306,8 +447,8 @@ function handleCorrection() {
 
 function handleCoaching() {
     showConfirmModal(
+        'coachingEvent',
         'Coaching Request',
-        'Send coaching request for this work item?',
         () => {
             saveFormData();
             showNotification('Coaching request submitted!', 'success');
@@ -315,23 +456,9 @@ function handleCoaching() {
     );
 }
 
-function handleCancel() {
-    if (FormState.isDirty) {
-        showConfirmModal(
-            'Discard Changes',
-            'You have unsaved changes. Are you sure you want to discard them?',
-            () => {
-                localStorage.removeItem('hal-form-data');
-                location.reload();
-            }
-        );
-    } else {
-        location.reload();
-    }
-}
-
 function handleExit() {
     showConfirmModal(
+        'exitWorkQueue',
         'Exit Work Queue',
         'Are you sure you want to exit the queue? Unsaved changes will be lost.',
         () => {
@@ -364,15 +491,15 @@ function handleSaveNext() {
 // MODAL MANAGEMENT
 // ============================================
 
-function showConfirmModal(title, message, onConfirm) {
-    const modal = document.getElementById('confirmModal');
-    const modalTitle = document.getElementById('modalTitle');
-    const modalMessage = document.getElementById('modalMessage');
-    const confirmBtn = document.getElementById('confirmBtn');
-    const cancelBtn = document.getElementById('cancelModalBtn');
+function showConfirmModal(modelType, title, onConfirm, message = 'Are you sure you want to proceed?') {
+    const modal = document.getElementById(modelType);
+    const modalTitle = modal.querySelector('#modalTitle');
+    const modalMessage = modal.querySelector('#modalMessage');
+    const confirmBtn = modal.querySelector("#confirmBtn");
+    const cancelBtn = modal.querySelector("#cancelModalBtn");
 
     modalTitle.textContent = title;
-    modalMessage.textContent = message;
+   if(modalMessage) modalMessage.textContent = message;
 
     modal.classList.add('active');
 
@@ -384,19 +511,17 @@ function showConfirmModal(title, message, onConfirm) {
 
     newConfirmBtn.addEventListener('click', () => {
         onConfirm();
-        closeModal();
+        closeModal(modelType);
     });
 
-    newCancelBtn.addEventListener('click', closeModal);
-
-    // Close on Escape
+    newCancelBtn.addEventListener('click', ()=>closeModal(modelType));
     document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape') closeModal();
+        if (e.key === 'Escape') closeModal(modelType);
     });
 }
 
-function closeModal() {
-    const modal = document.getElementById('confirmModal');
+function closeModal(modelType) {
+    const modal = document.getElementById(modelType);
     modal.classList.remove('active');
 }
 
