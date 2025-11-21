@@ -76,7 +76,7 @@
                         
                         <div class="field">
                             <p><i class="fa-solid fa-ship"></i>: <span id="voyageTypeTextBasic">World Cruise</span></p>
-                            <p><i class="fa-regular fa-star"></i>: <span id="loyaltyTextBasic">5-Star Platinum</span></p>
+                            <div class="loyalty-level"></div>
                         </div>                     
                     </div>
                     <div id="basicDetails"></div>
@@ -195,7 +195,7 @@
                                                         <div class="cross-mark"><i class="fa-solid fa-x"></i></div>
                                                     </div>
                                                 </div>
-                                                <input type="hidden" name="wrongUser" id="wrongUser" value="" />
+                                                <input type="hidden" name="wrongUser" id="wrongUser" value="0" />
                                             </div>
                                         </div>
         
@@ -206,10 +206,7 @@
         
                                     <div class="cxone-form-panel" data-tab="booking">
                                         <button type="button" class="tab-details-chip" id="voyageTypeChip"></button>
-                                        <div class="star-rating">
-                                            <i class="fa-solid fa-star loyalty-star"></i>
-                                            <span class="star-value" id="loyaltyLevel">4</span>
-                                        </div>
+                                        <div class="star-rating loyalty-level"></div>
         
                                         <div class="short-row">
                                             <div class="field">
@@ -270,35 +267,24 @@
                                                     placeholder="Phone Number" />
                                             </div>
                                         </div>
-                                        <!-- <div class="field">
-                                            <p>Authorize for Preferences:</p>
-                                            <div class="checkbox-group subscription-toggle-group">
-                                                <p class="subscription-type">
-                                                    <input type="checkbox" id="bookingUpdates"> Service/Support/Upgrades messaging
-                                                </p>
-                                                <p class="subscription-type">
-                                                    <input type="checkbox" id="promoOffers"> PCC SMS messaging
-                                                </p>
-                                                <p class="subscription-type">
-                                                    <input type="checkbox" id="billingAlerts"> Marketing opt-in messaging
-                                                </p>
-                                            </div>
-                                        </div> -->
                                         <div class="field">
                                             <p>Authorize for Preferences:</p>
                                             <div class="checkbox-group subscription-toggle-group">
-                                                <p class="subscription-type" title="Service/Supoort/Upgrades messages">
-                                                    <img src="/assets/mediaTypes/servicegreen.png" alt="">
+                                                <div class="subscription-type" title="Service/Supoort/Upgrades messages">
                                                     <img src="/assets/mediaTypes/servicered.png" alt="">
-                                                </p>
-                                                <p class="subscription-type" title="PCC consultant messages">
+                                                    <img src="/assets/mediaTypes/servicegreen.png" alt="">
+                                                    <!-- <span class="subscription-msg">Service/Supoort/Upgrades messages</span> -->
+                                                </div>
+                                                <div class="subscription-type" title="PCC consultant messages">
+                                                    <img src="/assets/mediaTypes/pccred.png" alt="">
                                                     <img src="/assets/mediaTypes/pccgreen.png" alt="">
-                                                    <img src="/assets/mediaTypes/pccred.jpg" alt="">
-                                                </p>
-                                                <p class="subscription-type" title="Marketing messages">
-                                                    <img src="/assets/mediaTypes/marketingGreen.png" alt="">
+                                                    <!-- <span class="subscription-msg">PCC consultant messages</span> -->
+                                                </div>
+                                                <div class="subscription-type" title="Marketing messages">
                                                     <img src="/assets/mediaTypes/marketingRed.png" alt="">
-                                                </p>
+                                                    <img src="/assets/mediaTypes/marketingGreen.png" alt="">
+                                                    <!-- <span class="subscription-msg">Marketing messages</span> -->
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -451,14 +437,6 @@
                 thumb.classList.add("selected");
                 hiddenSatisfiedInput.value = thumb.dataset.value;
             });
-        });
-
-        const userWrapper = document.querySelector(".user-img-wrapper");
-        const wrongUserInput = document.getElementById("wrongUser");
-
-        userWrapper.addEventListener("click", () => {
-            userWrapper.classList.toggle("wrong");
-            wrongUserInput.value = userWrapper.classList.contains("wrong") ? "1" : "";
         });
     </script>
 </body>

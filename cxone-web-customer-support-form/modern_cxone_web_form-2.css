@@ -140,9 +140,7 @@ p{
 }
 
 .basic-details-div .short-row .field:not(:last-child) {
-/* .basic-details-div .short-row .field { */
   border-right: 1px solid #ddd;
-  /* padding-left: 10px; */
 }
 
 #updateInfoButton{ 
@@ -396,13 +394,61 @@ main {
   gap: 8px;
 }
 
-.subscription-toggle-group p, .media-toggle-group p {
+.subscription-toggle-group p {
   cursor: pointer;
 }
 
-.subscription-toggle-group p input[type="checkbox"], .media-toggle-group p input[type="checkbox"] {
+.subscription-toggle-group p input[type="checkbox"] {
   display: none;
 }
+
+.subscription-type {
+    width: 80px;
+    height: 80px;
+    position: relative;
+}
+
+.subscription-type img {
+    width: 80px;
+    height: 80px;
+    cursor: pointer;
+}
+
+.subscription-type img:nth-child(2) {
+    display: none; /* hide red by default */
+}
+
+.subscription-type.active img:nth-child(1) {
+    display: none; /* hide green */
+}
+
+.subscription-type.active img:nth-child(2) {
+    display: inline; 
+}
+
+/* .subscription-type:hover img {
+  filter: grayscale(100%) brightness(50%);
+}
+
+.subscription-msg {
+  position: absolute;
+  left: 0;
+  color: white;
+  font-size: 10px;
+  font-weight: 600;
+  text-align: center;
+  opacity: 0;
+  transition: 0.4s ease;
+  pointer-events: none;
+  width: 80px;
+  height: 80px;
+  overflow-wrap: break-word;
+  align-content: center;
+}
+
+.subscription-type:hover .subscription-msg {
+  opacity: 1;
+} */
 
 .transcript {
   background: #f6f8fa;
@@ -454,31 +500,9 @@ button {
   transform: translateY(-1px)
 }
 
-.media-type
-/* ,.subscription-type  */
-{
-  background: transparent;
-  color: var(--muted);
-  border: 1px solid #e3e8f0;
-  padding: 8px 12px;
-  border-radius: 10px;
-  width: max-content;
-}
-
-
-
-
 .btn-ghost:hover {
   border: 2px solid var(--brand, #0b6efd);
   color: var(--brand, #0b6efd);
-}
-
-.media-type.active
-/* , .subscription-type.active  */
-{
-  background: var(--brand, #0b6efd);
-  color: white;
-  box-shadow: 0 0 6px rgba(0, 0, 0, 0.2);
 }
 
 .controls .btn-next[disabled] {
@@ -490,10 +514,6 @@ button {
   background: #f97373;
   color: white
 }
-
-
-
-
 
 
 
@@ -634,15 +654,17 @@ button {
     background: #ff3b3b;
     color: #fff;
     border-radius: 50%;
-    display: none;
     font-weight: bold;
     font-size: 16px;
     align-items: center;
     justify-content: center;
+    scale: 0;
+    display: flex;
+    transition: scale .5s ease-in-out;
 }
 
 .user-img-wrapper.wrong .cross-mark {
-    display: flex;
+    scale: 1;
 }
 
 /* wrong user css end */
@@ -656,8 +678,49 @@ button {
 }
 
 .loyalty-star {
-  font-size: 50px;
+  font-size: 25px;
   color: gold;
+  animation: glitter 1s linear 0s  normal;
+}
+
+.loyalty-silver-star {
+  font-size: 25px;
+  color: silver;
+  animation: glitter 1s linear 0s  normal;
+}
+
+.loyalty-gold-star {
+  font-size: 25px;
+  color: gold;
+  animation: glitter 1s linear 0s  normal;
+}
+
+.loyalty-platinum-star {
+  font-size: 25px;
+  color: #115500;
+  animation: glitter 1s linear 0s  normal;
+}
+
+
+
+/*CSS3 keyframes for glittering effect*/
+@keyframes glitter {
+  0% {
+    -webkit-transform: scale(0.1) rotate(0deg);
+    opacity: 0;
+  }
+  25% {
+    -webkit-transform: scale(.3) rotate(120deg);
+    opacity: .3;
+  }
+  50% {
+    -webkit-transform: scale(0.7) rotate(240deg);
+    opacity: .7;
+  }
+  100% {
+    -webkit-transform: scale(1) rotate(360deg);
+    opacity: 1;
+  }
 }
 
 .star-value {
@@ -986,27 +1049,3 @@ button {
   }
 }
 
-
-
-
-
-
-
-
-.subscription-type img {
-    width: 80px;
-    height: 80px;
-    cursor: pointer;
-}
-
-.subscription-type img:nth-child(2) {
-    display: none; /* hide red by default */
-}
-
-.subscription-type.active img:nth-child(1) {
-    display: none; /* hide green */
-}
-
-.subscription-type.active img:nth-child(2) {
-    display: inline; /* show red */
-}

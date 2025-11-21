@@ -20,7 +20,6 @@ const intentTab = document.getElementById("intentTab");
 const intentSelector = document.getElementById("intentSelector");
 const bookingTab = document.getElementById("bookingTab");
 const voyageTypeChip = document.getElementById("voyageTypeChip");
-const loyaltyLevel = document.getElementById("loyaltyLevel");
 const bookingNumber = document.getElementById("bookingNumber");
 const bookingDate = document.getElementById("bookingDate");
 const bookingNotes = document.getElementById("bookingNotes");
@@ -31,6 +30,7 @@ const serviceFooterName = document.getElementById("serviceFooterName");
 const serviceFooterTagline = document.getElementById("serviceFooterTagline");
 const copyrightYear = document.getElementById("copyrightYear");
 const basicDetails = document.getElementById('basicDetails');
+const loyaltyLevelDivs = document.querySelectorAll(".loyalty-level");
 
 let customer = {};
 
@@ -80,7 +80,6 @@ function setCustomer(customerId = "C-0001") {
   }
   if (customer.booking) {
     voyageTypeChip.textContent = `${customer.voyageTypeText}`;
-    loyaltyLevel.textContent = `${customer.loyaltyLevel}`;
     setTabDetails(bookingTab, customer.voyageTypeImage, customer.voyageTypeText);
   }
 
@@ -268,7 +267,8 @@ function populateFromIVR(payload) {
   document.getElementById("bookingNumberText").innerText = payload.booking.number || "";
   document.getElementById("bookingDateText").innerText = payload.booking.date || "";
   document.getElementById("bookingNotesText").innerText = payload.booking.bookingNotes || "";
-
+  renderStarRating(payload.loyaltyLevel)
+  
   serviceSelector.value = payload.brand || "";
   if (payload.intent) {
     intentSelector.value = payload.intent;
@@ -285,6 +285,20 @@ function populateFromIVR(payload) {
   transcript.value = payload.transcript || "";
 
   // setBasicDetails(mainBasicDetails);
+}
+
+function renderStarRating(rating) {
+  loyaltyLevelDivs.forEach(loyalty => {
+    loyalty.innerHTML = '';
+    const validRating = Math.max(1, Math.min(5, rating));
+    const starClass = validRating < 3 ? 'loyalty-silver-star' : validRating > 3 ? 'loyalty-platinum-star' : 'loyalty-gold-star';
+    for (let i = 0; i < validRating; i++) {
+      const star = document.createElement('i');
+      star.className = `fa-solid fa-star ${starClass}`;
+      // star.className = `fa-solid fa-star loyalty-star`;
+      loyalty.appendChild(star);
+    }
+  })
 }
 
 function setBasicDetails(mainBasicDetails){
@@ -327,83 +341,6 @@ function setBasicDetails(mainBasicDetails){
 function handleIntentChange() {
   console.log("handleIntentChange: ");
 }
-
-btnCancel.addEventListener("click", () => {
-  if (confirm("Discard changes?")) {
-    console.log("Changes discarded.");
-  }
-});
-
-btnNext.addEventListener("click", () => {
-  if (btnNext.disabled) return;
-  const data = {
-    brand: customer.value,
-    intent: intentSelector.value,
-    booking: { number: bookingNumber.value, date: bookingDate.value, bookingNotes: bookingNotes.value,},
-    routes: {
-      email: document.getElementById("mediaMail").checked,
-      email: document.getElementById("mediaMessage").checked,
-      sms: document.getElementById("mediaChat").checked,
-      chat: document.getElementById("mediaSMS").checked,
-    },
-    transferTo: document.getElementById("transferTo").value,
-    timestamp: new Date().toISOString(),
-  };
-
-  // const submission = {
-  //   brand: service,
-  //   customerId,
-  //   callerName,
-  //   ccn,
-  //   travelAdvisor: customer.travelAdvisor || null,
-  //   iata,
-  //   clia,
-  //   agencyId,
-  //   agencyName,
-  //   intent,
-  //   satisfied,
-  //   transcript,
-  //   booking: { number: bookingNumber, date: bookingDate, bookingNotes, },
-  //   transferTo,
-  //   mediaType,
-  //   routes,
-  //   phoneType: customer.phoneType || null,
-  //   lang: customer.lang || null,
-  //   authenticated: customer.authenticated || false,
-  //   timestamp: new Date().toISOString(),
-  // };
-  console.log("data:", data);
-  alert("Saved locally");
-
-  // // method:1
-  // // Send data back to Studio // CXone SDK messaging.
-  // await window.CXone.sendMessage({
-  // 	type: "FormSubmit",
-  // 	data: formData
-  // });
-
-  // // method:2
-  // // Call a CXone “REST API” from
-  // await fetch(`https://api-cxone.incontact.com/incontactapi/services/v21.0/contacts/${contact.id}/custom-data`, {
-  // 	method: "POST",
-  // 	headers: {
-  // 		"Authorization": `Bearer ${token}`,
-  // 		"Content-Type": "application/json"
-  // 	},
-  // 	body: JSON.stringify({
-  // 		customData: {
-  // 		newCustomerName,
-  // 		agentAuth,
-  // 		transferNotes
-  // 		}
-  // 	})
-  // });
-
-  // // method:3  //  Redirect or call a webhook
-  // // You can also just redirect to another URL that CXone monitors.
-  // // That webhook can update CXone contact data or trigger next Studio step via API.
-  // window.location.href = `https://yourapi/next-step?customer=${customerName}&auth=${agentAuth}`;
-});
 
 // searchable autocomplete multi-select dropdown start
 
@@ -526,47 +463,101 @@ function populateDropdown(selectId, data) {
   });
 }
 
-// const mediaButtons = document.querySelectorAll(
-//   ".media-toggle-group .media-type"
-// );
-// const selectedMedia = new Set();
+const userWrapper = document.querySelector(".user-img-wrapper");
+const wrongUserInput = document.getElementById("wrongUser");
+const crossMark = document.querySelector(".cross-mark");
 
-// mediaButtons.forEach((btn) => {
-//   btn.addEventListener("click", () => {
-//     const value = btn.dataset.value;
-//     btn.classList.toggle("active");
-//     if (selectedMedia.has(value)) {
-//       selectedMedia.delete(value);
-//     } else {
-//       selectedMedia.add(value);
-//     }
-
-//   });
-// });
-
-// const subscriptionButtons = document.querySelectorAll(
-//   ".subscription-toggle-group .subscription-type"
-// );
-// const selectedSubscription = new Set();
-
-// subscriptionButtons.forEach((btn) => {
-//   btn.addEventListener("click", () => {
-//     const value = btn.dataset.value;
-//     btn.classList.toggle("active");
-//     if (selectedSubscription.has(value)) {
-//       selectedSubscription.delete(value);
-//     } else {
-//       selectedSubscription.add(value);
-//     }
-//   });
-// });
+userWrapper.addEventListener("click", () => {
+    userWrapper.classList.toggle("wrong");
+    wrongUserInput.value = userWrapper.classList.contains("wrong") ? "1" : "0";
+});
 
 document.querySelectorAll(".subscription-type").forEach(type => {
     type.addEventListener("click", () => {
         const isActive = type.classList.toggle("active");
-        type.dataset.tooltip = isActive 
-            ? "Customer NOT authorized" 
-            : "Customer authorized for this";
-          isActive ? type.setAttribute('tooltip','Customer NOT authorized'): type.setAttribute('tooltip','Customer authorized for this');
+        type.dataset.title = isActive 
+            ? "Customer authorized for this"
+            : "Customer not authorized" ;
+          isActive ? type.setAttribute('title','Customer authorized for this') :  type.setAttribute('title','Customer not authorized');
     });
+});
+
+
+
+
+btnCancel.addEventListener("click", () => {
+  if (confirm("Discard changes?")) {
+    console.log("Changes discarded.");
+  }
+});
+
+btnNext.addEventListener("click", () => {
+  if (btnNext.disabled) return;
+  const data = {
+    brand: customer.value,
+    intent: intentSelector.value,
+    booking: { number: bookingNumber.value, date: bookingDate.value, bookingNotes: bookingNotes.value,},
+    routes: {
+      email: document.getElementById("mediaMail").checked,
+      email: document.getElementById("mediaMessage").checked,
+      sms: document.getElementById("mediaChat").checked,
+      chat: document.getElementById("mediaSMS").checked,
+    },
+    transferTo: document.getElementById("transferTo").value,
+    timestamp: new Date().toISOString(),
+  };
+
+  // const submission = {
+  //   brand: service,
+  //   customerId,
+  //   callerName,
+  //   ccn,
+  //   travelAdvisor: customer.travelAdvisor || null,
+  //   iata,
+  //   clia,
+  //   agencyId,
+  //   agencyName,
+  //   intent,
+  //   satisfied,
+  //   transcript,
+  //   booking: { number: bookingNumber, date: bookingDate, bookingNotes, },
+  //   transferTo,
+  //   mediaType,
+  //   routes,
+  //   phoneType: customer.phoneType || null,
+  //   lang: customer.lang || null,
+  //   authenticated: customer.authenticated || false,
+  //   timestamp: new Date().toISOString(),
+  // };
+  console.log("data:", data);
+  alert("Saved locally");
+
+  // // method:1
+  // // Send data back to Studio // CXone SDK messaging.
+  // await window.CXone.sendMessage({
+  // 	type: "FormSubmit",
+  // 	data: formData
+  // });
+
+  // // method:2
+  // // Call a CXone “REST API” from
+  // await fetch(`https://api-cxone.incontact.com/incontactapi/services/v21.0/contacts/${contact.id}/custom-data`, {
+  // 	method: "POST",
+  // 	headers: {
+  // 		"Authorization": `Bearer ${token}`,
+  // 		"Content-Type": "application/json"
+  // 	},
+  // 	body: JSON.stringify({
+  // 		customData: {
+  // 		newCustomerName,
+  // 		agentAuth,
+  // 		transferNotes
+  // 		}
+  // 	})
+  // });
+
+  // // method:3  //  Redirect or call a webhook
+  // // You can also just redirect to another URL that CXone monitors.
+  // // That webhook can update CXone contact data or trigger next Studio step via API.
+  // window.location.href = `https://yourapi/next-step?customer=${customerName}&auth=${agentAuth}`;
 });
