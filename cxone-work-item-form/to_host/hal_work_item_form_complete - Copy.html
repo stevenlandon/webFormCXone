@@ -76,7 +76,7 @@
             --bg-color: #ffffff;
             --text-color: #1b1b1b;
             --border-color: #e5e5e5;
-            --logo-url: url('../assets/logos/cunard.svg');
+            --logo-url: url('../../assets/logos/cunard.svg');
             --pad: 20px;
             --input-height: 44px;
             --radius: 12px;
@@ -89,7 +89,7 @@
             --color-primary: #A41E35;
             --color-accent: #2D2A26;
             --gradient: linear-gradient(135deg, #A41E35, #7B1326);
-            --logo-url: url('../assets/logos/cunard.svg');
+            --logo-url: url('../../assets/logos/cunard.svg');
             --accent-bg: radial-gradient(circle at top left, #A41E35 0%, #2D2A26 100%);
 
             --primary-color: #8b0000;
@@ -102,7 +102,7 @@
             --color-primary: #1A2857;
             --color-accent: #004488;
             --gradient: linear-gradient(135deg, #1A2857, #002B6A);
-            --logo-url: url('../assets/logos/holland.svg');
+            --logo-url: url('../../assets/logos/holland.svg');
             --accent-bg: radial-gradient(circle at bottom right, #1A2857 0%, #001F4E 100%);
 
             --primary-color: #003d6f;
@@ -115,7 +115,7 @@
             --color-primary: #00538B;
             --color-accent: #0090D9;
             --gradient: linear-gradient(135deg, #00538B, #0090D9);
-            --logo-url: url('../assets/logos/princess.svg');
+            --logo-url: url('../../assets/logos/princess.svg');
             --accent-bg: linear-gradient(180deg, rgba(0, 83, 139, 0.9), rgba(0, 144, 217, 0.8)),
                 url('../assets/patterns/princess-waves.svg');
 
@@ -129,7 +129,7 @@
             --color-primary: #E3CE66;
             --color-accent: #9A7B2F;
             --gradient: linear-gradient(135deg, #9A7B2F, #E3CE66);
-            --logo-url: url('../assets/logos/seabourn.svg');
+            --logo-url: url('../../assets/logos/seabourn.svg');
             --accent-bg: linear-gradient(180deg, #f9f7f1, #efe3b0);
 
             /* --primary-color: #1a1a2e; */
@@ -502,52 +502,6 @@
             flex-wrap: wrap;
         }
 
-        .tab-btn {
-            flex: 1;
-            min-width: 150px;
-            padding: var(--spacing-md) var(--spacing-lg);
-            background: var(--bg-secondary);
-            color: var(--color-text-muted);
-            border: 2px solid #ccc;
-            border-radius: var(--radius-md);
-            font-size: var(--font-size-sm);
-            font-weight: bold;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-transform: uppercase;
-            letter-spacing: 0.3px;
-            display: flex;
-            flex-direction: column;
-            align-items: flex-start;
-        }
-
-        .tab-btn .passenger-label {
-            font-size: 10px;
-            color: var(--color-dark-gray);
-        }
-
-        .tab-btn .passenger-name {
-            font-size: var(--font-size-base);
-            color: var(--color-primary);
-            margin-top: 2px;
-        }
-
-        .tab-btn:hover {
-            border-color: var(--color-secondary);
-            background: #e8f4ff;
-        }
-
-        .tab-btn.active {
-            background: var(--color-secondary);
-            color: var(--color-white);
-            border-color: var(--color-secondary);
-        }
-
-        .tab-btn.active .passenger-label,
-        .tab-btn.active .passenger-name {
-            color: var(--color-white);
-        }
-
         /* Info Sections */
 
         .info-section {
@@ -676,22 +630,6 @@
             background: var(--color-white);
             border-radius: var(--radius-sm);
             border-left: 3px solid var(--color-secondary);
-        }
-
-        .waiver-input {
-            padding: var(--spacing-md) var(--spacing-lg);
-            background: var(--color-white);
-            border: 1px solid #ccc;
-            border-radius: var(--radius-sm);
-            color: var(--color-text);
-            font-size: var(--font-size-sm);
-            font-family: var(--font-family);
-        }
-
-        .waiver-input:focus {
-            outline: none;
-            border-color: var(--color-secondary);
-            box-shadow: 0 0 0 2px rgba(0, 153, 204, 0.1);
         }
 
         /* Other Passengers */
@@ -1290,10 +1228,6 @@
                 flex-direction: column;
             }
 
-            .tab-btn {
-                width: 100%;
-            }
-
             .info-grid {
                 grid-template-columns: 1fr;
             }
@@ -1475,20 +1409,21 @@
                 </div>
             </div>
             <div class="action-panel">
+                <input type="hidden" name="wi_status" id="wi_status">
 
-                <button class="action-btn pass-review" id="passReviewBtn">
+                <button onclick="document.getElementById('wi_status').value='pass';"  class="action-btn pass-review" id="passReviewBtn">
                     <span>🔒 PASS REVIEW</span>
                 </button>
 
-                <button class="action-btn correction-request" id="correctionBtn">
+                <button onclick="document.getElementById('wi_status').value='correction';"  class="action-btn correction-request" id="correctionBtn">
                     <span>📝 CORRECTION REQUEST</span>
                 </button>
 
-                <button class="action-btn coaching-request" id="coachingBtn">
+                <button onclick="document.getElementById('wi_status').value='coaching';"  class="action-btn coaching-request" id="coachingBtn">
                     <span>📧 COACHING REQUEST</span>
                 </button>
 
-                <button class="action-btn exit-queue" id="exitQueueBtn">
+                <button onclick="document.getElementById('wi_status').value='exit';"  class="action-btn exit-queue" id="exitQueueBtn">
                     <span>🚪 EXIT WORK QUEUE</span>
                 </button>
             </div>
@@ -1499,189 +1434,14 @@
     <footer class="app-footer">
         <div class="footer-container">
             <div class="footer-tagline">Holland America Line - Savor the Journey</div>
-            <div class="footer-buttons">
+            <!-- <div class="footer-buttons">
                 <button class="footer-btn" id="saveBtn">Save</button>
                 <button class="footer-btn save-next-btn" id="saveNextBtn">Save & Next</button>
-            </div>
+            </div> -->
         </div>
     </footer>
 
-    <div id="passReview" class="modal">
-        <div class="modal-overlay"></div>
-        <div class="modal-content">
-            <div class="modal-title" id="modalTitle">Pass Review</div>
-            <div>
-                <div class="field">
-                    <p>Check/select all that apply:</p>
-                    <div class="checkbox-group subscription-toggle-group">
-                        <p class="subscription-type"><input type="checkbox" id="bookingUpdates"> Proper code used</p>
-                        <p class="subscription-type"><input type="checkbox" id="promoOffers"> Proper documentation</p>
-                        <p class="subscription-type"><input type="checkbox" id="billingAlerts"> Justified</p>
-                    </div>
-                </div>
-                <div class="field mt-22px">
-                    <label>Others</label>
-                    <select id="customerSelector" aria-label="Select cruise line">
-                        <option value="C-0001">Option 1</option>
-                        <option value="C-0002">Option 2</option>
-                        <option value="C-0002">Option 3</option>
-                    </select>
-                </div>
-            </div>
-            <div class="modal-buttons">
-                <button class="modal-btn secondary" id="cancelModalBtn">Cancel</button>
-                <button class="modal-btn primary" id="confirmBtn">Confirm</button>
-            </div>
-        </div>
-    </div>
-
-    <div id="correctionRequest" class="modal">
-        <div class="modal-overlay"></div>
-        <div class="modal-content">
-            <div class="modal-title" id="modalTitle">Correction Request</div>
-            <div class="short-row">
-                <div class="field">
-                    <div class="checkbox-group subscription-toggle-group">
-                        <p class="subscription-type"><input type="checkbox" id="missingDocumentation"> Missing
-                            Documentation</p>
-                        <p class="subscription-type"><input type="checkbox" id="incorrectCancellation"> Incorrect
-                            Cancellation</p>
-                        <p class="subscription-type"><input type="checkbox" id="otherCorrection"> Other</p>
-                    </div>
-                </div>
-                <div class="field" style="display: none;" id="otherCorrectionField">
-                    <label for="otherCorrection">Other Correction:</label>
-                    <input type="text" id="otherCorrection" />
-                </div>
-                <div class="field">
-                    <label for="nonVisilbeCorrectionMessage">Non-Visible Message:</label>
-                    <textarea id="nonVisilbeCorrectionMessage" class="cxone-textarea"
-                        placeholder="Paste transcript or chat history..."></textarea>
-                </div>
-            </div>
-            <div class="modal-buttons">
-                <button class="modal-btn secondary" id="cancelModalBtn">Cancel</button>
-                <button class="modal-btn primary" id="confirmBtn">Confirm</button>
-            </div>
-        </div>
-    </div>
-
-    <div id="coachingEvent" class="modal">
-        <div class="modal-overlay"></div>
-        <div class="modal-content">
-            <div class="modal-title" id="modalTitle">Coaching Event</div>
-            <div class="short-row">
-                <div class="field">
-                    <p>Concern Item/s:</p>
-                    <div class="checkbox-group subscription-toggle-group">
-                        <p class="subscription-type"><input type="checkbox" id="lacksBookingHistoryComments"> Lacks
-                            Booking History Comments</p>
-                        <p class="subscription-type"><input type="checkbox" id="lacksCommentsInCancelWaiverScreen">
-                            Lacks Comments in Cancel Waiver Screen</p>
-                        <p class="subscription-type"><input type="checkbox" id="lacksCommentsOnManualAdjScreen"> Lacks
-                            Comments on Manual Adj Screen</p>
-                        <p class="subscription-type"><input type="checkbox" id="lacksFCCHistoryComments"> Lacks FCC
-                            History Comments</p>
-                        <p class="subscription-type"><input type="checkbox" id="outsideOfPolicyProcedure"> Outside of
-                            Policy and/or Procedure</p>
-                        <p class="subscription-type"><input type="checkbox" id="dataEntryError"> Data Entry Error</p>
-                        <p class="subscription-type"><input type="checkbox" id="otherCoaching"> Other</p>
-                    </div>
-                </div>
-                <div class="field" style="display: none;" id="otherCoachingDetailsField">
-                    <label for="otherCoachingDetails">Other Coaching Details:</label>
-                    <input type="text" id="otherCoachingDetails" />
-                </div>
-                <div class="field">
-                    <label for="nonVisilbeCoachingMessage">Non-Visible Message:</label>
-                    <textarea id="nonVisilbeCoachingMessage" class="cxone-textarea"
-                        placeholder="Paste transcript or chat history..."></textarea>
-                </div>
-            </div>
-            <div class="modal-buttons">
-                <button class="modal-btn secondary" id="cancelModalBtn">Cancel</button>
-                <button class="modal-btn primary" id="confirmBtn">Confirm</button>
-            </div>
-        </div>
-    </div>
-
-    <div id="exitWorkQueue" class="modal">
-        <div class="modal-overlay"></div>
-        <div class="modal-content">
-            <div class="modal-title" id="modalTitle">Confirm Action</div>
-            <div class="modal-message" id="modalMessage"></div>
-            <div class="modal-buttons">
-                <button class="modal-btn secondary" id="cancelModalBtn">Cancel</button>
-                <button class="modal-btn primary" id="confirmBtn">Confirm</button>
-            </div>
-        </div>
-    </div>
-
-    <div id="notification" class="notification"></div>
-
     <script type="module">
-        /* ================================================
-        HOLLAND AMERICA LINE WORK ITEM FORM - JavaScript
-        ================================================ */
-
-        import { BRANDS } from "../../data.js";
-
-        // ============================================
-        // STATE MANAGEMENT
-        // ============================================
-
-        const FormState = {
-            isDirty: false,
-            currentPassenger: 1,
-            expandedSections: {
-                voyageDetails: true,
-                cancellationFees: true,
-                waiverCancellation: true,
-                otherPassengers: true
-            },
-            formData: {
-                passenger1: {
-                    voyageDetails: {
-                        voyageNumber: '',
-                        bookingNumber: '',
-                        currency: 'USD'
-                    },
-                    waiverCancellation: {
-                        waiverReasonCode: '',
-                        waiverReasonDesc: '',
-                        cancelCode: '',
-                        refNotes: ''
-                    }
-                },
-                passenger2: {
-                    voyageDetails: {
-                        voyageNumber: '',
-                        bookingNumber: '',
-                        currency: 'USD'
-                    },
-                    waiverCancellation: {
-                        waiverReasonCode: '',
-                        waiverReasonDesc: '',
-                        cancelCode: '',
-                        refNotes: ''
-                    }
-                },
-                passenger3: {
-                    voyageDetails: {
-                        voyageNumber: '',
-                        bookingNumber: '',
-                        currency: 'USD'
-                    },
-                    waiverCancellation: {
-                        waiverReasonCode: '',
-                        waiverReasonDesc: '',
-                        cancelCode: '',
-                        refNotes: ''
-                    }
-                }
-            }
-        };
-
         // Sample passenger data - This would come from your database
         const passengerData = [
             {
@@ -1768,26 +1528,7 @@
 
         document.addEventListener('DOMContentLoaded', () => {
             initializeTable();
-            initializeForm();
-            loadFormData();
-            startAutoSave();
-            attachWindowListeners();
-
-
-            document.getElementById("otherCorrection").addEventListener("change", (e) => toggleField(e, "otherCorrectionField"));
-            document.getElementById("otherCoaching").addEventListener("change", (e) => toggleField(e, "otherCoachingDetailsField"));
         });
-
-        function toggleField(e, fieldId) {
-            const selected = e.target.checked;
-            const targetEl = document.getElementById(fieldId);
-
-            if (selected) {
-                targetEl.style.display = "block";
-            } else {
-                targetEl.style.display = "none";
-            }
-        }
 
         function initializeTable() {
             const totalPassengers = passengerData.length;
@@ -1815,402 +1556,6 @@
                 tbody.appendChild(row);
             });
         }
-
-        function initializeForm() {
-            attachEventListeners();
-            setupPassengerTabs();
-            setupSectionToggles();
-            setupActionButtons();
-        }
-
-        // ============================================
-        // EVENT LISTENERS
-        // ============================================
-
-        function attachEventListeners() {
-            // Voyage Details inputs
-            document.querySelectorAll('.voyage-detail-input').forEach(input => {
-                input.addEventListener('change', markFormDirty);
-                input.addEventListener('blur', markFormDirty);
-            });
-
-            // Waiver inputs
-            document.querySelectorAll('.waiver-input').forEach(input => {
-                input.addEventListener('change', markFormDirty);
-                input.addEventListener('blur', markFormDirty);
-            });
-        }
-
-        function setupPassengerTabs() {
-            const tabBtns = document.querySelectorAll('.tab-btn');
-            tabBtns.forEach(btn => {
-                btn.addEventListener('click', (e) => {
-                    const passengerNum = parseInt(e.currentTarget.dataset.passenger);
-                    switchPassenger(passengerNum);
-                });
-            });
-        }
-
-        function setupSectionToggles() {
-            const sections = document.querySelectorAll('.section-title');
-            sections.forEach(section => {
-                section.addEventListener('click', () => {
-                    const nextContent = section.nextElementSibling;
-                    if (nextContent && nextContent.classList.contains('section-content')) {
-                        nextContent.style.display = nextContent.style.display === 'none' ? 'block' : 'none';
-                        section.classList.toggle('collapsed');
-                    }
-                });
-            });
-        }
-
-        function setupActionButtons() {
-            const passReviewBtn = document.getElementById('passReviewBtn');
-            const correctionBtn = document.getElementById('correctionBtn');
-            const coachingBtn = document.getElementById('coachingBtn');
-            const exitQueueBtn = document.getElementById('exitQueueBtn');
-            const saveBtn = document.getElementById('saveBtn');
-            const saveNextBtn = document.getElementById('saveNextBtn');
-
-            if (passReviewBtn) passReviewBtn.addEventListener('click', handlePassReview);
-            if (correctionBtn) correctionBtn.addEventListener('click', handleCorrection);
-            if (coachingBtn) coachingBtn.addEventListener('click', handleCoaching);
-            if (exitQueueBtn) exitQueueBtn.addEventListener('click', handleExit);
-            if (saveBtn) saveBtn.addEventListener('click', handleSave);
-            if (saveNextBtn) saveNextBtn.addEventListener('click', handleSaveNext);
-        }
-
-        // ============================================
-        // PASSENGER MANAGEMENT
-        // ============================================
-
-        function switchPassenger(passengerNum) {
-            if (FormState.currentPassenger === passengerNum) return;
-
-            // Save current passenger data
-            collectFormData();
-
-            // Switch passenger
-            FormState.currentPassenger = passengerNum;
-
-            // Update tab buttons
-            document.querySelectorAll('.tab-btn').forEach(btn => {
-                btn.classList.remove('active');
-                if (parseInt(btn.dataset.passenger) === passengerNum) {
-                    btn.classList.add('active');
-                }
-            });
-
-            // Load new passenger data
-            populateFormData();
-        }
-
-        // ============================================
-        // FORM DATA MANAGEMENT
-        // ============================================
-
-        function collectFormData() {
-            const passengerKey = `passenger${FormState.currentPassenger}`;
-            const passenger = FormState.formData[passengerKey];
-
-            // Voyage Details
-            passenger.voyageDetails.voyageNumber = document.getElementById('voyageNumber')?.value || '';
-            passenger.voyageDetails.bookingNumber = document.getElementById('bookingNumber')?.value || '';
-            passenger.voyageDetails.currency = document.getElementById('currency')?.value || 'USD';
-
-            // Waiver & Cancellation
-            passenger.waiverCancellation.waiverReasonCode = document.getElementById('waiverReasonCode')?.value || '';
-            passenger.waiverCancellation.waiverReasonDesc = document.getElementById('waiverReasonDesc')?.value || '';
-            passenger.waiverCancellation.cancelCode = document.getElementById('cancelCode')?.value || '';
-            passenger.waiverCancellation.refNotes = document.getElementById('refNotes')?.value || '';
-        }
-
-        function populateFormData() {
-            const passengerKey = `passenger${FormState.currentPassenger}`;
-            const passenger = FormState.formData[passengerKey];
-
-            // Voyage Details
-            const voyageNumberEl = document.getElementById('voyageNumber');
-            const bookingNumberEl = document.getElementById('bookingNumber');
-            const currencyEl = document.getElementById('currency');
-
-            if (voyageNumberEl) voyageNumberEl.value = passenger.voyageDetails.voyageNumber || '';
-            if (bookingNumberEl) bookingNumberEl.value = passenger.voyageDetails.bookingNumber || '';
-            if (currencyEl) currencyEl.value = passenger.voyageDetails.currency || 'USD';
-
-            // Waiver & Cancellation
-            const waiverReasonCodeEl = document.getElementById('waiverReasonCode');
-            const waiverReasonDescEl = document.getElementById('waiverReasonDesc');
-            const cancelCodeEl = document.getElementById('cancelCode');
-            const refNotesEl = document.getElementById('refNotes');
-
-            if (waiverReasonCodeEl) waiverReasonCodeEl.value = passenger.waiverCancellation.waiverReasonCode || '';
-            if (waiverReasonDescEl) waiverReasonDescEl.value = passenger.waiverCancellation.waiverReasonDesc || '';
-            if (cancelCodeEl) cancelCodeEl.value = passenger.waiverCancellation.cancelCode || '';
-            if (refNotesEl) refNotesEl.value = passenger.waiverCancellation.refNotes || '';
-
-            FormState.isDirty = false;
-        }
-
-        function loadFormData() {
-            const savedData = localStorage.getItem('hal-form-data');
-            if (savedData) {
-                try {
-                    const parsed = JSON.parse(savedData);
-                    FormState.formData = parsed;
-                    populateFormData();
-                } catch (e) {
-                    console.error('Error loading form data:', e);
-                }
-            }
-        }
-
-        function saveFormData() {
-            collectFormData();
-            localStorage.setItem('hal-form-data', JSON.stringify(FormState.formData));
-        }
-
-        // ============================================
-        // FORM VALIDATION
-        // ============================================
-
-        function validateForm() {
-            const requiredFields = [
-                { id: 'voyageNumber', name: 'Voyage Number' },
-                { id: 'bookingNumber', name: 'Booking Number' }
-            ];
-
-            const missingFields = [];
-
-            requiredFields.forEach(field => {
-                const element = document.getElementById(field.id);
-                if (!element || !element.value.trim()) {
-                    missingFields.push(field.name);
-                }
-            });
-
-            if (missingFields.length > 0) {
-                showNotification(`Please fill in all required fields: ${missingFields.join(', ')}`, 'error');
-                return false;
-            }
-
-            return true;
-        }
-
-        // ============================================
-        // AUTO-SAVE
-        // ============================================
-
-        let autoSaveInterval = null;
-
-        function startAutoSave() {
-            autoSaveInterval = setInterval(() => {
-                if (FormState.isDirty) {
-                    saveFormData();
-                    showNotification('Form saved automatically', 'info');
-                    FormState.isDirty = false;
-                }
-            }, 30000);
-        }
-
-        function markFormDirty() {
-            FormState.isDirty = true;
-        }
-
-        // ============================================
-        // ACTION HANDLERS
-        // ============================================
-
-        function handlePassReview() {
-            // if (!validateForm()) return;
-
-            showConfirmModal(
-                'passReview',
-                'Pass Review',
-                () => {
-                    saveFormData();
-                    showNotification('Work item passed for review successfully!', 'success');
-                    setTimeout(() => {
-                        localStorage.removeItem('hal-form-data');
-                        location.reload();
-                    }, 2000);
-                }
-            );
-        }
-
-        function handleCorrection() {
-            showConfirmModal(
-                'correctionRequest',
-                'Request Correction',
-                () => {
-                    saveFormData();
-                    showNotification('Correction request sent!', 'success');
-                }
-            );
-        }
-
-        function handleCoaching() {
-            showConfirmModal(
-                'coachingEvent',
-                'Coaching Request',
-                () => {
-                    saveFormData();
-                    showNotification('Coaching request submitted!', 'success');
-                }
-            );
-        }
-
-        function handleExit() {
-            showConfirmModal(
-                'exitWorkQueue',
-                'Exit Work Queue',
-                'Are you sure you want to exit the queue? Unsaved changes will be lost.',
-                () => {
-                    localStorage.removeItem('hal-form-data');
-                    showNotification('Exiting queue...', 'info');
-                    setTimeout(() => {
-                        location.reload();
-                    }, 1500);
-                }
-            );
-        }
-
-        function handleSave() {
-            if (!validateForm()) return;
-            saveFormData();
-            showNotification('Work item saved successfully!', 'success');
-            FormState.isDirty = false;
-        }
-
-        function handleSaveNext() {
-            if (!validateForm()) return;
-            saveFormData();
-            showNotification('Work item saved! Loading next item...', 'success');
-            setTimeout(() => {
-                location.reload();
-            }, 2000);
-        }
-
-        // ============================================
-        // MODAL MANAGEMENT
-        // ============================================
-
-        function showConfirmModal(modelType, title, onConfirm, message = 'Are you sure you want to proceed?') {
-            const modal = document.getElementById(modelType);
-            const modalTitle = modal.querySelector('#modalTitle');
-            const modalMessage = modal.querySelector('#modalMessage');
-            const confirmBtn = modal.querySelector("#confirmBtn");
-            const cancelBtn = modal.querySelector("#cancelModalBtn");
-
-            modalTitle.textContent = title;
-            if (modalMessage) modalMessage.textContent = message;
-
-            modal.classList.add('active');
-
-            // Remove old listeners and add new ones
-            const newConfirmBtn = confirmBtn.cloneNode(true);
-            const newCancelBtn = cancelBtn.cloneNode(true);
-            confirmBtn.parentNode.replaceChild(newConfirmBtn, confirmBtn);
-            cancelBtn.parentNode.replaceChild(newCancelBtn, cancelBtn);
-
-            newConfirmBtn.addEventListener('click', () => {
-                onConfirm();
-                closeModal(modelType);
-            });
-
-            newCancelBtn.addEventListener('click', () => closeModal(modelType));
-            document.addEventListener('keydown', (e) => {
-                if (e.key === 'Escape') closeModal(modelType);
-            });
-        }
-
-        function closeModal(modelType) {
-            const modal = document.getElementById(modelType);
-            modal.classList.remove('active');
-        }
-
-        // ============================================
-        // NOTIFICATION SYSTEM
-        // ============================================
-
-        function showNotification(message, type = 'info') {
-            const notification = document.getElementById('notification');
-            notification.textContent = message;
-            notification.className = `notification ${type} show`;
-
-            setTimeout(() => {
-                notification.classList.remove('show');
-            }, 4000);
-        }
-
-        // ============================================
-        // WINDOW LISTENERS
-        // ============================================
-
-        function attachWindowListeners() {
-            window.addEventListener('beforeunload', (e) => {
-                if (FormState.isDirty) {
-                    e.preventDefault();
-                    e.returnValue = '';
-                }
-            });
-        }
-
-        // ============================================
-        // DEBUG TOOLS (Exposed to window)
-        // ============================================
-
-        const Debug = {
-            logState: () => {
-                console.log('Current Form State:', FormState);
-            },
-            fillTestData: () => {
-                FormState.formData.passenger1.voyageDetails = {
-                    voyageNumber: 'ABC123456',
-                    bookingNumber: 'ABC123456',
-                    currency: 'USD'
-                };
-                FormState.formData.passenger1.waiverCancellation = {
-                    waiverReasonCode: 'ILLNESS',
-                    waiverReasonDesc: 'COVID-19',
-                    cancelCode: 'CXL',
-                    refNotes: 'Global pandemic related cancellation'
-                };
-                populateFormData();
-                saveFormData();
-                console.log('Test data filled');
-            },
-            clearData: () => {
-                localStorage.removeItem('hal-form-data');
-                location.reload();
-            },
-            exportData: () => {
-                collectFormData();
-                const dataStr = JSON.stringify(FormState.formData, null, 2);
-                console.log(dataStr);
-                const blob = new Blob([dataStr], { type: 'application/json' });
-                const url = URL.createObjectURL(blob);
-                const a = document.createElement('a');
-                a.href = url;
-                a.download = 'hal-form-data.json';
-                a.click();
-            },
-            importData: (jsonStr) => {
-                try {
-                    const data = JSON.parse(jsonStr);
-                    FormState.formData = data;
-                    saveFormData();
-                    location.reload();
-                    console.log('Data imported successfully');
-                } catch (e) {
-                    console.error('Error importing data:', e);
-                }
-            }
-        };
-
-        // Expose Debug to window
-        window.Debug = Debug;
-
     </script>
 </body>
 

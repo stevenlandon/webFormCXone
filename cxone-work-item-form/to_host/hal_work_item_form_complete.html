@@ -74,7 +74,7 @@
             --bg-color: #ffffff;
             --text-color: #1b1b1b;
             --border-color: #e5e5e5;
-            --logo-url: url('../assets/logos/cunard.svg');
+            --logo-url: url('../../assets/logos/cunard.svg');
             --pad: 20px;
             --input-height: 44px;
             --radius: 12px;
@@ -87,7 +87,7 @@
             --color-primary: #A41E35;
             --color-accent: #2D2A26;
             --gradient: linear-gradient(135deg, #A41E35, #7B1326);
-            --logo-url: url('../assets/logos/cunard.svg');
+            --logo-url: url('../../assets/logos/cunard.svg');
             --accent-bg: radial-gradient(circle at top left, #A41E35 0%, #2D2A26 100%);
 
             --primary-color: #8b0000;
@@ -100,7 +100,7 @@
             --color-primary: #1A2857;
             --color-accent: #004488;
             --gradient: linear-gradient(135deg, #1A2857, #002B6A);
-            --logo-url: url('../assets/logos/holland.svg');
+            --logo-url: url('../../assets/logos/holland.svg');
             --accent-bg: radial-gradient(circle at bottom right, #1A2857 0%, #001F4E 100%);
 
             --primary-color: #003d6f;
@@ -113,7 +113,7 @@
             --color-primary: #00538B;
             --color-accent: #0090D9;
             --gradient: linear-gradient(135deg, #00538B, #0090D9);
-            --logo-url: url('../assets/logos/princess.svg');
+            --logo-url: url('../../assets/logos/princess.svg');
             --accent-bg: linear-gradient(180deg, rgba(0, 83, 139, 0.9), rgba(0, 144, 217, 0.8)),
                 url('../assets/patterns/princess-waves.svg');
 
@@ -127,7 +127,7 @@
             --color-primary: #E3CE66;
             --color-accent: #9A7B2F;
             --gradient: linear-gradient(135deg, #9A7B2F, #E3CE66);
-            --logo-url: url('../assets/logos/seabourn.svg');
+            --logo-url: url('../../assets/logos/seabourn.svg');
             --accent-bg: linear-gradient(180deg, #f9f7f1, #efe3b0);
 
             /* --primary-color: #1a1a2e; */
@@ -1619,7 +1619,36 @@
         HOLLAND AMERICA LINE WORK ITEM FORM - JavaScript
         ================================================ */
 
-        import { BRANDS } from "../../data.js";
+        const BRANDS = {
+            holland: {
+                name: "Holland America Line",
+                tag: "Taking you to extraordinary places",
+                theme: "holland",
+                short: "HAL",
+                favicon: "../../assets/favicons/holland.png",
+            },
+            princess: {
+                name: "Princess Cruises",
+                tag: "Come back new",
+                theme: "princess",
+                short: "PCL",
+                favicon: "../../assets/favicons/princess.png",
+            },
+            seabourn: {
+                name: "Seabourn",
+                tag: "Elegant, ultra-luxury cruises",
+                theme: "seabourn",
+                short: "SBN",
+                favicon: "../../assets/favicons/seabourn.png",
+            },
+            cunard: {
+                name: "Cunard",
+                tag: "Leaders in luxury ocean travel",
+                theme: "cunard",
+                short: "CUN",
+                favicon: "../../assets/favicons/cunard.png",
+            },
+            };
 
         // ============================================
         // STATE MANAGEMENT
