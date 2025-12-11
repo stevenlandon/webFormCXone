@@ -57,41 +57,28 @@
 
     <script>
         let items = [];
-
-        // Load JSON or CSV
         async function loadData() {
-            items = [
-                "Alaska",
-                "Caribbean",
-                "Europe",
-                "Transpacific",
-                "Hawaii",
-                "Mexico",
-                "Mediterranean",
-                "Baltic",
-                "South America",
-                "Antarctica",
-            ];
-            // const response = fetch("https://bucket-name.s3.amazonaws.com/data.json")
-            //     // .then(response => response.json())
-            //     // .then(data => {
-            //     //     items = data;
-            //     // })
-            //     // .catch(error => {
-            //     //     console.error("Error loading data:", error);
-            //     // });
-
-            
-            // const response = await fetch("data.json");  // or "data.csv"
-            // const text = await response.text();
-            
-            // try {
-            //     // JSON format
-            //     items = JSON.parse(text);
-            // } catch {
-                //     // CSV fallback
-                //     items = text.split("\n").map(x => x.trim()).filter(x => x.length > 0);
-            // }
+            // items = [
+            //     "Alaska",
+            //     "Caribbean",
+            //     "Europe",
+            //     "Transpacific",
+            //     "Hawaii",
+            //     "Mexico",
+            //     "Mediterranean",
+            //     "Baltic",
+            //     "South America",
+            //     "Antarctica",
+            // ];
+            // const url = "https://rad-tarsier-6813e0.netlify.app/data.json"
+            const url = "https://shubhamrathi1224.github.io/webFormCXone/cxone-work-item-form/dynamicSearchableAutocomplete/data.json"
+            try {
+                const res = await fetch(url);
+                items = await res.json();
+                console.log("items:", items);
+            } catch (error) {
+                console.error("Error fetching JSON:", error);
+            }
         }
 
         function filterData(query) {
@@ -123,7 +110,6 @@
             });
         }
 
-        // Send selected value to CXone
         function submitValue() {
             const value = document.getElementById("search").value;
 
