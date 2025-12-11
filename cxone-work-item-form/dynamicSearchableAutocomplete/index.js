@@ -32,7 +32,7 @@ function filterData(query) {
 }
 
 function setupAutocomplete() {
-  const input = document.getElementById("search");
+  const input = document.getElementById("wi_search");
   const list = document.getElementById("suggestions");
 
   input.addEventListener("input", () => {
@@ -45,6 +45,14 @@ function setupAutocomplete() {
     results.forEach((result) => {
       const div = document.createElement("div");
       div.className = "suggestion-item";
+      div.style = "padding: 8px;cursor: pointer;"
+      div.addEventListener("mouseenter", () => {
+        div.style = "background: #f0f0f0;";
+      });
+
+      div.addEventListener("mouseleave", () => {
+        div.style = "background: white;";
+      });
       div.textContent = result;
       div.onclick = () => {
         input.value = result;
@@ -56,7 +64,7 @@ function setupAutocomplete() {
 }
 
 function submitValue() {
-  const value = document.getElementById("search").value;
+  const value = document.getElementById("wi_search").value;
 
   console.log("CXone available?", window.CXone);
   console.log("Page loaded in CXone?", window.CXone ? "YES" : "NO");

@@ -1,43 +1,32 @@
 <data>
-    <!DOCTYPE html>
-    <html>
+    <div style="height: 100%;display: block; justify-items: center;align-content: center;">
+        <div style="padding: 32px;border-radius: 6px;max-width: 450px;border: 1px solid #ccc;">
+            <div style="text-align: center;font-weight: bold;color: {global:primaryColor}; margin-bottom: 16px;text-transform: uppercase;"
+                id="modalTitle">Employee Details</div>
 
-    <head>
-        <meta charset="UTF-8" />
-        <title>Autocomplete Form</title>
+            <div style="position: relative;width: 320px;">
+                <label
+                    style="font-size: 13px;color: #6b7280;position: absolute;top: -10px;left: 22px;background-color: white;padding: 0 4px;"
+                    for="wi_coachCorrComments"> Employee Name:</label>
+                <input type="text" id="search" name="wi_search"
+                    style="width: 100%;height: 30px;border-radius: 4px;border: 1px solid #999999;" maxlength="25"
+                    placeholder="Type to search..." />
 
-        <style>
-            .suggestion-item {
-                padding: 8px;
-                cursor: pointer;
-            }
-
-            .suggestion-item:hover {
-                background: #f0f0f0;
-            }
-        </style>
-    </head>
-
-    <body style="font-family: Arial, sans-serif;padding: 20px;">
-        <h2>Autocomplete Example</h2>
-
-        <div class="autocomplete-container" style="position: relative;width: 320px;">
-            <input style="width: 100%;padding: 10px;border: 1px solid #999;border-radius: 4px;font-size: 14px;"
-                id="search" name="wi_search" type="text" placeholder="Type to search..." />
-
-            <div id="suggestions" class="suggestions"
-                style="position: absolute;top: 40px;width: 100%;background: white;border: 1px solid #ccc;border-radius: 4px;max-height: 200px;overflow-y: auto;z-index: 999;">
+                <div id="suggestions" class="suggestions"
+                    style="position: absolute;top: 40px;width: 100%;background: white;border: 1px solid #ccc;border-radius: 4px;max-height: 200px;overflow-y: auto;z-index: 999;">
+                </div>
+            </div>
+            <div style="display: flex;gap: 16px;justify-content: flex-end;margin-top: 16px;">
+                <input type="hidden" name="wi_coachCorrStatus" id="wi_coachCorrStatus">
+                <button name="submit" onclick="document.getElementById('wi_coachCorrStatus').value='cancel';"
+                    style="padding: 12px;border-radius: 4px; font-size: 11px;font-weight: bold;cursor: pointer;text-transform: uppercase;letter-spacing: 0.3px;background: transparent;color: #666666;border: 1px solid #ccc;"
+                    id="cancelModalBtn">Cancel</button>
+                <button name="submit" onclick="document.getElementById('wi_coachCorrStatus').value='confirm';"
+                    style="padding: 12px;border-radius: 4px;font-size: 11px;font-weight: bold;cursor: pointer;text-transform: uppercase;letter-spacing: 0.3px;background: {global:secondaryColor};color: #ffffff;"
+                    id="confirmBtn">Confirm</button>
             </div>
         </div>
-        <button
-            style="margin-top: 20px;padding: 10px 14px;background: #0066cc;color: white;border-radius: 4px;border: none;cursor: pointer;">Submit</button>
-
-        <!-- <button
-            style="margin-top: 20px;padding: 10px 14px;background: #0066cc;color: white;border-radius: 4px;border: none;cursor: pointer;"
-            onclick="submitValue()">Submit</button> -->
-        <script type="module"
-            src="https://shubhamrathi1224.github.io/webFormCXone/cxone-work-item-form/dynamicSearchableAutocomplete/index.js"></script>
-    </body>
-
-    </html>
+    </div>
+    <script type="module"
+        src="https://shubhamrathi1224.github.io/webFormCXone/cxone-work-item-form/dynamicSearchableAutocomplete/index.js"></script>
 </data>
