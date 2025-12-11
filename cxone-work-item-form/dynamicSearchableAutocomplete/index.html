@@ -112,9 +112,6 @@
 
         function submitValue() {
             const value = document.getElementById("search").value;
-            
-            console.log("CXone available?", window.CXone);
-            console.log("Page loaded in CXone?", window.CXone ? "YES" : "NO");
 
             if (window.CXone) {
                 window.CXone.sendMessage({ autocompleteValue: value });
@@ -124,6 +121,8 @@
         }
 
         window.onload = async () => {
+            console.log("CXone available?", window.CXone);
+            console.log("Page loaded in CXone?", window.CXone ? "YES" : "NO");
             await loadData();
             setupAutocomplete();
         };
