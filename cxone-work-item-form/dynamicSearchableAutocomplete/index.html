@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <title>Autocomplete Form</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+
+        .autocomplete-container {
+            position: relative;
+            width: 320px;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #999;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        .suggestions {
+            position: absolute;
+            top: 40px;
+            width: 100%;
+            background: white;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            max-height: 200px;
+            overflow-y: auto;
+            z-index: 999;
+        }
+
+        .suggestion-item {
+            padding: 8px;
+            cursor: pointer;
+        }
+
+        .suggestion-item:hover {
+            background: #f0f0f0;
+        }
+
+        button {
+            margin-top: 20px;
+            padding: 10px 14px;
+            background: #0066cc;
+            color: white;
+            border-radius: 4px;
+            border: none;
+            cursor: pointer;
+        }
+    </style>
+
+    <script>
+        let items = [];
+
+        // Load JSON or CSV
+        async function loadData() {
+            items = [
+                "Alaska",
+                "Caribbean",
+                "Europe",
+                "Transpacific",
+                "Hawaii",
+                "Mexico",
+                "Mediterranean",
+                "Baltic",
+                "South America",
+                "Antarctica",
+            ];
+            // const response = fetch("https://bucket-name.s3.amazonaws.com/data.json")
+            //     // .then(response => response.json())
+            //     // .then(data => {
+            //     //     items = data;
+            //     // })
+            //     // .catch(error => {
+            //     //     console.error("Error loading data:", error);
+            //     // });
+
+            
+            // const response = await fetch("data.json");  // or "data.csv"
+            // const text = await response.text();
+            
+            // try {
+            //     // JSON format
+            //     items = JSON.parse(text);
+            // } catch {
+                //     // CSV fallback
+                //     items = text.split("\n").map(x => x.trim()).filter(x => x.length > 0);
+            // }
+        }
+
+        function filterData(query) {
+            query = query.toLowerCase();
+            return items.filter(item => item.toLowerCase().includes(query)).slice(0, 25);
+        }
+
+        function setupAutocomplete() {
+            const input = document.getElementById("search");
+            const list = document.getElementById("suggestions");
+
+            input.addEventListener("input", () => {
+                list.innerHTML = "";
+                const value = input.value.trim();
+                if (value.length === 0) return;
+
+                const results = filterData(value);
+
+                results.forEach(result => {
+                    const div = document.createElement("div");
+                    div.className = "suggestion-item";
+                    div.textContent = result;
+                    div.onclick = () => {
+                        input.value = result;
+                        list.innerHTML = "";
+                    };
+                    list.appendChild(div);
+                });
+            });
+        }
+
+        // Send selected value to CXone
+        function submitValue() {
+            const value = document.getElementById("search").value;
+
+            if (window.CXone) {
+                window.CXone.sendMessage({ autocompleteValue: value });
+            } else {
+                alert("Returned value: " + value);
+            }
+        }
+
+        window.onload = async () => {
+            await loadData();
+            setupAutocomplete();
+        };
+    </script>
+</head>
+
+<body>
+    <h2>Autocomplete Example</h2>
+
+    <div class="autocomplete-container">
+        <input id="search" type="text" placeholder="Type to search..." />
+
+        <div id="suggestions" class="suggestions"></div>
+    </div>
+
+    <button onclick="submitValue()">Submit</button>
+</body>
+</html>
