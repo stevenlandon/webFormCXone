@@ -40,9 +40,9 @@
             cursor: pointer;
         }
 
-        .suggestion-item:hover {
+        /* .suggestion-item:hover {
             background: #f0f0f0;
-        }
+        } */
 
         button {
             margin-top: 20px;
@@ -70,20 +70,32 @@
             //     "South America",
             //     "Antarctica",
             // ];
+
+            items = [
+                { "id": "1", "value": "Alaska" },
+                { "id": "2", "value": "Caribbean" },
+                { "id": "3", "value": "Europe" },
+                { "id": "4", "value": "Transpacific" },
+                { "id": "5", "value": "Hawaii" },
+                { "id": "6", "value": "Mexico" },
+                { "id": "7", "value": "Mediterranean" },
+                { "id": "8", "value": "Baltic" },
+                { "id": "9", "value": "South America" },
+                { "id": "10", "value": "Antarctica" },
+            ];
             
-            // const url = "https://rad-tarsier-6813e0.netlify.app/data.json"
-            const url = "https://shubhamrathi1224.github.io/webFormCXone/cxone-work-item-form/dynamicSearchableAutocomplete/data.json"
-            try {
-                const res = await fetch(url);
-                items = await res.json();
-            } catch (error) {
-                console.error("Error fetching JSON:", error);
-            }
+            // const url = "https://shubhamrathi1224.github.io/webFormCXone/cxone-work-item-form/dynamicSearchableAutocomplete/data.json"
+            // try {
+            //     const res = await fetch(url);
+            //     items = await res.json();
+            // } catch (error) {
+            //     console.error("Error fetching JSON:", error);
+            // }
         }
 
         function filterData(query) {
             query = query.toLowerCase();
-            return items.filter(item => item.toLowerCase().includes(query)).slice(0, 25);
+            return items.filter(item => item.value.toLowerCase().includes(query)).slice(0, 25);
         }
 
         function setupAutocomplete() {
@@ -100,9 +112,19 @@
                 results.forEach(result => {
                     const div = document.createElement("div");
                     div.className = "suggestion-item";
-                    div.textContent = result;
+                    div.style = "padding: 8px;cursor: pointer;"
+                    div.addEventListener("mouseenter", () => {
+                        div.style.background = "#f0f0f0";
+                    });
+
+                    div.addEventListener("mouseleave", () => {
+                        div.style.background = "white";
+                    });
+
+                    div.textContent = result.value;
                     div.onclick = () => {
-                        input.value = result;
+                        input.value = result.value;
+                        document.getElementById('wi_search').value=result.id;
                         list.innerHTML = "";
                     };
                     list.appendChild(div);
@@ -111,7 +133,7 @@
         }
 
         function submitValue() {
-            const value = document.getElementById("search").value;
+            const value = document.getElementById("wi_search").value;
 
             if (window.CXone) {
                 window.CXone.sendMessage({ wi_search: value });
@@ -132,6 +154,7 @@
 <body>
     <h2>Autocomplete Example</h2>
     <div class="autocomplete-container">
+        <input id="wi_search" type="text" hidden/>
         <input id="search" type="text" placeholder="Type to search..." />
 
         <div id="suggestions" class="suggestions"></div>
