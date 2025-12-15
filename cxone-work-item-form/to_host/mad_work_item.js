@@ -17,7 +17,7 @@ let passengerData = [];
 
 async function loadData() {
   const url =
-    "https://shubhamrathi1224.github.io/webFormCXone/cxone-work-item-form/to_host/madPassengersData.json";
+    "https://shubhamrathi1224.github.io/webFormCXone/cxone-work-item-form/to_host/mad_work_item.json";
   try {
     const res = await fetch(url);
     passengerData = await res.json();
