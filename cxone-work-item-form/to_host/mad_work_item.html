@@ -5,7 +5,7 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>HAL Work Item Form - Holland America Line</title>
+        <title>MAD Work Item Form - Holland America Line</title>
         <link rel="icon" href="../../assets/favicons/holland.png">
     </head>
 
@@ -26,10 +26,10 @@
                     <div style="background: {global:linearGradient};padding: 8px;font-size: 12px;font-weight: bold;letter-spacing: 0.5px;text-transform: uppercase;color: #ffffff;border-bottom: 2px solid #FF6633;">Work Item Details</div>
                     <div style="padding: 8px;background: #e8f0f6;">
                         <div class="work-item-type">
-                            <div style="font-size: 18px;color: {global:primaryColor};text-transform: uppercase;font-weight: bold;margin-bottom: 8px;" class="label">Cancellation Waive Fee</div>
+                            <div style="font-size: 18px;color: {global:primaryColor};text-transform: uppercase;font-weight: bold;margin-bottom: 8px;" class="label">Manual Adjustment</div>
                             <div style="font-size: 13px;font-weight: bold;color: #6b7280;margin-bottom: 4px;" class="title">Sub-Items:</div>
                         </div>
-                        <div style="display: flex;flex-direction: column;gap: 4px;">
+                        <div id="subItemList" style="display: flex;flex-direction: column;gap: 4px;">
                             <div style="display: flex;align-items: center;gap: 8px;padding: 8px;background: #ffffff;border-radius: 2px;font-size: 14px;cursor: pointer;transition: all 0.3s ease;border-left: 3px solid {global:secondaryColor};"
                                 onmouseover="this.style.background='#e8f4ff';this.style.color='{global:secondaryColor}';this.style.transform= 'translateX(4px)'"
                                 onmouseout="this.style.background='#ffffff';this.style.color='black';this.style.transform= 'none'">
