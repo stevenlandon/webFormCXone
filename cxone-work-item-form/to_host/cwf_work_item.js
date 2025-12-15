@@ -26,13 +26,13 @@ async function loadData() {
     document.getElementById('currencyValue').innerText = passengerData[0].currency;
     var seen = {};
     var uniqSubItems = [];
-    for (var i = 0; i < workItems.length; i++) {
-      var type = workItems[i].cancel_item_type;
+    for (var i = 0; i < passengerData.length; i++) {
+      var type = passengerData[i].cancel_item_type;
       if (!seen[type]) {
         seen[type] = true;
         uniqSubItems.push({
           label: type,
-          icon: workItems[i].icon,
+          icon: passengerData[i].icon,
           key: "air"
         });
       }
