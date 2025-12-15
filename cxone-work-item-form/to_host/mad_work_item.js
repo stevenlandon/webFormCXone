@@ -1,18 +1,17 @@
-// Field configuration
 const fieldConfig = [
-    { key: 'total_cancel_fees', label: 'Total Cancel Fees' },
-    { key: 'total_waived', label: 'Total Waived' },
-    { key: 'net_cancel_fee', label: 'Net Cancelled Fee' },
-    { key: 'waive_reason_code', label: 'Waive Reason CD' },
-    { key: 'waive_reason_description', label: 'Waive Reason Description' },
-    { key: 'cancel_code', label: 'Cancel Code' },
-    { key: 'cancel_fees', label: 'Air Cancel Fees' },
-    { key: 'packageCancelFees', label: 'Package Cancel Fees' },
-    { key: 'transfer_cancel_fees', label: 'Transfer Cancel Fees' },
-    { key: 'ncf_changes_cancel_fees', label: 'NCF Charges Cancel Fees' },
-    { key: 'non_refundable_premium', label: 'Non-Refundable Premium/Waiver' },
-    { key: 'open_date', label: 'Open Date' }
+  { key: "transaction_date", label: "Transaction Date" },
+  { key: "last_name", label: "Last Name" },
+  { key: "group_code", label: "Group Code" },
+  { key: "adjustment_group", label: "Adjustment Group" },
+  { key: "adjustment_type", label: "Adjustment Type" },
+  { key: "transaction_type", label: "Transaction Type" },
+  { key: "adjustment_amount", label: "Adjustment Amount" },
+  { key: "gross_fair_prior", label: "Gross Fare (Prior)" },
+  { key: "adjustment_rate", label: "Adjustment Rate" },
+  { key: "change_remarks", label: "Change Remarks" }
 ];
+
+
 let passengerData = [];
 
 async function loadData() {

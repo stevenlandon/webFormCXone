@@ -1,4 +1,3 @@
-// Field configuration
 const fieldConfig = [
     { key: 'total_cancel_fees', label: 'Total Cancel Fees' },
     { key: 'total_waived', label: 'Total Waived' },
