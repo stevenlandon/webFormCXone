@@ -21,6 +21,9 @@ async function loadData() {
   try {
     const res = await fetch(url);
     passengerData = await res.json();
+    document.getElementById('voyageNumberValue').innerText = passengerData[0].voyage;
+    document.getElementById('bookingNumberValue').innerText = passengerData[0].booking_id;
+    document.getElementById('currencyValue').innerText = passengerData[0].currency;
   } catch (error) {
     console.error("Error fetching JSON:", error);
   }
