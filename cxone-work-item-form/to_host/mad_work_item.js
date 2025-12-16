@@ -100,7 +100,7 @@ function initializeTable() {
     headerRow.innerHTML = '<th style="position: sticky; min-width: 200px; padding: 12px 10px; text-align: left; font-weight: 600; border-right: 1px solid rgba(255, 255, 255, 0.2); white-space: nowrap;">Field Name</th>';
     
     for (let i = 0; i < totalPassengers; i++) {
-        headerRow.innerHTML += `<th style="padding: 12px 10px; text-align: left; font-weight: 600; border-right: 1px solid rgba(255, 255, 255, 0.2); white-space: nowrap;">${passengerData[i].customer_id}</th>`;
+        headerRow.innerHTML += `<th style="padding: 12px 10px; text-align: left; font-weight: 600; border-right: 1px solid rgba(255, 255, 255, 0.2); white-space: nowrap;">${passengerData[i].customer_id || '-'}</th>`;
     }
     document.getElementById('tableHeader').appendChild(headerRow);
     const tbody = document.getElementById('tableBody');
