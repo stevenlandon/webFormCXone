@@ -71,12 +71,22 @@ function setupSubItems(uniqSubItems) {
       this.style.color = "black";
       this.style.transform = "none";
     };
+    let iconPath = "";
+    if(item.label.toLowerCase() === "cruise"){
+        iconPath = "https://aem-stage.hollandamerica.com/content/dam/nice/all/Images/cruise_fee.png";  // "./images/cruise_fee.png"
+    } else if(item.label.toLowerCase() === "package"){
+        iconPath = "https://aem-stage.hollandamerica.com/content/dam/nice/all/Images/package_fee.png";
+    } else if(item.label.toLowerCase() === "air"){ 
+        iconPath = "https://aem-stage.hollandamerica.com/content/dam/nice/all/Images/air_fee.png";
+    } else if(item.label.toLowerCase() === "transfer") {
+        iconPath = "https://aem-stage.hollandamerica.com/content/dam/nice/all/Images/transfer_fee.png";
+    } 
 
     div.innerHTML = `
       <span style="color:${window.global?.secondaryColor || '#0b6efd'};font-weight:bold;">✓</span>
       <span>${item.label}</span>
       <div style="margin-left:auto;font-size:20px;" title="Cancellation-related work item">
-        ${item.icon}
+        <img src="${iconPath}" alt="subitem" width="20px" height="20px">
       </div>
     `;
 
