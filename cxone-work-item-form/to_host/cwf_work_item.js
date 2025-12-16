@@ -91,7 +91,7 @@ function initializeTable() {
     headerRow.innerHTML = '<th style="position: sticky; min-width: 200px; padding: 12px 10px; text-align: left; font-weight: 600; border-right: 1px solid rgba(255, 255, 255, 0.2); white-space: nowrap;">Field Name</th>';
     
     for (let i = 0; i < totalPassengers; i++) {
-        headerRow.innerHTML += `<th style="padding: 12px 10px; text-align: left; font-weight: 600; border-right: 1px solid rgba(255, 255, 255, 0.2); white-space: nowrap;">${passengerData[i].user_name}</th>`;
+        headerRow.innerHTML += `<th style="padding: 12px 10px; text-align: left; font-weight: 600; border-right: 1px solid rgba(255, 255, 255, 0.2); white-space: nowrap;">${passengerData[i].customer_id}</th>`;
     }
     document.getElementById('tableHeader').appendChild(headerRow);
     const tbody = document.getElementById('tableBody');
@@ -111,6 +111,40 @@ function initializeTable() {
 
 
 window.onload = async () => {
+  // fetch("https://api-stage.hagroup.com/ccaas/api/v1/intentqueuetreatment", {
+  //   method: "POST",
+  //   headers: {
+  //     "Content-Type": "application/json",
+  //     "Authorization": "basic aGFsOlg1QEh6cjlEUHM4cjlidg==",
+  //     "nice-allow-header": "ccaas-64QvDXPGyGSuPYvMSWKF"
+  //   },
+  //   body: JSON.stringify({
+  //     intent: "isBookNewCruise",
+  //     brand: "HAL",
+  //     language: "en-US",
+  //     countrycode: "1",
+  //     callertype: "",
+  //     voyagetype: "",
+  //     saildatepriority: "",
+  //     keygroupcode: "",
+  //     mediatype: "Voice"
+  //   })
+  // })
+  // .then(response => {
+  //   if (!response.ok) {
+  //     throw new Error("HTTP error " + response.status);
+  //   }
+  //   return response.json();
+  // })
+  // .then(data => {
+  //   document.getElementById("subItemList").textContent =
+  //     JSON.stringify(data, null, 2);
+  // })
+  // .catch(error => {
+  //   document.getElementById("subItemList").textContent =
+  //     "Error: " + error.message;
+  // });
+
   await loadData();
   initializeTable();
 };
