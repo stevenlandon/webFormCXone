@@ -5,10 +5,15 @@ async function loadData() {
   try {
     const res = await fetch(url);
     agentList = await res.json();
-    agentList = agentList.map((item) => ({
-      ...item, 
-      agent_name: item.firstName + ' ' + item.lastName 
-    }));
+    agentList = agentList.map((item) => {
+      const activeStatus = item.isActive.toLowerCase() === "True" ? 'Active' : 'Inactive';
+      const polarId = item.custom1.split(',')[0];
+      return {
+        ...item, 
+        agent_name: item.firstName + ' ' + item.lastName,
+        agent_option: `${item.firstName} ${item.lastName} - ${polarId}) - ${item.teamName} - ${activeStatus}`,
+      }
+    });
   } catch (error) {
     console.error("Error fetching JSON:", error);
   }
@@ -48,10 +53,10 @@ function setupAutocomplete() {
       div.addEventListener("mouseleave", () => {
           div.style.background = "white";
       });
-      div.textContent = result.value;
+      div.textContent = result.agent_option;
       div.onclick = () => {
-        input.value = result.value;
-        document.getElementById('wi_search').value=result.id;
+        input.value = result.agent_option;
+        document.getElementById('wi_newAgentId').value=result.agentId;
         list.innerHTML = "";
       };
       list.appendChild(div);
