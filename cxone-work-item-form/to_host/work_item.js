@@ -24,13 +24,16 @@ const madFieldConfig = [
   { key: "change_remarks", label: "Change Remarks" }
 ];
 
+let fieldConfig = [];
 let passengerData = [];
 
 async function loadData() {
   if(document.getElementById('wi_item_type').value == 'CWF'){
     document.getElementById('workItemLabel').innerText = 'Cancellation Waive Fee';
+    fieldConfig = cwfFieldConfig;
   } else if(document.getElementById('wi_item_type').value == 'MAD') {
     document.getElementById('workItemLabel').innerText = 'Manual Adjustment';
+    fieldConfig = madFieldConfig;
   };
   let url = "https://shubhamrathi1224.github.io/webFormCXone/cxone-work-item-form/to_host/cwf_work_item.json";
   if(document.getElementById('workitemid').value == 'CWF0015_CWF') {
@@ -136,7 +139,6 @@ function initializeTable() {
     }
     document.getElementById('tableHeader').appendChild(headerRow);
     const tbody = document.getElementById('tableBody');
-    const fieldConfig = cwfFieldConfig;
     fieldConfig.forEach(field => {
         const row = document.createElement('tr');
         row.innerHTML = `<td style="padding: 10px;border: 1px solid #e0e0e0;background: #f8f9fa;">${field.label}</td>`;
