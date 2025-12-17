@@ -1,52 +1,52 @@
 [
   {
-    "Review_Start_Date": "01/05/2025",
-    "Reviewer": "Kathleen Bellefeuille",
-    "Outcome": "Approved",
-    "Outcome_Details": "Cancellation fees correctly waived",
-    "Other_Details": "Reviewed booking history and waiver policy",
-    "Public_Note": "Waiver approved as per policy",
-    "Private_Note": "Agent followed correct procedure",
-    "Return_To_Queue_Date": ""
+    "review_item_index": "01/05/2025",
+    "reviewer_name": "Kathleen Bellefeuille",
+    "outcome": "Approved",
+    "outcome_details": "Cancellation fees correctly waived",
+    "other_details": "Reviewed booking history and waiver policy",
+    "public_note": "Waiver approved as per policy",
+    "private_note": "Agent followed correct procedure",
+    "return_to_queue_date": ""
   },
   {
-    "Review_Start_Date": "01/10/2025",
-    "Reviewer": "Michael Johnson",
-    "Outcome": "Returned",
-    "Outcome_Details": "Missing documentation",
-    "Other_Details": "No FCC history comments provided",
-    "Public_Note": "Please add missing FCC comments",
-    "Private_Note": "Second occurrence for same agent",
-    "Return_To_Queue_Date": "01/12/2025"
+    "review_item_index": "01/10/2025",
+    "reviewer_name": "Michael Johnson",
+    "outcome": "Returned",
+    "outcome_details": "Missing documentation",
+    "other_details": "No FCC history comments provided",
+    "public_note": "Please add missing FCC comments",
+    "private_note": "Second occurrence for same agent",
+    "return_to_queue_date": "01/12/2025"
   },
   {
-    "Review_Start_Date": "01/15/2025",
-    "Reviewer": "Sarah Thompson",
-    "Outcome": "Rejected",
-    "Outcome_Details": "Outside of policy",
-    "Other_Details": "Waiver exceeded allowed limit",
-    "Public_Note": "Waiver not allowed per policy",
-    "Private_Note": "Escalation recommended",
-    "Return_To_Queue_Date": ""
+    "review_item_index": "01/15/2025",
+    "reviewer_name": "Sarah Thompson",
+    "outcome": "Rejected",
+    "outcome_details": "Outside of policy",
+    "other_details": "Waiver exceeded allowed limit",
+    "public_note": "Waiver not allowed per policy",
+    "private_note": "Escalation recommended",
+    "return_to_queue_date": ""
   },
   {
-    "Review_Start_Date": "01/18/2025",
-    "Reviewer": "David Ramirez",
-    "Outcome": "Approved",
-    "Outcome_Details": "Manual adjustment justified",
-    "Other_Details": "Verified guest exception",
-    "Public_Note": "Approved as one-time exception",
-    "Private_Note": "Monitor future adjustments",
-    "Return_To_Queue_Date": ""
+    "review_item_index": "01/18/2025",
+    "reviewer_name": "David Ramirez",
+    "outcome": "Approved",
+    "outcome_details": "Manual adjustment justified",
+    "other_details": "Verified guest exception",
+    "public_note": "Approved as one-time exception",
+    "private_note": "Monitor future adjustments",
+    "return_to_queue_date": ""
   },
   {
-    "Review_Start_Date": "01/22/2025",
-    "Reviewer": "Emily Carter",
-    "Outcome": "Returned",
-    "Outcome_Details": "Incorrect cancel fee entry",
-    "Other_Details": "Mismatch between system and notes",
-    "Public_Note": "Please correct cancel fee amount",
-    "Private_Note": "Training opportunity identified",
-    "Return_To_Queue_Date": "01/24/2025"
+    "review_item_index": "01/22/2025",
+    "reviewer_name": "Emily Carter",
+    "outcome": "Returned",
+    "outcome_details": "Incorrect cancel fee entry",
+    "other_details": "Mismatch between system and notes",
+    "public_note": "Please correct cancel fee amount",
+    "private_note": "Training opportunity identified",
+    "return_to_queue_date": "01/24/2025"
   }
 ]

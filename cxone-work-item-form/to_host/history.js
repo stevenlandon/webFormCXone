@@ -1,12 +1,12 @@
 const fieldConfig = [
-  { key: "Review_Start_Date", label: "Review Start Date" },
-  { key: "Reviewer", label: "Reviewer" },
-  { key: "Outcome", label: "Outcome" },
-  { key: "Outcome_Details", label: "Outcome Details" },
-  { key: "Other_Details", label: "Other Details" },
-  { key: "Public_Note", label: "Public Note" },
-  { key: "Private_Note", label: "Private Note" },
-  { key: "Return_To_Queue_Date", label: "Return To Queue Date" },
+  { key: "review_item_index", label: "Review Start Date" },
+  { key: "reviewer_name", label: "Reviewer" },
+  { key: "outcome", label: "Outcome" },
+  { key: "outcome_details", label: "Outcome Details" },
+  { key: "other_details", label: "Other Details" },
+  { key: "public_note", label: "Public Note" },
+  { key: "private_note", label: "Private Note" },
+  { key: "return_to_queue_date", label: "Return To Queue Date" },
 ];
 
 let historyList = [];
