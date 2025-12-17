@@ -11,7 +11,7 @@ async function loadData() {
       return {
         ...item, 
         agent_name: item.firstName + ' ' + item.lastName,
-        agent_option: `${item.firstName} ${item.lastName} - ${polarId}) - ${item.teamName} - ${activeStatus}`,
+        agent_option: `${item.firstName} ${item.lastName} - ${polarId} - ${item.teamName} - ${activeStatus}`,
       }
     });
   } catch (error) {
@@ -58,6 +58,7 @@ function setupAutocomplete() {
         input.value = result.agent_option;
         document.getElementById('wi_newAgentId').value=result.agentId;
         list.innerHTML = "";
+        list.style.border = "none";
       };
       list.appendChild(div);
     });
