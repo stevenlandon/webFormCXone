@@ -126,40 +126,6 @@ function initializeTable() {
 
 
 window.onload = async () => {
-  // fetch("https://api-stage.hagroup.com/ccaas/api/v1/intentqueuetreatment", {
-  //   method: "POST",
-  //   headers: {
-  //     "Content-Type": "application/json",
-  //     "Authorization": "basic aGFsOlg1QEh6cjlEUHM4cjlidg==",
-  //     "nice-allow-header": "ccaas-64QvDXPGyGSuPYvMSWKF"
-  //   },
-  //   body: JSON.stringify({
-  //     intent: "isBookNewCruise",
-  //     brand: "HAL",
-  //     language: "en-US",
-  //     countrycode: "1",
-  //     callertype: "",
-  //     voyagetype: "",
-  //     saildatepriority: "",
-  //     keygroupcode: "",
-  //     mediatype: "Voice"
-  //   })
-  // })
-  // .then(response => {
-  //   if (!response.ok) {
-  //     throw new Error("HTTP error " + response.status);
-  //   }
-  //   return response.json();
-  // })
-  // .then(data => {
-  //   document.getElementById("subItemList").textContent =
-  //     JSON.stringify(data, null, 2);
-  // })
-  // .catch(error => {
-  //   document.getElementById("subItemList").textContent =
-  //     "Error: " + error.message;
-  // });
-
   await loadData();
   initializeTable();
 };
