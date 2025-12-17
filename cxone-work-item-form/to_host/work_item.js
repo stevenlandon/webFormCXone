@@ -46,20 +46,23 @@ async function loadData() {
     document.getElementById('voyageNumberValue').innerText = passengerData[0].voyage;
     document.getElementById('bookingNumberValue').innerText = passengerData[0].booking_id;
     document.getElementById('currencyValue').innerText = passengerData[0].currency;
-    var seen = {};
-    var uniqSubItems = [];
-    for (var i = 0; i < passengerData.length; i++) {
-      var type = passengerData[i].cancel_item_type;
-      if (!seen[type]) {
-        seen[type] = true;
-        uniqSubItems.push({
-          label: type,
-          icon: passengerData[i].icon,
-          key: "air"
-        });
-      }
-    };
-    setupSubItems(uniqSubItems);
+
+    if(document.getElementById('wi_item_type').value == 'CWF'){
+      var seen = {};
+      var uniqSubItems = [];
+      for (var i = 0; i < passengerData.length; i++) {
+        var type = passengerData[i].cancel_item_type;
+        if (!seen[type]) {
+          seen[type] = true;
+          uniqSubItems.push({
+            label: type,
+            icon: passengerData[i].icon,
+            key: "air"
+          });
+        }
+      };
+      setupSubItems(uniqSubItems);
+    }
     if(document.getElementById('wi_needUserDetails').value == 1){
       document.getElementById('updateEmployeeBtn').style.display = 'block';
     } else {
@@ -155,5 +158,5 @@ window.onload = async () => {
 };
 
 
-WI_ITEM_TYPE=CWF // wi_item_type
-WORKITEMID=CWF0025_CWF  // workitemid
+// WI_ITEM_TYPE=CWF // wi_item_type
+// WORKITEMID=CWF0025_CWF  // workitemid
