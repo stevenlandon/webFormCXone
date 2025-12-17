@@ -1,0 +1,52 @@
+[
+  {
+    "Review_Start_Date": "01/05/2025",
+    "Reviewer": "Kathleen Bellefeuille",
+    "Outcome": "Approved",
+    "Outcome_Details": "Cancellation fees correctly waived",
+    "Other_Details": "Reviewed booking history and waiver policy",
+    "Public_Note": "Waiver approved as per policy",
+    "Private_Note": "Agent followed correct procedure",
+    "Return_To_Queue_Date": ""
+  },
+  {
+    "Review_Start_Date": "01/10/2025",
+    "Reviewer": "Michael Johnson",
+    "Outcome": "Returned",
+    "Outcome_Details": "Missing documentation",
+    "Other_Details": "No FCC history comments provided",
+    "Public_Note": "Please add missing FCC comments",
+    "Private_Note": "Second occurrence for same agent",
+    "Return_To_Queue_Date": "01/12/2025"
+  },
+  {
+    "Review_Start_Date": "01/15/2025",
+    "Reviewer": "Sarah Thompson",
+    "Outcome": "Rejected",
+    "Outcome_Details": "Outside of policy",
+    "Other_Details": "Waiver exceeded allowed limit",
+    "Public_Note": "Waiver not allowed per policy",
+    "Private_Note": "Escalation recommended",
+    "Return_To_Queue_Date": ""
+  },
+  {
+    "Review_Start_Date": "01/18/2025",
+    "Reviewer": "David Ramirez",
+    "Outcome": "Approved",
+    "Outcome_Details": "Manual adjustment justified",
+    "Other_Details": "Verified guest exception",
+    "Public_Note": "Approved as one-time exception",
+    "Private_Note": "Monitor future adjustments",
+    "Return_To_Queue_Date": ""
+  },
+  {
+    "Review_Start_Date": "01/22/2025",
+    "Reviewer": "Emily Carter",
+    "Outcome": "Returned",
+    "Outcome_Details": "Incorrect cancel fee entry",
+    "Other_Details": "Mismatch between system and notes",
+    "Public_Note": "Please correct cancel fee amount",
+    "Private_Note": "Training opportunity identified",
+    "Return_To_Queue_Date": "01/24/2025"
+  }
+]
