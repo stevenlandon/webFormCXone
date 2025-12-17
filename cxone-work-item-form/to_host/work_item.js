@@ -33,6 +33,7 @@ async function loadData() {
     fieldConfig = cwfFieldConfig;
   } else if(document.getElementById('wi_item_type').value == 'MAD') {
     document.getElementById('workItemLabel').innerText = 'Manual Adjustment';
+    document.getElementById('subItemTitle').style.display = 'none';
     fieldConfig = madFieldConfig;
   };
   let url = "https://shubhamrathi1224.github.io/webFormCXone/cxone-work-item-form/to_host/cwf_work_item.json";
