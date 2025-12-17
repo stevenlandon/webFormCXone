@@ -4,8 +4,8 @@ async function loadData() {
     "https://shubhamrathi1224.github.io/webFormCXone/cxone-work-item-form/to_host/agentList.json";
   try {
     const res = await fetch(url);
-    agentList = await res.json();
-    agentList = agentList.map((item) => {
+    const resJSON = await res.json();
+    agentList = resJSON.map((item) => {
       const activeStatus = item.isActive.toLowerCase() === "true" ? 'Active' : 'Inactive';
       const polarId = item.custom1.split(',')[0];
       return {

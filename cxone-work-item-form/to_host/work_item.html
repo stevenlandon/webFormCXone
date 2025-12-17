@@ -5,7 +5,7 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>AWF Work Item Form - Holland America Line</title>
+        <title>CWF Work Item Form - Holland America Line</title>
         <link rel="icon" href="../../assets/favicons/holland.png">
     </head>
 
@@ -21,12 +21,14 @@
         </header>
 
         <main class="main-container" style="display: grid;grid-template-columns: 280px 1fr;gap: 8px;flex: 1;max-width: 1800px; margin: 0 auto;width: 100%;">
+            <input type="text" hidden id="wi_item_type" name="wi_item_type" value="{wi_item_type}" />
+            <input type="text" hidden id="workitemid" name="workitemid" value="{workitemid}" />
             <aside style="display: flex;flex-direction: column;gap: 8px; padding: 8px;">
                 <div style="background: #ffffff;border: 1px solid #ccc;border-radius: 4px;box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
                     <div style="background: {global:linearGradient};padding: 8px;font-size: 12px;font-weight: bold;letter-spacing: 0.5px;text-transform: uppercase;color: #ffffff;border-bottom: 2px solid #FF6633;">Work Item Details</div>
                     <div style="padding: 8px;background: #e8f0f6;">
                         <div class="work-item-type">
-                            <div style="font-size: 18px;color: {global:primaryColor};text-transform: uppercase;font-weight: bold;margin-bottom: 8px;" class="label">Cancellation Waive Fee</div>
+                            <div style="font-size: 18px;color: {global:primaryColor};text-transform: uppercase;font-weight: bold;margin-bottom: 8px;" class="label" id="workItemLabel">Cancellation Waive Fee</div>
                             <div style="font-size: 13px;font-weight: bold;color: #6b7280;margin-bottom: 4px;" class="title">Sub-Items:</div>
                         </div>
                         <div id="subItemList" style="display: flex;flex-direction: column;gap: 4px;">
@@ -146,11 +148,11 @@
         </footer>
     </body>
     <script type="module"
-        src="https://shubhamrathi1224.github.io/webFormCXone/cxone-work-item-form/to_host/cwf_work_item.js"></script>
+        src="https://shubhamrathi1224.github.io/webFormCXone/cxone-work-item-form/to_host/work_item.js"></script>
     <!-- <script type="module"
         src="./cwf_work_item.js"></script> -->
     <!-- <script type="module"
-        src="https://aem-stage.hollandamerica.com/content/dam/nice/all/test-wi-scripts/cwf_work_item.js">
+        src="https://aem-stage.hollandamerica.com/content/dam/nice/all/test-wi-scripts/work_item.js">
         </script> -->
     </html>
 </data>

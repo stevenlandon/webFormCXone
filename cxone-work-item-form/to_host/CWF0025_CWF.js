@@ -1,4 +1,4 @@
-const cwfFieldConfig = [
+const fieldConfig = [
     { key: 'total_cancel_fees', label: 'Total Cancel Fees' },
     { key: 'total_waived', label: 'Total Waived' },
     { key: 'net_cancel_fee', label: 'Net Cancelled Fee' },
@@ -12,34 +12,11 @@ const cwfFieldConfig = [
     { key: 'non_refundable_premium', label: 'Non-Refundable Premium/Waiver' },
     { key: 'open_date', label: 'Open Date' }
 ];
-const madFieldConfig = [
-  { key: "transaction_date", label: "Transaction Date" },
-  { key: "group_code", label: "Group Code" },
-  { key: "adjustment_group", label: "Adjustment Group" },
-  { key: "adjustment_type", label: "Adjustment Type" },
-  { key: "transaction_type", label: "Transaction Type" },
-  { key: "adjustment_amount", label: "Adjustment Amount" },
-  { key: "gross_fair_prior", label: "Gross Fare (Prior)" },
-  { key: "adjustment_rate", label: "Adjustment Rate" },
-  { key: "change_remarks", label: "Change Remarks" }
-];
-
 let passengerData = [];
 
 async function loadData() {
-  if(document.getElementById('wi_item_type').value == 'CWF'){
-    document.getElementById('workItemLabel').innerText = 'Cancellation Waive Fee';
-  } else if(document.getElementById('wi_item_type').value == 'MAD') {
-    document.getElementById('workItemLabel').innerText = 'Manual Adjustment';
-  };
-  let url = "https://shubhamrathi1224.github.io/webFormCXone/cxone-work-item-form/to_host/cwf_work_item.json";
-  if(document.getElementById('workitemid').value == 'CWF0015_CWF') {
-    url = "https://shubhamrathi1224.github.io/webFormCXone/cxone-work-item-form/to_host/CWF0015_CWF.json";
-  } else if(document.getElementById('workitemid').value == 'CWF0025_CWF') {
-    url = "https://shubhamrathi1224.github.io/webFormCXone/cxone-work-item-form/to_host/CWF0025_CWF.json";
-  } else if(document.getElementById('workitemid').value == 'MAD0098_MAD'){
-    url = "https://shubhamrathi1224.github.io/webFormCXone/cxone-work-item-form/to_host/MAD0098_MAD.json";
-  };
+  const url =
+    "https://shubhamrathi1224.github.io/webFormCXone/cxone-work-item-form/to_host/cwf_work_item.json";
   try {
     const res = await fetch(url);
     passengerData = await res.json();
@@ -133,7 +110,6 @@ function initializeTable() {
     }
     document.getElementById('tableHeader').appendChild(headerRow);
     const tbody = document.getElementById('tableBody');
-    const fieldConfig = cwfFieldConfig;
     fieldConfig.forEach(field => {
         const row = document.createElement('tr');
         row.innerHTML = `<td style="padding: 10px;border: 1px solid #e0e0e0;background: #f8f9fa;">${field.label}</td>`;
@@ -153,7 +129,3 @@ window.onload = async () => {
   await loadData();
   initializeTable();
 };
-
-
-WI_ITEM_TYPE=CWF // wi_item_type
-WORKITEMID=CWF0025_CWF  // workitemid
