@@ -19,9 +19,11 @@ function validateForm() {
   if (isValid) {
     btn.disabled = false;
     btn.style.cursor = "pointer";
+    btn.style.opacity = 1;
   } else {
     btn.disabled = true;
     btn.style.cursor = "not-allowed";
+    btn.style.opacity = .5;
   }
 }
 window.validateForm = validateForm;

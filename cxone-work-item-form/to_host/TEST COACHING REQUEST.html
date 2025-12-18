@@ -23,7 +23,7 @@
                             and/or Procedure</p>
                         <p><input type="checkbox" id="dataEntryError" value="Data Entry Error" name="wi_coachCorrReason" onchange="validateForm()"> Data Entry Error</p>
                         <p><input type="checkbox" id="otherCoaching" value="Other Coaching" name="wi_coachCorrReason" onclick="
-                        document.getElementById('otherCoachingDetailsField').hidden = !this.checked;
+                        document.getElementById('otherCoachingDetailsField').hidden = !this.checked;validateForm();
                         "> Other</p>
                     </div>
                 </div>
@@ -45,9 +45,10 @@
             <div style="display: flex;gap: 16px;justify-content: flex-end;margin-top: 16px;">
                 <input type="hidden" name="wi_coachCorrStatus" id="wi_coachCorrStatus">
                 <button name="submit" onclick="document.getElementById('wi_coachCorrStatus').value='cancel';" style="padding: 12px;border-radius: 4px; font-size: 11px;font-weight: bold;cursor: pointer;text-transform: uppercase;letter-spacing: 0.3px;background: transparent;color: #666666;border: 1px solid #ccc;" id="cancelModalBtn">Cancel</button>
-                <button name="submit" onclick="document.getElementById('wi_coachCorrStatus').value='confirm';" style="padding: 12px;border-radius: 4px;font-size: 11px;font-weight: bold;cursor: not-allowed;text-transform: uppercase;letter-spacing: 0.3px;background: {global:secondaryColor};color: #ffffff;" id="confirmBtn" disabled>Confirm</button>
+                <button name="submit" onclick="document.getElementById('wi_coachCorrStatus').value='confirm';" style="opacity: .5;padding: 12px;border-radius: 4px;font-size: 11px;font-weight: bold;cursor: not-allowed;text-transform: uppercase;letter-spacing: 0.3px;background: {global:secondaryColor};color: #ffffff;" id="confirmBtn" disabled>Confirm</button>
             </div>
         </div>
     </div>
     <script type="module" src="https://shubhamrathi1224.github.io/webFormCXone/cxone-work-item-form/to_host/coachingRequest.js"></script>
+    <!-- <script type="module" src="https://aem-stage.hollandamerica.com/content/dam/nice/all/test-wi-scripts/coachingRequest.js"></script> -->
 </data>
