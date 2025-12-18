@@ -27,6 +27,3 @@ function validateForm() {
   }
 }
 window.validateForm = validateForm;
-// window.onload = async () => {
-//   validateForm();
-// };
