@@ -11,20 +11,20 @@
                     for="search"> Employee Name:</label>
                 <input type="text" id="search" name="search"
                     style="width: 100%;height: 30px;border-radius: 4px;border: 1px solid #999999;" maxlength="25"
-                    placeholder="Type to search..." />
+                    placeholder="Type to search..." autocomplete="off"/>
 
                 <div id="suggestions" class="suggestions"
                     style="position: absolute;top: 40px;width: 100%;background: white;border-radius: 4px;max-height: 200px;overflow-y: auto;z-index: 999;">
                 </div>
             </div>
             <div style="display: flex;gap: 16px;justify-content: flex-end;margin-top: 16px;">
-                <input type="hidden" name="wi_coachCorrStatus" id="wi_coachCorrStatus">
-                <button name="submit" onclick="document.getElementById('wi_coachCorrStatus').value='cancel';"
+                <input type="hidden" name="wi_employeeDetailsStatus" id="wi_employeeDetailsStatus">
+                <button name="submit" onclick="document.getElementById('wi_employeeDetailsStatus').value='cancel';"
                     style="padding: 12px;border-radius: 4px; font-size: 11px;font-weight: bold;cursor: pointer;text-transform: uppercase;letter-spacing: 0.3px;background: transparent;color: #666666;border: 1px solid #ccc;"
                     id="cancelModalBtn">Cancel</button>
-                <button name="submit" onclick="document.getElementById('wi_coachCorrStatus').value='confirm';"
-                    style="padding: 12px;border-radius: 4px;font-size: 11px;font-weight: bold;cursor: pointer;text-transform: uppercase;letter-spacing: 0.3px;background: {global:secondaryColor};color: #ffffff;"
-                    id="confirmBtn">Confirm</button>
+                <button name="submit" onclick="document.getElementById('wi_employeeDetailsStatus').value='confirm';"
+                    style="opacity: .5;padding: 12px;border-radius: 4px;font-size: 11px;font-weight: bold;cursor: not-allowed;text-transform: uppercase;letter-spacing: 0.3px;background: {global:secondaryColor};color: #ffffff;"
+                    id="confirmBtn" disabled>Confirm</button>
             </div>
         </div>
     </div>

@@ -26,11 +26,15 @@ function filterData(query) {
     .slice(0, 25);
 }
 
+let agentSelected = false;
+
 function setupAutocomplete() {
   const input = document.getElementById("search");
   const list = document.getElementById("suggestions");
 
   input.addEventListener("input", () => {
+    agentSelected = false;
+    updateConfirmButton();
     list.innerHTML = "";
     const value = input.value.trim();
     if (value.length === 0) return;
@@ -41,7 +45,6 @@ function setupAutocomplete() {
     } else {
         list.style.border = "none";
     }
-
     results.forEach((result) => {
       const div = document.createElement("div");
       div.className = "suggestion-item";
@@ -59,10 +62,27 @@ function setupAutocomplete() {
         document.getElementById('wi_newAgentId').value=result.agentId;
         list.innerHTML = "";
         list.style.border = "none";
+
+        agentSelected = true;
+        updateConfirmButton();
       };
       list.appendChild(div);
     });
   });
+}
+
+function updateConfirmButton() {
+  const btn = document.getElementById("confirmBtn");
+
+  if (agentSelected) {
+    btn.disabled = false;
+    btn.style.cursor = "pointer";
+    btn.style.opacity = "1";
+  } else {
+    btn.disabled = true;
+    btn.style.cursor = "not-allowed";
+    btn.style.opacity = "0.5";
+  }
 }
 
 window.onload = async () => {
