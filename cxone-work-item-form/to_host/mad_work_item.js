@@ -78,13 +78,13 @@ function setupSubItems(uniqSubItems) {
     };
     let iconPath = "";
     if(item.label.toLowerCase() === "cruise"){
-        iconPath = "https://aem-stage.hollandamerica.com/content/dam/nice/all/Images/cruise_fee.png";  // "./images/cruise_fee.png"
+        iconPath = "https://shubhamrathi1224.github.io/webFormCXone/cxone-work-item-form/to_host/images/cruise_fee.png";  // "./images/cruise_fee.png"
     } else if(item.label.toLowerCase() === "package"){
-        iconPath = "https://aem-stage.hollandamerica.com/content/dam/nice/all/Images/package_fee.png";
+        iconPath = "https://shubhamrathi1224.github.io/webFormCXone/cxone-work-item-form/to_host/images/package_fee.png";
     } else if(item.label.toLowerCase() === "air"){ 
-        iconPath = "https://aem-stage.hollandamerica.com/content/dam/nice/all/Images/air_fee.png";
+        iconPath = "https://shubhamrathi1224.github.io/webFormCXone/cxone-work-item-form/to_host/images/air_fee.png";
     } else if(item.label.toLowerCase() === "transfer") {
-        iconPath = "https://aem-stage.hollandamerica.com/content/dam/nice/all/Images/transfer_fee.png";
+        iconPath = "https://shubhamrathi1224.github.io/webFormCXone/cxone-work-item-form/to_host/images/transfer_fee.png";
     } 
 
     div.innerHTML = `
