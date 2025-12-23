@@ -12,6 +12,8 @@
     <body style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;background: #f5f8fa;min-height: 100vh;margin: 0;">
         <header
             style="background: {global:linearGradient}; background-image: {global:linearGradient}; background-blend-mode: overlay; background-size: cover; color: #fff; padding: 16px 32px; display: flex; align-items: center; justify-content: center; gap: 14px; flex-wrap: wrap; border-bottom: 1px solid rgba(15, 23, 42, 0.04); backdrop-filter: blur(2px); -webkit-backdrop-filter: blur(2px);">
+            <input type="text" hidden id="env" name="env" value="{global:Env}" />
+            <input type="text" hidden id="review_item_index" name="review_item_index" value="{global:review_item_index}" />
             <div>
                 <div
                     style="background-image: url('../assets/logos/holland.svg'); background-size: contain; background-repeat: no-repeat; background-position: center; width: 160px; height: 40px; border-radius: 6px; display: flex; align-items: center; justify-content: center; background-color: transparent; background-size: contain; background-repeat: no-repeat;">
@@ -20,7 +22,7 @@
             </div>
         </header>
 
-        <main class="main-container" style="display: grid;grid-template-columns: 280px 1fr;gap: 8px;flex: 1;max-width: 1800px; margin: 0 auto;width: 100%;">
+        <main id="wiContainer" class="main-container" style="display: grid;grid-template-columns: 280px 1fr;gap: 8px;flex: 1;max-width: 1800px; margin: 0 auto;width: 100%;">
             <input type="text" hidden id="wi_item_type" name="wi_item_type" value="{wi_item_type}" />
             <input type="text" hidden id="workitemid" name="workitemid" value="{workitemid}" />
             <aside style="display: flex;flex-direction: column;gap: 8px; padding: 8px;">
@@ -107,7 +109,7 @@
                         <button onclick="document.getElementById('wi_status').value='pass';" style="padding: 16px 12px;border: none;border-radius: 4px;font-size: 11px;font-weight: bold;cursor: pointer;transition: all 0.3s ease;text-transform: uppercase;letter-spacing: 0.3px;display: flex;align-items: center;justify-content: center;position: relative;background: #ffffff;color: {global:primaryColor};border: 2px solid {global:primaryColor};" id="passReviewBtn"
                             onmouseover="this.style.background='{global:primaryColor}';this.style.color='#ffffff';"
                             onmouseout="this.style.background='#ffffff';this.style.color='{global:primaryColor}';">
-                            <span>🔒 PASS REVIEW</span>
+                            <span>✅ PASS REVIEW</span>
                         </button>
 
                         <button onclick="document.getElementById('wi_status').value='correction';" style="padding: 16px 12px;border: none;border-radius: 4px;font-size: 11px;font-weight: bold;cursor: pointer;transition: all 0.3s ease;text-transform: uppercase;letter-spacing: 0.3px;display: flex;align-items: center;justify-content: center;position: relative;background: #ffffff;color: {global:primaryColor};border: 2px solid {global:primaryColor};" id="correctionBtn"
@@ -125,7 +127,7 @@
                         <button onclick="document.getElementById('wi_status').value='exit';" style="padding: 16px 12px;border: none;border-radius: 4px;font-size: 11px;font-weight: bold;cursor: pointer;transition: all 0.3s ease;text-transform: uppercase;letter-spacing: 0.3px;display: flex;align-items: center;justify-content: center;position: relative;background: #ffffff;color: {global:primaryColor};border: 2px solid {global:primaryColor};" id="exitQueueBtn"
                             onmouseover="this.style.background='{global:primaryColor}';this.style.color='#ffffff';"
                             onmouseout="this.style.background='#ffffff';this.style.color='{global:primaryColor}';">
-                            <span>🚪 EXIT WORK QUEUE</span>
+                            <span>❌ EXIT WORK QUEUE</span>
                         </button>
                     </div>
 
