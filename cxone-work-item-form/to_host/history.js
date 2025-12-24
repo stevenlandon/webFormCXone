@@ -34,7 +34,10 @@ function initializeTable() {
         const row = document.createElement('tr');
         for (let i = 0; i < totalCols; i++) {
             const td = document.createElement('td');
-            const value = i < fieldConfig.length ? (data[fieldConfig[i].key] || '') : '';
+            let value = i < fieldConfig.length ? (data[fieldConfig[i].key] || '') : '';
+            if(fieldConfig[i].key == "return_to_queue_date"){
+              value = value.slice(0,10);
+            }
             td.innerHTML = value;
             td.style = "padding: 10px;border: 1px solid #e0e0e0;background: white;"
             row.appendChild(td);

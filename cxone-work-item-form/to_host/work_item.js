@@ -20,7 +20,7 @@ const madFieldConfig = [
   { key: "adjustment_type", label: "Adjustment Type" },
   { key: "transaction_type", label: "Transaction Type" },
   { key: "adjustment_amount", label: "Adjustment Amount" },
-  { key: "gross_fair_prior", label: "Gross Fare (Prior)" },
+  { key: "gross_fare_prior", label: "Gross Fare (Prior)" },
   { key: "adjustment_rate", label: "Adjustment Rate" },
   { key: "change_remarks", label: "Change Remarks" },
   { key: "gl_code", label: "GL Code" },
@@ -155,7 +155,10 @@ function initializeTable() {
         row.innerHTML = `<td style="padding: 10px;border: 1px solid #e0e0e0;background: #f8f9fa;">${field.label}</td>`;
         for (let i = 0; i < totalPassengers; i++) {
             const td = document.createElement('td');
-            const value = i < passengerData.length ? (passengerData[i][field.key] || '') : '';
+            let value = i < passengerData.length ? (passengerData[i][field.key] || '') : '';
+            if(field.key == "open_date" || field.key == "transaction_date" ){
+              value = value.slice(0,10);
+            }
             td.innerHTML = value;
             td.style = "padding: 10px;border: 1px solid #e0e0e0;background: white;"
             row.appendChild(td);
