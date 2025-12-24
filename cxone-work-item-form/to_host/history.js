@@ -1,5 +1,5 @@
 const fieldConfig = [
-  { key: "review_item_index", label: "Review Start Date" },
+  { key: "review_item_index", label: "Review Item Index" },
   { key: "reviewer_name", label: "Reviewer" },
   { key: "outcome", label: "Outcome" },
   { key: "outcome_details", label: "Outcome Details" },
@@ -16,6 +16,7 @@ async function loadData() {
   try {
     const res = await fetch(url);
     historyList = await res.json();
+    initializeTable();
   } catch (error) {
     console.error("Error fetching JSON:", error);
   }
@@ -23,7 +24,6 @@ async function loadData() {
 
 function initializeTable() {
     const totalCols = fieldConfig.length;
-    console.log('totalCols: ', totalCols);
     const headerRow = document.createElement('tr');
     for (let i = 0; i < totalCols; i++) {
         headerRow.innerHTML += `<th style="padding: 12px 10px; text-align: left; font-weight: 600; border-right: 1px solid rgba(255, 255, 255, 0.2); white-space: nowrap;">${fieldConfig[i].label || '-'}</th>`;
@@ -45,5 +45,4 @@ function initializeTable() {
 
 window.onload = async () => {
   await loadData();
-  initializeTable();
 };

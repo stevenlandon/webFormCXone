@@ -4,6 +4,7 @@ const cwfFieldConfig = [
     { key: 'net_cancel_fee', label: 'Net Cancelled Fee' },
     { key: 'waive_reason_code', label: 'Waive Reason CD' },
     { key: 'waive_reason_description', label: 'Waive Reason Description' },
+    { key: 'waiver_flag', label: 'Waiver Flag' },
     { key: 'cancel_code', label: 'Cancel Code' },
     { key: 'cancel_fees', label: 'Air Cancel Fees' },
     { key: 'packageCancelFees', label: 'Package Cancel Fees' },
@@ -11,7 +12,6 @@ const cwfFieldConfig = [
     { key: 'ncf_changes_cancel_fees', label: 'NCF Charges Cancel Fees' },
     { key: 'non_refundable_premium', label: 'Non-Refundable Premium/Waiver' },
     { key: 'open_date', label: 'Open Date' },
-    { key: 'waiver_flag', label: 'Waiver Flag' },
 ];
 const madFieldConfig = [
   { key: "transaction_date", label: "Transaction Date" },
@@ -49,9 +49,11 @@ async function loadData() {
   try {
     const res = await fetch(url);
     passengerData = await res.json();
+    initializeTable();
     document.getElementById('voyageNumberValue').innerText = passengerData[0].voyage;
     document.getElementById('bookingNumberValue').innerText = passengerData[0].booking_id;
     document.getElementById('currencyValue').innerText = passengerData[0].currency;
+    document.getElementById('wi_bookingNumber').value = passengerData[0].booking_id;
 
     if(document.getElementById('wi_item_type').value == 'CWF'){
       var seen = {};
@@ -69,19 +71,20 @@ async function loadData() {
       };
       setupSubItems(uniqSubItems);
     }
-    if(document.getElementById('wi_needUserDetails').value == 1){
-      document.getElementById('updateEmployeeBtn').style.display = 'block';
-    } else {
-      document.getElementById('updateEmployeeBtn').style.display = 'none';
-    };
-    if(document.getElementById('wi_historyAvailable').value == 1){
-      document.getElementById('historyBtn').style.display = 'block';
-    } else {
-      document.getElementById('historyBtn').style.display = 'none';
-    };
   } catch (error) {
     console.error("Error fetching JSON:", error);
   }
+  
+  if(document.getElementById('wi_needUserDetails').value == 1){
+    document.getElementById('updateEmployeeBtn').style.display = 'block';
+  } else {
+    document.getElementById('updateEmployeeBtn').style.display = 'none';
+  };
+  if(document.getElementById('wi_historyAvailable').value == 1){
+    document.getElementById('historyBtn').style.display = 'block';
+  } else {
+    document.getElementById('historyBtn').style.display = 'none';
+  };
 }
 
 function setupSubItems(uniqSubItems) {
@@ -164,9 +167,7 @@ function initializeTable() {
 
 window.onload = async () => {
   await loadData();
-  initializeTable();
 };
-
 
 // WI_ITEM_TYPE=CWF // wi_item_type
 // WORKITEMID=CWF0025_CWF  // workitemid

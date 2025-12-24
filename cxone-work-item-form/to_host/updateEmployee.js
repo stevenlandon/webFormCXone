@@ -1,13 +1,12 @@
 let agentList = [];
 async function loadData() {
-  const url =
-    "https://shubhamrathi1224.github.io/webFormCXone/cxone-work-item-form/to_host/agentList.json";
+  const url ="https://shubhamrathi1224.github.io/webFormCXone/cxone-work-item-form/to_host/agentList.json";
   try {
     const res = await fetch(url);
     const resJSON = await res.json();
-    agentList = resJSON.map((item) => {
-      const activeStatus = item.isActive.toLowerCase() === "true" ? 'Active' : 'Inactive';
-      const polarId = item.custom1.split(',')[0];
+    agentList = resJSON.agents.map((item) => {
+      const activeStatus = item.isActive == true ? 'Active' : 'Inactive';
+      const polarId = item.custom1?.split(',')[0];
       return {
         ...item, 
         agent_name: item.firstName + ' ' + item.lastName,
