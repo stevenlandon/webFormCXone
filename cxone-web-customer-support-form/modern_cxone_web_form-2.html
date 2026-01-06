@@ -6,13 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CXone Web Form - Modern Layout</title>
     <link rel="stylesheet" href="modern_cxone_web_form-2.css">
-    <!-- <link
-        rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
-        integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g=="
-        crossorigin="anonymous"
-        referrerpolicy="no-referrer"
-    /> -->
+    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" /> -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" />
 </head>
 
@@ -192,9 +186,10 @@
                                             <div class="field" id="wrongUserField">
                                                 <div class="user-group" id="wrongUserGroup">
                                                     <div class="user-img-wrapper">
-                                                        <img src="/assets/directGuest1.png" 
+                                                        <img src="/assets/directGuest1.png" class="user-img"
                                                             alt="Wrong User" width="80px" height="80px">
-                                                        <div class="cross-mark"><i class="fa-solid fa-x"></i></div>
+                                                        <!-- <div class="cross-mark"><i class="fa-solid fa-x"></i></div> -->
+                                                        <div class="cross-mark">✖</div>
                                                     </div>
                                                 </div>
                                                 <input type="hidden" name="wrongUser" id="wrongUser" value="0" />
@@ -388,7 +383,6 @@
     </div>
     <!-- <script type="module" src="modern_cxone_web_form-2.js"></script> -->
     <script>
-
         const tabs = document.querySelectorAll(".cxone-tab");
         const panels = document.querySelectorAll(".cxone-form-panel");
         const modal = document.getElementById("cxoneModal");

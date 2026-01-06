@@ -1,152 +1,126 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CXone Web Form - Modern Layout</title>
-    <link rel="stylesheet" href="modern_cxone_web_form-2.css">
-    <!-- <link
-        rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
-        integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g=="
-        crossorigin="anonymous"
-        referrerpolicy="no-referrer"
-    /> -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" />
-</head>
-
-<body>
-    <div class="card">
-        <header class="brand">
-            <div class="brand">
-                <div class="brand-logo"></div>
-            </div>
-
-            <div class="header-controls">
-                <div id="phoneTypeDiv"></div>
-                <div>
-                    <select id="customerSelector" aria-label="Select cruise line">
-                        <option value="C-0001">Customer 1</option>
-                        <option value="C-0002">Customer 2</option>
-                        <option value="C-0003">Customer 3</option>
-                        <option value="C-0004">Customer 4</option>
-                        <option value="C-0005">Customer 5</option>
-                        <option value="C-0006">Customer 6</option>
-                        <option value="C-0007">Customer 7</option>
-                        <option value="C-0008">Customer 8</option>
-                        <option value="C-0009">Customer 9</option>
-                        <option value="C-0010">Customer 10</option>
-                    </select>
+<data>
+    <!DOCTYPE html>
+    <html lang="en">
+    
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>CXone Web Form - Modern Layout</title>
+        <link rel="stylesheet" href="customer_form.css">
+        <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" /> -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" />
+    </head>
+    
+    <body>
+        <div class="card">
+            <header class="brand">
+                <div class="brand">
+                    <div class="brand-logo"></div>
                 </div>
-                <div>
-                    <select id="serviceSelector" aria-label="Select cruise line">
-                        <option value="holland">Holland America (HAL)</option>
-                        <option value="princess">Princess Cruise (PCL)</option>
-                        <option value="seabourn">Seabourn (SBN)</option>
-                        <option value="cunard">Cunard (CUN)</option>
-                    </select>
-                </div>
-                <div class="auth-chip-div">
-                    <div id="authChip" class="chip auth-chip" aria-live="polite" title="ddd"></div>
-                </div>
-                <div id="langFlagDiv"></div>
-            </div>
-        </header>
-
-        <main>
-            <div class="main-container-div">
-                <div class="basic-details-div">
-                    <span id="updateInfoButton" title="update">
-                        <i class="fa-regular fa-pen-to-square"></i>
-                        <!-- <i class="fa-solid fa-pencil"></i> -->
-                    </span>
-                    <div class="short-row">
-                        <div class="field">
-                            <p><i class="fa-regular fa-user"></i>: <span id="callerNameTextBasic">John Doe</span></p>
-                            <p><i class="fa-regular fa-address-card"></i>: <span id="ccnTextBasic">CCN-12345</span></p>
-                        </div>
-                        
-                        <div class="field">
-                            <p><i class="fa-solid fa-list-check"></i>: <span id="intentTextBasic">newBooking</span></p>
-                            <p><i class="fa-solid fa-hashtag"></i>: <span id="bookingNumberTextBasic">B-123</span></p>
-                            <p><i class="fa-regular fa-calendar"></i>: <span id="bookingDateTextBasic">2025-11-05 09:30</span></p>
-                        </div>
-                        
-                        <div class="field">
-                            <div>
-                                <img src="/assets/voyageTypes/worldCruise.png" alt="phoneTypeSmsAuth" width="80px" height="80px"/>
-                            </div>
-                            <div class="loyalty-level"></div>
-                        </div>                     
+    
+                <div class="header-controls">
+                    <div id="phoneTypeDiv"></div>
+                    <div class="auth-chip-div">
+                        <div id="authChip" class="chip auth-chip" aria-live="polite" title="ddd"></div>
                     </div>
-                    <div id="basicDetails"></div>
+                    <div id="langFlagDiv"></div>
                 </div>
-                <div class="section-wise-details-div">
-                    <div class="cxone-tabs" id="cxoneTabs">
-                        <div class="cxone-tab" data-tab="customer" id="customerInfoTab">
-                            <div class="cxone-tab-icon">👥</div>
-                            <div class="cxone-tab-title">Customer</div>
-                            <div class="cxone-tab-desc">Customer Information</div>
-                        </div>
-                        <div class="cxone-tab" data-tab="travelAdvisor" id="travelAdvisorTab">
-                            <div class="cxone-tab-icon">💬</div>
-                            <div class="cxone-tab-title">Travel advisor</div>
-                            <div class="cxone-tab-desc">Travel advisor Information</div>
-                        </div>
-                        <div class="cxone-tab" data-tab="intent" id="intentTab">
-                            <div class="cxone-tab-icon">📝</div>
-                            <div class="cxone-tab-title">Contact Intent</div>
-                            <div class="cxone-tab-desc">Contact Intent & Purpose of request</div>
-                        </div>
-                        <div class="cxone-tab" data-tab="booking" id="bookingTab">
-                            <div class="cxone-tab-icon">📅</div>
-                            <div class="cxone-tab-title">Booking Details</div>
-                            <div class="cxone-tab-desc">Booking details</div>
-                        </div>
-                        <div class="cxone-tab" data-tab="pcc">
-                            <div class="cxone-tab-icon">
-                                <img src="/assets/pcc.png" alt="PCC"/>
+            </header>
+    
+            <main>
+                <div class="main-container-div">
+                    <div class="basic-details-div">
+                        <span id="updateInfoButton" title="update">
+                            <i class="fa-regular fa-pen-to-square"></i>
+                            <!-- <i class="fa-solid fa-pencil"></i> -->
+                        </span>
+                        <div class="short-row">
+                            <div class="field">
+                                <p><i class="fa-regular fa-user"></i>: <span id="callerNameTextBasic">John Doe</span></p>
+                                <p><i class="fa-regular fa-address-card"></i>: <span id="ccnTextBasic">CCN-12345</span></p>
                             </div>
-                            <div class="cxone-tab-title">PCC</div>
-                            <div class="cxone-tab-desc">PCC</div>
+                            
+                            <div class="field">
+                                <p><i class="fa-solid fa-list-check"></i>: <span id="intentTextBasic">newBooking</span></p>
+                                <p><i class="fa-solid fa-hashtag"></i>: <span id="bookingNumberTextBasic">B-123</span></p>
+                                <p><i class="fa-regular fa-calendar"></i>: <span id="bookingDateTextBasic">2025-11-05 09:30</span></p>
+                            </div>
+                            
+                            <div class="field">
+                                <div>
+                                    <img src="/assets/voyageTypes/worldCruise.png" alt="phoneTypeSmsAuth" width="80px" height="80px"/>
+                                </div>
+                                <div class="loyalty-level"></div>
+                            </div>                     
                         </div>
-                        <div class="cxone-tab" data-tab="phoneTypeSmsAuth">
-                            <div class="cxone-tab-icon">
-                                <img src="/assets/mediaType4.png" alt="phoneTypeSmsAuth"/>
+                        <div id="basicDetails"></div>
+                    </div>
+                    <div class="section-wise-details-div">
+                        <div class="cxone-tabs" id="cxoneTabs">
+                            <div class="cxone-tab" data-tab="customer" id="customerInfoTab">
+                                <div class="cxone-tab-icon">👥</div>
+                                <div class="cxone-tab-title">Customer</div>
+                                <div class="cxone-tab-desc">Customer Information</div>
                             </div>
-                            <div class="cxone-tab-title">Phone Type and SMS authorization</div>
-                            <div class="cxone-tab-desc">Phone Type and SMS authorization</div>
-                        </div>
-                        <!-- <div class="cxone-tab" data-tab="manageSubscription">
-                            <div class="cxone-tab-icon">
-                                <img src="/assets/manageSubs3.jpg" alt="manageSubscription"/>
+                            <div class="cxone-tab" data-tab="travelAdvisor" id="travelAdvisorTab">
+                                <div class="cxone-tab-icon">💬</div>
+                                <div class="cxone-tab-title">Travel advisor</div>
+                                <div class="cxone-tab-desc">Travel advisor Information</div>
                             </div>
-                            <div class="cxone-tab-title">Manage subscription</div>
-                            <div class="cxone-tab-desc">Manage subscription</div>
-                        </div> -->
-                        <div class="cxone-tab" data-tab="termsAndConditions">
-                            <div class="cxone-tab-icon">
-                                <img src="/assets/termsAndCond3.png" alt="termsAndConditions"/>
+                            <div class="cxone-tab" data-tab="intent" id="intentTab">
+                                <div class="cxone-tab-icon">📝</div>
+                                <div class="cxone-tab-title">Contact Intent</div>
+                                <div class="cxone-tab-desc">Contact Intent & Purpose of request</div>
                             </div>
-                            <div class="cxone-tab-title">Terms and conditions</div>
-                            <div class="cxone-tab-desc">Terms and conditions</div>
+                            <div class="cxone-tab" data-tab="booking" id="bookingTab">
+                                <div class="cxone-tab-icon">📅</div>
+                                <div class="cxone-tab-title">Booking Details</div>
+                                <div class="cxone-tab-desc">Booking details</div>
+                            </div>
+                            <div class="cxone-tab" data-tab="pcc">
+                                <div class="cxone-tab-icon">
+                                    <img src="/assets/pcc.png" alt="PCC"/>
+                                </div>
+                                <div class="cxone-tab-title">PCC</div>
+                                <div class="cxone-tab-desc">PCC</div>
+                            </div>
+                            <div class="cxone-tab" data-tab="phoneTypeSmsAuth">
+                                <div class="cxone-tab-icon">
+                                    <img src="/assets/mediaType4.png" alt="phoneTypeSmsAuth"/>
+                                </div>
+                                <div class="cxone-tab-title">Phone Type and SMS authorization</div>
+                                <div class="cxone-tab-desc">Phone Type and SMS authorization</div>
+                            </div>
+                            <!-- <div class="cxone-tab" data-tab="manageSubscription">
+                                <div class="cxone-tab-icon">
+                                    <img src="/assets/manageSubs3.jpg" alt="manageSubscription"/>
+                                </div>
+                                <div class="cxone-tab-title">Manage subscription</div>
+                                <div class="cxone-tab-desc">Manage subscription</div>
+                            </div> -->
+                            <div class="cxone-tab" data-tab="termsAndConditions">
+                                <div class="cxone-tab-icon">
+                                    <img src="/assets/termsAndCond3.png" alt="termsAndConditions"/>
+                                </div>
+                                <div class="cxone-tab-title">Terms and conditions</div>
+                                <div class="cxone-tab-desc">Terms and conditions</div>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </main>
-        <div class="controls">
-            <div class="footer-note">© <span id="copyrightYear"></span> <span
-                    id="serviceFooterName">Service Line</span> — <span id="serviceFooterTagline">We connect
-                    you</span></div>
-            <div class="control-buttons">
-                <button id="btnCancel" class="btn-ghost cxone-btn-secondary" type="button">Cancel</button>
-                <button id="btnNext" class="btn-next cxone-btn-primary" type="button">Save & Next</button>
+            </main>
+            <div class="controls">
+                <div class="footer-note">© <span id="copyrightYear"></span> <span
+                        id="serviceFooterName">Service Line</span> — <span id="serviceFooterTagline">We connect
+                        you</span></div>
+                <div class="control-buttons">
+                    <button id="btnCancel" class="btn-ghost cxone-btn-secondary" type="button">Cancel</button>
+                    <button id="btnNext" class="btn-next cxone-btn-primary" type="button">Save & Next</button>
+                </div>
             </div>
         </div>
-    </div>
-    <script type="module" src="customer_form.js"></script>
-</body>
-
-</html>
+        <script type="module" src="customer_form.js"></script>
+    </body>
+    
+    </html>
+</data>
