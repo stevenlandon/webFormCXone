@@ -6,12 +6,13 @@ const cwfFieldConfig = [
     { key: 'waive_reason_description', label: 'Waive Reason Description' },
     { key: 'waiver_flag', label: 'Waiver Flag' },
     { key: 'cancel_code', label: 'Cancel Code' },
-    { key: 'cancel_fees', label: 'Air Cancel Fees' },
-    { key: 'packageCancelFees', label: 'Package Cancel Fees' },
+    { key: 'cancel_fees', label: 'Cancel Fees' },
     { key: 'transfer_cancel_fees', label: 'Transfer Cancel Fees' },
     { key: 'ncf_changes_cancel_fees', label: 'NCF Charges Cancel Fees' },
     { key: 'non_refundable_premium', label: 'Non-Refundable Premium/Waiver' },
     { key: 'open_date', label: 'Open Date' },
+    { key: 'cancel_date', label: 'Cancel Date' },
+    { key: 'days_out_cancel', label: 'Days Out at Cancel' },
 ];
 const madFieldConfig = [
   { key: "transaction_date", label: "Transaction Date" },
@@ -105,7 +106,7 @@ function setupSubItems(uniqSubItems) {
       transition: all 0.3s ease;
       border-left: 3px solid ${window.global?.secondaryColor || '#0b6efd'};
     `;
-    
+
     let iconPath = "";
     if(item.label.toLowerCase() === "cruise"){
         iconPath = "https://shubhamrathi1224.github.io/webFormCXone/cxone-work-item-form/to_host/images/cruise_fee.png";  // "./images/cruise_fee.png"
@@ -145,7 +146,7 @@ function initializeTable() {
         for (let i = 0; i < totalPassengers; i++) {
             const td = document.createElement('td');
             let value = i < passengerData.length ? (passengerData[i][field.key] || '') : '';
-            if(field.key == "open_date" || field.key == "transaction_date" ){
+            if(field.key == "open_date" || field.key == "transaction_date" || field.key == "cancel_date"){
               value = value.slice(0,10);
             }
             td.innerHTML = value;
