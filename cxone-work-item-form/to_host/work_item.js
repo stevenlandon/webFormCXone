@@ -105,18 +105,7 @@ function setupSubItems(uniqSubItems) {
       transition: all 0.3s ease;
       border-left: 3px solid ${window.global?.secondaryColor || '#0b6efd'};
     `;
-
-    div.onmouseover = function () {
-      this.style.background = "#e8f4ff";
-      this.style.color = window.global?.secondaryColor || "#0b6efd";
-      this.style.transform = "translateX(4px)";
-    };
-
-    div.onmouseout = function () {
-      this.style.background = "#ffffff";
-      this.style.color = "black";
-      this.style.transform = "none";
-    };
+    
     let iconPath = "";
     if(item.label.toLowerCase() === "cruise"){
         iconPath = "https://shubhamrathi1224.github.io/webFormCXone/cxone-work-item-form/to_host/images/cruise_fee.png";  // "./images/cruise_fee.png"
