@@ -31,10 +31,11 @@ let fieldConfig = [];
 let passengerData = [];
 
 async function loadData() {
-  if(document.getElementById('wi_item_type').value == 'CWF'){
+  const wiType = document.getElementById('wi_item_type').value;
+  if(wiType == 'CWF' || wiType == 'CWX'){
     document.getElementById('workItemLabel').innerText = 'Cancellation Waive Fee';
-    fieldConfig = cwfFieldConfig;
-  } else if(document.getElementById('wi_item_type').value == 'MAD') {
+    fieldConfig = wiType == 'CWX' ? cwfFieldConfig.slice(2) : cwfFieldConfig;
+  } else if(wiType == 'MAD') {
     document.getElementById('workItemLabel').innerText = 'Manual Adjustment';
     document.getElementById('subItemTitle').style.display = 'none';
     fieldConfig = madFieldConfig;
@@ -50,13 +51,13 @@ async function loadData() {
   try {
     const res = await fetch(url);
     passengerData = await res.json();
-    initializeTable();
+    initializeTable(wiType);
     document.getElementById('voyageNumberValue').innerText = passengerData[0].voyage;
     document.getElementById('bookingNumberValue').innerText = passengerData[0].booking_id;
     document.getElementById('currencyValue').innerText = passengerData[0].currency;
     document.getElementById('wi_bookingNumber').value = passengerData[0].booking_id;
 
-    if(document.getElementById('wi_item_type').value == 'CWF'){
+    if(wiType == 'CWF'){
       var seen = {};
       var uniqSubItems = [];
       for (var i = 0; i < passengerData.length; i++) {
@@ -130,13 +131,14 @@ function setupSubItems(uniqSubItems) {
   });
 }
 
-function initializeTable() {
+function initializeTable(wiType) {
     const totalPassengers = passengerData.length;
     const headerRow = document.createElement('tr');
     headerRow.innerHTML = '<th style="position: sticky; min-width: 200px; padding: 12px 10px; text-align: left; font-weight: 600; border-right: 1px solid rgba(255, 255, 255, 0.2); white-space: nowrap;">Field Name</th>';
     
     for (let i = 0; i < totalPassengers; i++) {
-        headerRow.innerHTML += `<th style="padding: 12px 10px; text-align: left; font-weight: 600; border-right: 1px solid rgba(255, 255, 255, 0.2); white-space: nowrap;">${passengerData[i].customer_id || '-'}</th>`;
+      const headerLabel = wiType == 'CWX' ? `${passengerData[i].customer_id} - ${passengerData[i].cancel_item_type}` : passengerData[i].customer_id;
+        headerRow.innerHTML += `<th style="padding: 12px 10px; text-align: left; font-weight: 600; border-right: 1px solid rgba(255, 255, 255, 0.2); white-space: nowrap;">${headerLabel || '-'}</th>`;
     }
     document.getElementById('tableHeader').appendChild(headerRow);
     const tbody = document.getElementById('tableBody');
