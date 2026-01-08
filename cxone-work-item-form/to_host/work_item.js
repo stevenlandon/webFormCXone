@@ -57,7 +57,7 @@ async function loadData() {
     document.getElementById('currencyValue').innerText = passengerData[0].currency;
     document.getElementById('wi_bookingNumber').value = passengerData[0].booking_id;
 
-    if(wiType == 'CWF'){
+    if(wiType == 'CWF' || wiType == 'CWX'){
       var seen = {};
       var uniqSubItems = [];
       for (var i = 0; i < passengerData.length; i++) {
