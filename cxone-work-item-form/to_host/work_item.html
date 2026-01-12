@@ -96,6 +96,13 @@
                 <div style="display: flex;flex-direction: column;gap: 8px; padding: 8px;">
                     <div style="padding: 8px;display: flex;gap: 8px;height: -webkit-fill-available;justify-content: center;">
                         <input type="hidden" name="wi_status" id="wi_status">
+                        <input type="hidden" name="wi_enableReskill" id="wi_enableReskill" value="{wi_enableReskill}">
+
+                        <button onclick="document.getElementById('wi_status').value='reskill';" style="padding: 16px 12px;border: none;border-radius: 4px;font-size: 11px;font-weight: bold;cursor: pointer;transition: all 0.3s ease;text-transform: uppercase;letter-spacing: 0.3px;display: flex;align-items: center;justify-content: center;position: relative;background: #ffffff;color: {global:primaryColor};border: 2px solid {global:primaryColor};" id="reSkillBtn"
+                            onmouseover="this.style.background='{global:primaryColor}';this.style.color='#ffffff';"
+                            onmouseout="this.style.background='#ffffff';this.style.color='{global:primaryColor}';">
+                            <span>🔄 Re-Skill</span>
+                        </button>
 
                         <button onclick="document.getElementById('wi_status').value='pass';" style="padding: 16px 12px;border: none;border-radius: 4px;font-size: 11px;font-weight: bold;cursor: pointer;transition: all 0.3s ease;text-transform: uppercase;letter-spacing: 0.3px;display: flex;align-items: center;justify-content: center;position: relative;background: #ffffff;color: {global:primaryColor};border: 2px solid {global:primaryColor};" id="passReviewBtn"
                             onmouseover="this.style.background='{global:primaryColor}';this.style.color='#ffffff';"

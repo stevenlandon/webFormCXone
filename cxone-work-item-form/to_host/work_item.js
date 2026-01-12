@@ -87,6 +87,11 @@ async function loadData() {
   } else {
     document.getElementById('historyBtn').style.display = 'none';
   };
+  if(document.getElementById('wi_enableReskill').value == 1){
+    document.getElementById('reSkillBtn').style.display = 'block';
+  } else {
+    document.getElementById('reSkillBtn').style.display = 'none';
+  }
 }
 
 function setupSubItems(uniqSubItems) {

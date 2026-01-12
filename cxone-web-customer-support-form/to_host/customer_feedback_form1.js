@@ -658,3 +658,57 @@ btnNext.addEventListener("click", () => {
   // // That webhook can update CXone contact data or trigger next Studio step via API.
   // window.location.href = `https://yourapi/next-step?customer=${customerName}&auth=${agentAuth}`;
 });
+
+
+
+const tabs = document.querySelectorAll(".cxone-tab");
+const panels = document.querySelectorAll(".cxone-form-panel");
+const modal = document.getElementById("cxoneModal");
+const modalTitle = document.getElementById("cxoneModalTitle");
+const modalBody = document.getElementById("cxoneModalBody");
+const closeBtn = document.querySelector(".cxone-close");
+const updateInfoBtn = document.getElementById("updateInfoButton");
+
+function showPanel(tabName, tabTitle = 'Confirm') {
+    panels.forEach(p => {
+        p.style.display = p.dataset.tab === tabName ? 'block' : 'none';
+    });
+    const panel = document.querySelector(`.cxone-form-panel[data-tab="${tabName}"]`);
+    console.log('panel: ', panel);
+    if (panel) {
+        modal.style.display = "block";
+        modalTitle.textContent = tabTitle;
+        // const first = panel.querySelector('input, textarea, select');
+        // if (first) first.focus();
+    }
+}
+
+tabs.forEach(tab => {
+    tab.addEventListener("click", () => {
+        console.log('tab: ', tab);
+        const tabName = tab.getAttribute("data-tab");
+        console.log('tabName: ', tabName);
+        const descElement = tab.querySelector('.cxone-tab-desc');
+        const titleText = descElement ? descElement.textContent.trim() : '';
+        showPanel(tabName, titleText);
+    });
+});
+
+updateInfoBtn.addEventListener("click", () => {
+    showPanel('updateCallInformation','Update Call Information');
+});
+
+closeBtn.onclick = () => (modal.style.display = "none");
+// window.onclick = e => { if (e.target === modal) modal.style.display = "none"; };
+// const initialTab = document.querySelector('.cxone-tab.selected');
+// if (initialTab) showPanel(initialTab.dataset.tab);
+
+const thumbs = document.querySelectorAll(".thumb");
+const hiddenSatisfiedInput = document.getElementById("satisfied");
+thumbs.forEach(thumb => {
+    thumb.addEventListener("click", () => {
+        thumbs.forEach(t => t.classList.remove("selected"));
+        thumb.classList.add("selected");
+        hiddenSatisfiedInput.value = thumb.dataset.value;
+    });
+});
