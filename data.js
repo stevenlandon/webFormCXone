@@ -73,7 +73,7 @@ export const SAMPLE_API_RESPONSES = [
     callerType: "D",
     callerImage: "/assets/icons/guest.png",
     intent: "newBooking",
-    intentImage: "/assets/intents/newBooking2.png",
+    intentImage: "/assets/intents/newBooking.png",
     booking: {
       number: "B-123",
       date: "2025-11-05 09:30",
@@ -318,7 +318,7 @@ export const SAMPLE_API_RESPONSES = [
     callerType: "D",
     callerImage: "/assets/icons/guest.png",
     intent: "newBooking",
-    intentImage: "/assets/intents/newBooking2.png",
+    intentImage: "/assets/intents/newBooking.png",
     booking: {
       number: "B-567",
       date: "2025-11-09 11:45",
@@ -624,7 +624,7 @@ export const SAMPLE_API_RESPONSES = [
       agencyName: "NA",
     },
     intent: "newBooking",
-    intentImage: "/assets/intents/newBooking2.png",
+    intentImage: "/assets/intents/newBooking.png",
     booking: {
       number: "B-012",
       date: "2025-11-14 18:00",
