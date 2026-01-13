@@ -61,7 +61,7 @@ const CUSTOMER = {
   brand: "holland",
   logo: "../../assets/logos/holland.svg",
   phoneType: "Mobile",
-  phoneTypeImage: "/assets/phoneTypes/mobile.png",
+  phoneTypeImage: "/cxone-web-customer-support-form/to_host/images/phoneTypes/mobile.png",
   phone: "+15551234567",
   email: "sample@email.com",
   customerId: "C-0001",
@@ -70,9 +70,9 @@ const CUSTOMER = {
   loyalty: "5-Star Platinum",
   loyaltyLevel: "5",
   callerType: "D",
-  callerImage: "/assets/icons/guest.png",
+  callerImage: "/cxone-web-customer-support-form/to_host/images/user.png",
   intent: "newBooking",
-  intentImage: "/assets/intents/newBooking.png",
+  intentImage: "/cxone-web-customer-support-form/to_host/images/intents/newBooking.png",
   booking: {
     number: "B-123",
     date: "2025-11-05 09:30",
@@ -81,7 +81,7 @@ const CUSTOMER = {
   },
   voyageType: "WC",
   voyageTypeText: "World Cruise",
-  voyageTypeImage: "/assets/voyageTypes/worldCruise.png",
+  voyageTypeImage: "/cxone-web-customer-support-form/to_host/images/voyageTypes/worldCruise.png",
   mediaType: "Voice",
   authenticated: true,
   authStatus: {
@@ -90,7 +90,7 @@ const CUSTOMER = {
     details: "Customer authenticated via security questions.",
   },
   lang: "en-US",
-  langFlag: "/assets/flags/english.png",
+  langFlag: "/cxone-web-customer-support-form/to_host/images/flags/english.png",
   transcript: "I want to do a new booking for next month.",
   transferTo: "Support Queue",
   routeEmail: true,
@@ -166,7 +166,7 @@ function setCustomer() {
   if (customer.callerType == "D") {
     customerInfoTab.style.display = "block";
     travelAdvisorTab.style.display = "none";
-    setTabDetails(customerInfoTab, "/assets/directGuest.png", "Direct Guest");
+    setTabDetails(customerInfoTab, "/cxone-web-customer-support-form/to_host/images/directGuest.png", "Direct Guest");
   } else {
     travelAdvisorTab.style.display = "block";
     travelAdvisorChip.textContent = `🏢 Travel Advisor: ${customer.travelAdvisor}`;
@@ -207,7 +207,7 @@ function setTheme(name = "holland") {
   link.href = brand.favicon;
 }
 
-function setPhoneType(elementDiv, phoneType = "Mobile", phoneTypeImage = "/assets/phoneTypes/mobile.png") {
+function setPhoneType(elementDiv, phoneType = "Mobile", phoneTypeImage = "/cxone-web-customer-support-form/to_host/images/phoneTypes/mobile.png") {
   if (!elementDiv) return;
   elementDiv.innerHTML = "";
   const img = document.createElement("img");
@@ -216,7 +216,7 @@ function setPhoneType(elementDiv, phoneType = "Mobile", phoneTypeImage = "/asset
   elementDiv.appendChild(img);
 }
 
-function setLangFlag(elementDiv, lang = "en-US", langFlag = "/assets/flags/english.png") {
+function setLangFlag(elementDiv, lang = "en-US", langFlag = "/cxone-web-customer-support-form/to_host/images/flags/english.png") {
   if (!elementDiv) return;
   elementDiv.innerHTML = "";
   const img = document.createElement("img");
@@ -239,7 +239,7 @@ function svgCross() {
   return '<i class="fa-solid fa-xmark"></i>';
 }
 
-function setTabDetails(selectedTab, src = "/assets/directGuest.png", alt = 'Direct Guest') {
+function setTabDetails(selectedTab, src = "/cxone-web-customer-support-form/to_host/images/directGuest.png", alt = 'Direct Guest') {
   const titleDiv = selectedTab.querySelector(".cxone-tab-title");
   titleDiv.textContent = alt;
   const iconDiv = selectedTab.querySelector(".cxone-tab-icon");
