@@ -50,6 +50,14 @@ export const cxOneAgents = [
   { value: "agent5", label: "Agent 5" },
 ];
 
+export const cxOneSkills = [
+  { value: "skill1", label: "Skill 1" },
+  { value: "skill2", label: "Skill 2" },
+  { value: "skill3", label: "Skill 3" },
+  { value: "skill4", label: "Skill 4" },
+  { value: "skill5", label: "Skill 5" },
+];
+
 // Example: Deliver mode options
 export const deliverModes = [
   { value: "spoken", label: "Spoken", isTextIncluded: false },

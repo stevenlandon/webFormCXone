@@ -68,10 +68,10 @@ let customer = {};
 
 (function init() {
   customer = CUSTOMER;
-  populateDeliverModes(customer);
+  populateTnCDeliverModes(customer);
 })();
 
-function populateDeliverModes(customer) {
+function populateTnCDeliverModes(customer) {
   var deliverModesOption = [...deliverModes];
   if (!(customer.routeEmail || customer.routeSMS || customer.routeChat)) {
     deliverModesOption = deliverModesOption.filter(
@@ -108,14 +108,14 @@ function populateDeliverModes(customer) {
 
 // searchable autocomplete multi-select tnc dropdown start
 
-const input = document.getElementById("termSearch");
-const optionsList = document.getElementById("termOptions");
-const selectedTagsContainer = document.getElementById("selectedTags");
+const termSearchInput = document.getElementById("termSearch");
+const termOptionsList = document.getElementById("termOptions");
+const selectedTnCTagsDiv = document.getElementById("selectedTnCTags");
 
 let selectedTerms = [];
 
 function renderOptions(filter = "") {
-  optionsList.innerHTML = "";
+  termOptionsList.innerHTML = "";
   const filtered = customer.termsAndConditions.filter(
     (t) =>
       t.label.toLowerCase().includes(filter.toLowerCase()) &&
@@ -126,20 +126,20 @@ function renderOptions(filter = "") {
     div.className = "option-item";
     div.textContent = term.label;
     div.onclick = () => selectTerm(term);
-    optionsList.appendChild(div);
+    termOptionsList.appendChild(div);
   });
-  optionsList.style.display = filtered.length ? "block" : "none";
+  termOptionsList.style.display = filtered.length ? "block" : "none";
 }
 
 function selectTerm(term) {
   selectedTerms.push(term);
   renderTags();
-  input.value = "";
+  termSearchInput.value = "";
   renderOptions();
 }
 
 function renderTags() {
-  selectedTagsContainer.innerHTML = "";
+  selectedTnCTagsDiv.innerHTML = "";
   selectedTerms.forEach((term) => {
     const tag = document.createElement("span");
     tag.className = "tag";
@@ -148,7 +148,7 @@ function renderTags() {
     icon.className = "fa fa-times";
     icon.onclick = () => removeTerm(term);
     tag.appendChild(icon);
-    selectedTagsContainer.appendChild(tag);
+    selectedTnCTagsDiv.appendChild(tag);
   });
 }
 
@@ -158,13 +158,13 @@ function removeTerm(term) {
   renderOptions();
 }
 
-input.addEventListener("focus", () => renderOptions());
-input.addEventListener("input", (e) => renderOptions(e.target.value));
+termSearchInput.addEventListener("focus", () => renderOptions());
+termSearchInput.addEventListener("input", (e) => renderOptions(e.target.value));
 
 document.addEventListener("click", (e) => {
   if (!e.target.closest("#termSearch")) {
-    optionsList.style.display = "none";
-    input.value = "";
+    termOptionsList.style.display = "none";
+    termSearchInput.value = "";
   }
 });
 

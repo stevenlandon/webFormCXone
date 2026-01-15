@@ -50,6 +50,14 @@ const cxOneAgents = [
   { value: "agent5", label: "Agent 5" },
 ];
 
+const cxOneSkills = [
+  { value: "skill1", label: "Skill 1" },
+  { value: "skill2", label: "Skill 2" },
+  { value: "skill3", label: "Skill 3" },
+  { value: "skill4", label: "Skill 4" },
+  { value: "skill5", label: "Skill 5" },
+];
+
 // Example: Deliver mode options
 const deliverModes = [
   { value: "spoken", label: "Spoken", isTextIncluded: false },
@@ -142,6 +150,7 @@ const basicDetails = document.getElementById('basicDetails');
 const loyaltyLevelDivs = document.querySelectorAll(".loyalty-level");
 
 let customer = {};
+let transferList = JSON.parse(JSON.stringify(cxOneAgents));
 
 (function init() {
   copyrightYear.textContent =
@@ -150,7 +159,6 @@ let customer = {};
 })();
 
 document.addEventListener("DOMContentLoaded", () => {
-  
   // intentSelector.addEventListener("change", handleIntentChange);
 });
 
@@ -187,7 +195,7 @@ function setCustomer() {
 
   populateDropdown("intentSelector", customerIntents);
   populateTransferModes(customer);
-  populateDeliverModes(customer);
+  populateTnCDeliverModes(customer);
   populateFromIVR(customer);
   updateNextEnabled();
 }
@@ -254,10 +262,21 @@ function setTabDetails(selectedTab, src = "/cxone-web-customer-support-form/to_h
   iconDiv.appendChild(img);
 }
 
+function populateDropdown(selectId, data) {
+  const select = document.getElementById(selectId);
+  select.innerHTML = '<option value="" disabled>-- Select --</option>';
+  data.forEach((item) => {
+    const opt = document.createElement("option");
+    opt.value = item.value;
+    opt.textContent = item.label;
+    select.appendChild(opt);
+  });
+}
+
 function populateTransferModes(customer) {
   var deliverModesOption = [ 
     { value: "skillSet", label: "Skill Set" },
-    { value: "consuktant", label: "PCC" },
+    { value: "consultant", label: "PCC" },
   ];
   const group = document.getElementById("transferModeGroup");
   group.innerHTML = "";
@@ -286,17 +305,18 @@ function populateTransferModes(customer) {
 }
 
 function onTransferModeChange(e){
-  const selected = e.target.value; // email or chat
-  const targetEl = document.getElementById("pccNameField");
+  const selected = e.target.value;
 
   if (selected === "skillSet") {
-    targetEl.style.display = "none";      // hide on "email"
+    document.querySelector('label[for="transferTo"]').innerText = 'Skill Name';
+    transferList = JSON.parse(JSON.stringify(cxOneSkills));
   } else {
-    targetEl.style.display = "block";     // show on "chat"
+    document.querySelector('label[for="transferTo"]').innerText = 'PCC Name';
+    transferList = JSON.parse(JSON.stringify(cxOneAgents));
   }
 }
 
-function populateDeliverModes(customer) {
+function populateTnCDeliverModes(customer) {
   var deliverModesOption = [...deliverModes];
   if (!(customer.routeEmail || customer.routeSMS || customer.routeChat)) {
     deliverModesOption = deliverModesOption.filter(
@@ -442,16 +462,16 @@ function handleIntentChange() {
   console.log("handleIntentChange: ");
 }
 
-// searchable autocomplete multi-select dropdown start
+// searchable autocomplete multi-select T&C dropdown start
 
 const termSearchInput = document.getElementById("termSearch");
-const optionsList = document.getElementById("termOptions");
-const selectedTagsContainer = document.getElementById("selectedTags");
+const termOptionsList = document.getElementById("termOptions");
+const selectedTnCTagsDiv = document.getElementById("selectedTnCTags");
 
 let selectedTerms = [];
 
-function renderOptions(filter = "") {
-  optionsList.innerHTML = "";
+function renderTnCOptions(filter = "") {
+  termOptionsList.innerHTML = "";
   const filtered = customer.termsAndConditions.filter(
     (t) =>
       t.label.toLowerCase().includes(filter.toLowerCase()) &&
@@ -462,20 +482,20 @@ function renderOptions(filter = "") {
     div.className = "option-item";
     div.textContent = term.label;
     div.onclick = () => selectTerm(term);
-    optionsList.appendChild(div);
+    termOptionsList.appendChild(div);
   });
-  optionsList.style.display = filtered.length ? "block" : "none";
+  termOptionsList.style.display = filtered.length ? "block" : "none";
 }
 
 function selectTerm(term) {
   selectedTerms.push(term);
-  renderTags();
+  renderTnCTags();
   termSearchInput.value = "";
-  renderOptions();
+  renderTnCOptions();
 }
 
-function renderTags() {
-  selectedTagsContainer.innerHTML = "";
+function renderTnCTags() {
+  selectedTnCTagsDiv.innerHTML = "";
   selectedTerms.forEach((term) => {
     const tag = document.createElement("span");
     tag.className = "tag";
@@ -484,38 +504,37 @@ function renderTags() {
     icon.className = "fa fa-times";
     icon.onclick = () => removeTerm(term);
     tag.appendChild(icon);
-    selectedTagsContainer.appendChild(tag);
+    selectedTnCTagsDiv.appendChild(tag);
   });
 }
 
 function removeTerm(term) {
   selectedTerms = selectedTerms.filter((t) => t.label !== term.label);
-  renderTags();
-  renderOptions();
+  renderTnCTags();
+  renderTnCOptions();
 }
 
-termSearchInput.addEventListener("focus", () => renderOptions());
-termSearchInput.addEventListener("input", (e) => renderOptions(e.target.value));
+termSearchInput.addEventListener("focus", () => renderTnCOptions());
+termSearchInput.addEventListener("input", (e) => renderTnCOptions(e.target.value));
 
 document.addEventListener("click", (e) => {
   if (!e.target.closest("#termSearch")) {
-    optionsList.style.display = "none";
+    termOptionsList.style.display = "none";
     termSearchInput.value = "";
   }
 });
 
-// searchable autocomplete multi-select dropdown end
+// searchable autocomplete multi-select T&C dropdown end
 
-// searchable autocomplete single-select dropdown start
+// searchable autocomplete single-select transfer dropdown start
 
-const searchInput = document.getElementById("transferSearch");
-const optionsContainer = document.getElementById("transferOptions");
-const hiddenSelect = document.getElementById("transferTo");
+const transferSearchInput = document.getElementById("transferSearch");
+const transferOptionsDiv = document.getElementById("transferOptions");
+const transferToInput = document.getElementById("transferTo");
 
-// Render all options initially
-function renderOptions1(filter = "") {
-  optionsContainer.innerHTML = "";
-  const filtered = cxOneAgents.filter((a) =>
+function renderTransferOptions(filter = "") {
+  transferOptionsDiv.innerHTML = "";
+  const filtered = transferList.filter((a) =>
     a.label.toLowerCase().includes(filter.toLowerCase())
   );
   filtered.forEach((a) => {
@@ -523,43 +542,31 @@ function renderOptions1(filter = "") {
     div.className = "option-item";
     div.textContent = a.label;
     div.dataset.value = a.value;
-    div.addEventListener("click", () => selectOption(a));
-    optionsContainer.appendChild(div);
+    div.addEventListener("click", () => selectTransferOption(a));
+    transferOptionsDiv.appendChild(div);
   });
-  optionsContainer.style.display = filtered.length ? "block" : "none";
+  transferOptionsDiv.style.display = filtered.length ? "block" : "none";
 }
 
-function selectOption(agent) {
-  searchInput.value = agent.label;
-  hiddenSelect.value = agent.value;
-  optionsContainer.style.display = "none";
+function selectTransferOption(agent) {
+  transferSearchInput.value = agent.label;
+  transferToInput.value = agent.value;
+  transferOptionsDiv.style.display = "none";
 }
 
-// Filter as user types
-searchInput.addEventListener("input", (e) => {
-  renderOptions1(e.target.value);
+transferSearchInput.addEventListener("input", (e) => {
+  renderTransferOptions(e.target.value);
 });
 
-// Open options on focus
-searchInput.addEventListener("focus", () => renderOptions1(""));
+transferSearchInput.addEventListener("focus", () => renderTransferOptions(""));
 
-// Close options when clicking outside
 document.addEventListener("click", (e) => {
   if (!e.target.closest("#transferSearch")) {
-    optionsContainer.style.display = "none";
+    transferOptionsDiv.style.display = "none";
   }
 });
 
-function populateDropdown(selectId, data) {
-  const select = document.getElementById(selectId);
-  select.innerHTML = '<option value="" disabled>-- Select --</option>';
-  data.forEach((item) => {
-    const opt = document.createElement("option");
-    opt.value = item.value;
-    opt.textContent = item.label;
-    select.appendChild(opt);
-  });
-}
+// searchable autocomplete single-select transfer dropdown end
 
 const userWrapper = document.querySelector(".user-img-wrapper");
 const wrongUserInput = document.getElementById("wrongUser");

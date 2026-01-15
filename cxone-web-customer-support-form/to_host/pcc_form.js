@@ -6,6 +6,16 @@ const cxOneAgents = [
   { value: "agent5", label: "Agent 5" },
 ];
 
+const cxOneSkills = [
+  { value: "skill1", label: "Skill 1" },
+  { value: "skill2", label: "Skill 2" },
+  { value: "skill3", label: "Skill 3" },
+  { value: "skill4", label: "Skill 4" },
+  { value: "skill5", label: "Skill 5" },
+];
+
+let transferList = JSON.parse(JSON.stringify(cxOneAgents));
+
 (function init() {
   populateTransferModes();
 })();
@@ -42,26 +52,26 @@ function populateTransferModes() {
 }
 
 function onTransferModeChange(e){
-  const selected = e.target.value; // email or chat
-  const targetEl = document.getElementById("pccNameField");
+  const selected = e.target.value;
 
   if (selected === "skillSet") {
-    targetEl.style.display = "none";      // hide on "email"
+    document.querySelector('label[for="transferTo"]').innerText = 'Skill Name';
+    transferList = JSON.parse(JSON.stringify(cxOneSkills));
   } else {
-    targetEl.style.display = "block";     // show on "chat"
+    document.querySelector('label[for="transferTo"]').innerText = 'PCC Name';
+    transferList = JSON.parse(JSON.stringify(cxOneAgents));
   }
 }
 
-// searchable autocomplete single-select pcc dropdown start
+// searchable autocomplete single-select transfer dropdown start
 
-const searchInput = document.getElementById("transferSearch");
-const optionsContainer = document.getElementById("transferOptions");
-const hiddenSelect = document.getElementById("transferTo");
+const transferSearchInput = document.getElementById("transferSearch");
+const transferOptionsDiv = document.getElementById("transferOptions");
+const transferToInput = document.getElementById("transferTo");
 
-// Render all options initially
-function renderOptions1(filter = "") {
-  optionsContainer.innerHTML = "";
-  const filtered = cxOneAgents.filter((a) =>
+function renderTransferOptions(filter = "") {
+  transferOptionsDiv.innerHTML = "";
+  const filtered = transferList.filter((a) =>
     a.label.toLowerCase().includes(filter.toLowerCase())
   );
   filtered.forEach((a) => {
@@ -69,31 +79,28 @@ function renderOptions1(filter = "") {
     div.className = "option-item";
     div.textContent = a.label;
     div.dataset.value = a.value;
-    div.addEventListener("click", () => selectOption(a));
-    optionsContainer.appendChild(div);
+    div.addEventListener("click", () => selectTransferOption(a));
+    transferOptionsDiv.appendChild(div);
   });
-  optionsContainer.style.display = filtered.length ? "block" : "none";
+  transferOptionsDiv.style.display = filtered.length ? "block" : "none";
 }
 
-function selectOption(agent) {
-  searchInput.value = agent.label;
-  hiddenSelect.value = agent.value;
-  optionsContainer.style.display = "none";
+function selectTransferOption(agent) {
+  transferSearchInput.value = agent.label;
+  transferToInput.value = agent.value;
+  transferOptionsDiv.style.display = "none";
 }
 
-// Filter as user types
-searchInput.addEventListener("input", (e) => {
-  renderOptions1(e.target.value);
+transferSearchInput.addEventListener("input", (e) => {
+  renderTransferOptions(e.target.value);
 });
 
-// Open options on focus
-searchInput.addEventListener("focus", () => renderOptions1(""));
+transferSearchInput.addEventListener("focus", () => renderTransferOptions(""));
 
-// Close options when clicking outside
 document.addEventListener("click", (e) => {
   if (!e.target.closest("#transferSearch")) {
-    optionsContainer.style.display = "none";
+    transferOptionsDiv.style.display = "none";
   }
 });
 
-// searchable autocomplete single-select pcc dropdown start
+// searchable autocomplete single-select transfer dropdown start
