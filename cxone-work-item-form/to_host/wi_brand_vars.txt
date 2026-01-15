@@ -1,0 +1,44 @@
+SELECT
+{
+	CASE global:api_brand = "HAL" | global:api_brand = "TSH"| global:api_brand = "TSX"
+	{
+		ASSIGN {global:primaryColor} = "#003d6f"
+		ASSIGN {global:secondaryColor} = "#005a9c"
+		ASSIGN {global:accentColor} = "#e67e22"
+		ASSIGN {global:linearGradient} = "linear-gradient(135deg, #005a9c, #003d6f)"
+		ASSIGN {global:footerTagline} = "Taking you to extraordinary places"
+	}
+	CASE global:api_brand = "SBN" | global:api_brand = "TSS"
+	{
+		ASSIGN {global:primaryColor} = "#E3CE66"
+		ASSIGN {global:secondaryColor} = "#16213e"
+		ASSIGN {global:accentColor} = "#e67e22"
+		ASSIGN {global:linearGradient} = "linear-gradient(135deg, #16213e, #E3CE66)"
+		ASSIGN {global:footerTagline} = "Elegant, ultra-luxury cruises"
+	}
+	CASE global:api_brand = "PCL" | global:api_brand = "TSP"
+	{
+		ASSIGN {global:primaryColor} = "#0066b2"
+		ASSIGN {global:secondaryColor} = "#0080d8"
+		ASSIGN {global:accentColor} = "#e67e22"
+		ASSIGN {global:linearGradient} = "linear-gradient(135deg, #0080d8, #0066b2)"
+		ASSIGN {global:footerTagline} = "Come back new"
+	}
+	CASE global:api_brand = "CUN" | global:api_brand = "TSC"
+	{
+		ASSIGN {global:primaryColor} = "#8b0000"
+		ASSIGN {global:secondaryColor} = "#a52a2a"
+		ASSIGN {global:accentColor} = "#ffd700"
+		ASSIGN {global:linearGradient} = "linear-gradient(135deg, #a52a2a, #8b0000)"
+		ASSIGN {global:footerTagline} = "Leaders in luxury ocean travel"
+	}
+	DEFAULT
+	{
+		ASSIGN {global:primaryColor} = "#003d6f"
+		ASSIGN {global:secondaryColor} = "#005a9c"
+		ASSIGN {global:accentColor} = "#e67e22"
+		ASSIGN {global:linearGradient} = "linear-gradient(135deg, #005a9c, #003d6f)"
+		ASSIGN {global:footerTagline} = "Taking you to extraordinary places"
+	}
+}
+ASSIGN wi_enableReskill = 0
