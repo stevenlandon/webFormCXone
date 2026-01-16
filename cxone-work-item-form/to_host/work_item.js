@@ -15,6 +15,7 @@ const cwfFieldConfig = [
     { key: 'days_out_cancel', label: 'Days Out at Cancel' },
 ];
 const madFieldConfig = [
+  { key: "last_name", label: "Last Name" },
   { key: "transaction_date", label: "Transaction Date" },
   { key: "group_code", label: "Group Code" },
   { key: "adjustment_group", label: "Adjustment Group" },
@@ -35,10 +36,10 @@ async function loadData() {
   if(wiType == 'CWF' || wiType == 'CWX'){
     document.getElementById('workItemLabel').innerText = 'Cancellation Waive Fee';
     fieldConfig = wiType == 'CWX' ? cwfFieldConfig.slice(2) : cwfFieldConfig;
-  } else if(wiType == 'MAD') {
+  } else if(wiType == 'MAD' || wiType == 'MAX') {
     document.getElementById('workItemLabel').innerText = 'Manual Adjustment';
-    document.getElementById('subItemTitle').style.display = 'none';
-    fieldConfig = madFieldConfig;
+    document.getElementById('subItemTitle').style.display = wiType == 'MAX' ? 'block' : 'none';
+    fieldConfig = wiType == 'MAX' ? madFieldConfig : madFieldConfig.slice(1);
   };
   let url = "https://shubhamrathi1224.github.io/webFormCXone/cxone-work-item-form/to_host/cwf_work_item.json";
   if(document.getElementById('workitemid').value == 'CWF0015_CWF') {
@@ -57,11 +58,11 @@ async function loadData() {
     document.getElementById('currencyValue').innerText = passengerData[0].currency;
     document.getElementById('wi_bookingNumber').value = passengerData[0].booking_id;
 
-    if(wiType == 'CWF' || wiType == 'CWX'){
+    if(wiType == 'CWF' || wiType == 'CWX' || wiType == 'MAX'){
       var seen = {};
       var uniqSubItems = [];
       for (var i = 0; i < passengerData.length; i++) {
-        var type = passengerData[i].cancel_item_type;
+        var type = wiType == 'MAX' ? passengerData[i].adjustment_group : passengerData[i].cancel_item_type;
         if (!seen[type]) {
           seen[type] = true;
           uniqSubItems.push({
@@ -122,6 +123,8 @@ function setupSubItems(uniqSubItems) {
         iconPath = "https://shubhamrathi1224.github.io/webFormCXone/cxone-work-item-form/to_host/images/air_fee.png";
     } else if(item.label.toLowerCase() === "transfer") {
         iconPath = "https://shubhamrathi1224.github.io/webFormCXone/cxone-work-item-form/to_host/images/transfer_fee.png";
+    }  else {
+        iconPath = "https://shubhamrathi1224.github.io/webFormCXone/cxone-work-item-form/to_host/images/mad.png";
     } 
 
     div.innerHTML = `
@@ -142,7 +145,7 @@ function initializeTable(wiType) {
     headerRow.innerHTML = '<th style="position: sticky; min-width: 200px; padding: 12px 10px; text-align: left; font-weight: 600; border-right: 1px solid rgba(255, 255, 255, 0.2); white-space: nowrap;">Guest - Type</th>';
     
     for (let i = 0; i < totalPassengers; i++) {
-      const headerLabel = wiType == 'CWX' ? `${passengerData[i].customer_id} - ${passengerData[i].cancel_item_type}` : passengerData[i].customer_id;
+      const headerLabel = wiType == 'CWX' ? `${passengerData[i].customer_id} - ${passengerData[i].cancel_item_type}` : wiType == 'MAX' ? `${passengerData[i].customer_id} - ${passengerData[i].adjustment_group}` : passengerData[i].customer_id;
         headerRow.innerHTML += `<th style="padding: 12px 10px; text-align: left; font-weight: 600; border-right: 1px solid rgba(255, 255, 255, 0.2); white-space: nowrap;">${headerLabel || '-'}</th>`;
     }
     document.getElementById('tableHeader').appendChild(headerRow);
